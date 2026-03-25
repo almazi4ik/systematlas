@@ -1,0 +1,1492 @@
+<!DOCTYPE html> <html lang="ru"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Системный Атлас</title> <link rel="preconnect" href="https://fonts.googleapis.com"> <link href="https://fonts.googleapis.com/css2?family=Linux+Libertine:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --color-bg: #ffffff;
+  --color-bg-secondary: #f8f9fa;
+  --color-bg-tertiary: #eaecf0;
+  --color-text: #202122;
+  --color-text-muted: #54595d;
+  --color-border: #a2a9b1;
+  --color-border-light: #c8ccd1;
+  --color-link: #0645ad;
+  --color-link-visited: #0b0080;
+  --color-link-hover: #0645ad;
+  --color-header-bg: #ffffff;
+  --color-sidebar-bg: #f8f9fa;
+  --color-infobox-bg: #f8f9fa;
+  --color-toc-bg: #f8f9fa;
+  --color-warning: #fc3;
+  --color-accent: #3366cc;
+  --sidebar-width: 180px;
+  --header-height: 56px;
+  --font-heading: 'Linux Libertine', 'Georgia', serif;
+  --font-body: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #1a1a1b;
+    --color-bg-secondary: #27292d;
+    --color-bg-tertiary: #2e3135;
+    --color-text: #e8eaed;
+    --color-text-muted: #a8aab0;
+    --color-border: #54595d;
+    --color-border-light: #3d4147;
+    --color-link: #6ca0e8;
+    --color-link-visited: #a78bd2;
+    --color-link-hover: #8ab8f8;
+    --color-header-bg: #1f2122;
+    --color-sidebar-bg: #22252a;
+    --color-infobox-bg: #22252a;
+    --color-toc-bg: #22252a;
+    --color-accent: #6ca0e8;
+  }
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-body); font-size: 14px; line-height: 1.6; color: var(--color-text); background: var(--color-bg); transition: background 0.2s, color 0.2s; }
+#wiki-header { position: sticky; top: 0; z-index: 100; height: var(--header-height); background: var(--color-header-bg); border-bottom: 1px solid var(--color-border); display: flex; align-items: center; padding: 0 16px; gap: 16px; }
+.header-logo { display: flex; align-items: center; gap: 8px; cursor: pointer; flex-shrink: 0; text-decoration: none; }
+.logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #3366cc 0%, #0645ad 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-family: var(--font-heading); font-size: 20px; font-weight: 700; flex-shrink: 0; }
+.logo-text { font-family: var(--font-heading); font-size: 20px; color: var(--color-text); font-weight: 600; }
+.logo-tagline { font-size: 10px; color: var(--color-text-muted); line-height: 1; }
+.header-search-wrap { flex: 1; max-width: 600px; position: relative; }
+#search-input { width: 100%; height: 36px; padding: 0 36px 0 12px; border: 1px solid var(--color-border); border-radius: 2px; background: var(--color-bg); color: var(--color-text); font-family: var(--font-body); font-size: 14px; outline: none; transition: border-color 0.15s, box-shadow 0.15s; }
+#search-input:focus { border-color: var(--color-accent); box-shadow: 0 0 0 2px rgba(51,102,204,0.15); }
+.search-btn { position: absolute; right: 0; top: 0; height: 36px; width: 36px; background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-left: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--color-text-muted); }
+.search-dropdown { display: none; position: absolute; top: calc(100% + 2px); left: 0; right: 0; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: 2px; box-shadow: 0 4px 16px rgba(0,0,0,0.12); z-index: 200; max-height: 400px; overflow-y: auto; }
+.search-dropdown.visible { display: block; }
+.search-item { padding: 8px 12px; cursor: pointer; border-bottom: 1px solid var(--color-border-light); display: flex; gap: 10px; align-items: flex-start; }
+.search-item:last-child { border-bottom: none; }
+.search-item:hover { background: var(--color-bg-secondary); }
+.search-item-icon { width: 32px; height: 32px; background: var(--color-bg-tertiary); border-radius: 2px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+.search-item-title { font-weight: 500; color: var(--color-link); font-size: 14px; }
+.search-item-cat { font-size: 11px; color: var(--color-text-muted); }
+.hamburger-btn { display: none; background: none; border: none; cursor: pointer; padding: 8px; color: var(--color-text); flex-shrink: 0; }
+#layout { display: flex; min-height: calc(100vh - var(--header-height)); }
+#sidebar { width: var(--sidebar-width); flex-shrink: 0; background: var(--color-sidebar-bg); border-right: 1px solid var(--color-border); position: sticky; top: var(--header-height); height: calc(100vh - var(--header-height)); overflow-y: auto; padding: 12px 0; }
+.sidebar-section { margin-bottom: 8px; }
+.sidebar-section-title { font-size: 11px; font-weight: 600; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.06em; padding: 6px 12px; }
+.sidebar-link { display: block; padding: 5px 12px; color: var(--color-text); text-decoration: none; font-size: 13px; cursor: pointer; border-left: 2px solid transparent; transition: background 0.1s, border-color 0.1s; }
+.sidebar-link:hover { background: var(--color-bg-tertiary); }
+.sidebar-link.active { border-left-color: var(--color-accent); background: var(--color-bg-tertiary); font-weight: 500; }
+.sidebar-divider { height: 1px; background: var(--color-border-light); margin: 8px 12px; }
+#main-content { flex: 1; min-width: 0; padding: 20px 24px; max-width: 960px; }
+.breadcrumbs { font-size: 12px; color: var(--color-text-muted); margin-bottom: 12px; display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+.bc-link { color: var(--color-link); cursor: pointer; text-decoration: none; }
+.bc-link:hover { text-decoration: underline; }
+.bc-sep { color: var(--color-text-muted); }
+.bc-current { color: var(--color-text-muted); }
+.article-title { font-family: var(--font-heading); font-size: 28px; font-weight: 400; line-height: 1.2; color: var(--color-text); border-bottom: 1px solid var(--color-border); padding-bottom: 4px; margin-bottom: 16px; }
+.article-subtitle { font-size: 16px; color: var(--color-text-muted); font-style: italic; margin-bottom: 16px; margin-top: -12px; }
+.article-body { display: flex; gap: 24px; align-items: flex-start; }
+.article-body-text { flex: 1; min-width: 0; }
+.infobox { float: right; clear: right; margin: 0 0 16px 20px; background: var(--color-infobox-bg); border: 1px solid var(--color-border); font-size: 13px; width: 260px; flex-shrink: 0; }
+.infobox-title { background: var(--color-bg-tertiary); border-bottom: 1px solid var(--color-border); padding: 6px 10px; text-align: center; font-family: var(--font-heading); font-size: 14px; font-weight: 600; }
+.infobox-img { width: 100%; height: 140px; background: linear-gradient(135deg, #eaecf0, #c8ccd1); display: flex; align-items: center; justify-content: center; font-size: 48px; border-bottom: 1px solid var(--color-border); }
+.infobox table { width: 100%; border-collapse: collapse; }
+.infobox td { padding: 4px 8px; vertical-align: top; border-top: 1px solid var(--color-border-light); font-size: 12px; }
+.infobox td:first-child { font-weight: 500; color: var(--color-text-muted); white-space: nowrap; width: 45%; }
+.infobox td:last-child { color: var(--color-text); }
+.toc { background: var(--color-toc-bg); border: 1px solid var(--color-border); padding: 10px 14px; display: inline-block; margin-bottom: 16px; min-width: 200px; max-width: 340px; }
+.toc-title { font-weight: 600; font-size: 13px; margin-bottom: 6px; text-align: center; }
+.toc ol { padding-left: 18px; }
+.toc li { margin: 3px 0; }
+.toc a { color: var(--color-link); text-decoration: none; font-size: 13px; }
+.toc a:hover { text-decoration: underline; }
+.article-section { margin-bottom: 20px; }
+.section-h2 { font-family: var(--font-heading); font-size: 22px; font-weight: 400; border-bottom: 1px solid var(--color-border); padding-bottom: 4px; margin-bottom: 10px; color: var(--color-text); }
+.section-h3 { font-family: var(--font-heading); font-size: 17px; font-weight: 600; margin-bottom: 8px; margin-top: 12px; color: var(--color-text); }
+p { margin-bottom: 10px; }
+a.wiki-link { color: var(--color-link); text-decoration: none; cursor: pointer; position: relative; }
+a.wiki-link:hover { text-decoration: underline; color: var(--color-link-hover); }
+.preview-popup { display: none; position: fixed; z-index: 300; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: 3px; box-shadow: 0 8px 32px rgba(0,0,0,0.18); width: 320px; padding: 0; pointer-events: none; }
+.preview-popup.visible { display: block; }
+.preview-header { padding: 10px 14px; border-bottom: 1px solid var(--color-border-light); font-family: var(--font-heading); font-size: 16px; font-weight: 600; }
+.preview-body { padding: 10px 14px; font-size: 13px; line-height: 1.5; color: var(--color-text-muted); max-height: 120px; overflow: hidden; }
+.see-also { background: var(--color-bg-secondary); border: 1px solid var(--color-border-light); border-left: 3px solid var(--color-accent); padding: 10px 14px; margin-top: 16px; }
+.see-also-title { font-weight: 600; margin-bottom: 6px; font-size: 13px; }
+.see-also ul { list-style: none; padding: 0; }
+.see-also li { margin: 3px 0; }
+.references { font-size: 12px; color: var(--color-text-muted); border-top: 1px solid var(--color-border); margin-top: 20px; padding-top: 10px; }
+.references ol { padding-left: 18px; }
+.references li { margin: 3px 0; }
+.home-hero { text-align: center; padding: 32px 0 24px; border-bottom: 1px solid var(--color-border); margin-bottom: 24px; }
+.home-hero h1 { font-family: var(--font-heading); font-size: 36px; font-weight: 400; margin-bottom: 8px; }
+.home-hero p { color: var(--color-text-muted); font-size: 15px; max-width: 600px; margin: 0 auto; }
+.home-stats { display: flex; gap: 24px; justify-content: center; margin-top: 16px; }
+.stat-badge { background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 2px; padding: 8px 16px; text-align: center; }
+.stat-num { font-size: 22px; font-weight: 600; color: var(--color-accent); }
+.stat-label { font-size: 11px; color: var(--color-text-muted); text-transform: uppercase; }
+.category-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-bottom: 24px; }
+.category-card { background: var(--color-bg-secondary); border: 1px solid var(--color-border); padding: 0; cursor: pointer; transition: box-shadow 0.15s, border-color 0.15s; overflow: hidden; }
+.category-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-color: var(--color-accent); }
+.cat-card-header { background: var(--color-bg-tertiary); border-bottom: 1px solid var(--color-border); padding: 10px 14px; display: flex; align-items: center; gap: 10px; }
+.cat-card-icon { font-size: 24px; }
+.cat-card-title { font-family: var(--font-heading); font-size: 16px; color: var(--color-link); }
+.cat-card-body { padding: 10px 14px; font-size: 13px; color: var(--color-text-muted); }
+.cat-card-count { margin-top: 8px; font-size: 12px; color: var(--color-accent); font-weight: 500; }
+.cat-filter-wrap { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+#cat-filter { height: 34px; padding: 0 10px; border: 1px solid var(--color-border); background: var(--color-bg); color: var(--color-text); font-family: var(--font-body); font-size: 13px; border-radius: 2px; outline: none; flex: 1; max-width: 400px; }
+#cat-filter:focus { border-color: var(--color-accent); }
+.article-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+.article-card { background: var(--color-bg-secondary); border: 1px solid var(--color-border); padding: 12px; cursor: pointer; transition: border-color 0.12s, box-shadow 0.12s; }
+.article-card:hover { border-color: var(--color-accent); box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
+.article-card-title { font-family: var(--font-heading); font-size: 15px; color: var(--color-link); margin-bottom: 4px; }
+.article-card-summary { font-size: 12px; color: var(--color-text-muted); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 90; }
+@media (max-width: 768px) {
+  .hamburger-btn { display: flex; }
+  .logo-tagline { display: none; }
+  #sidebar { position: fixed; left: -220px; top: var(--header-height); width: 220px; height: calc(100vh - var(--header-height)); z-index: 95; transition: left 0.25s ease; }
+  #sidebar.open { left: 0; }
+  .sidebar-overlay.visible { display: block; }
+  #main-content { padding: 14px 12px; }
+  .infobox { float: none; width: 100%; margin: 0 0 16px; }
+  .category-grid, .article-grid { grid-template-columns: 1fr; }
+  .article-title { font-size: 22px; }
+  .home-stats { flex-wrap: wrap; gap: 12px; }
+  #main-content > div[style*="grid-template-columns:1fr 300px"] { grid-template-columns: 1fr !important; }
+}
+.hidden { display: none !important; }
+blockquote { border-left: 3px solid var(--color-border); padding: 6px 12px; color: var(--color-text-muted); font-style: italic; margin: 10px 0; }
+.note-box { background: #eaf3fb; border: 1px solid #a2c5e8; border-left: 4px solid #3366cc; padding: 10px 14px; margin: 12px 0; font-size: 13px; }
+@media (prefers-color-scheme: dark) { .note-box { background: #1a2535; border-color: #3a5070; } }
+sup { font-size: 10px; color: var(--color-link); cursor: default; }
+.tag { display: inline-block; background: var(--color-bg-tertiary); border: 1px solid var(--color-border-light); border-radius: 2px; padding: 1px 6px; font-size: 11px; color: var(--color-text-muted); margin-right: 4px; }
+.clearfix::after { content: ''; display: table; clear: both; }
+
+/* ── TABS (Читать / История / Обсуждение) ── */
+.article-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--color-border); margin-bottom: 16px; }
+.article-tab { padding: 7px 16px; font-size: 13px; cursor: pointer; border: 1px solid transparent; border-bottom: none; margin-bottom: -1px; color: var(--color-text-muted); background: none; font-family: var(--font-body); transition: background 0.12s; }
+.article-tab:hover { background: var(--color-bg-secondary); color: var(--color-text); }
+.article-tab.active { background: var(--color-bg); border-color: var(--color-border); color: var(--color-text); font-weight: 500; }
+
+/* ── LIKES BAR ── */
+.likes-bar { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid var(--color-border-light); border-bottom: 1px solid var(--color-border-light); margin: 16px 0; }
+.like-btn { display: flex; align-items: center; gap: 6px; padding: 6px 16px; border: 1px solid var(--color-border); background: var(--color-bg-secondary); color: var(--color-text); font-size: 14px; cursor: pointer; font-family: var(--font-body); border-radius: 2px; transition: all 0.15s; user-select: none; }
+.like-btn:hover { border-color: var(--color-accent); background: var(--color-bg-tertiary); }
+.like-btn.liked { background: #e8f4e8; border-color: #4caf50; color: #2e7d32; }
+.like-btn.disliked { background: #fce8e8; border-color: #ef5350; color: #c62828; }
+@media (prefers-color-scheme: dark) {
+  .like-btn.liked { background: #1a2e1a; border-color: #4caf50; color: #81c784; }
+  .like-btn.disliked { background: #2e1a1a; border-color: #ef5350; color: #e57373; }
+}
+.likes-ratio-wrap { flex: 1; max-width: 200px; height: 4px; background: var(--color-bg-tertiary); border-radius: 2px; overflow: hidden; }
+.likes-ratio-bar { height: 100%; background: #4caf50; border-radius: 2px; transition: width 0.3s; }
+.likes-count-label { font-size: 12px; color: var(--color-text-muted); }
+
+/* ── DISCUSSION ── */
+.discussion-section { margin-top: 4px; }
+.discussion-header { font-family: var(--font-heading); font-size: 20px; font-weight: 400; border-bottom: 1px solid var(--color-border); padding-bottom: 4px; margin-bottom: 14px; }
+.comment-form { background: var(--color-bg-secondary); border: 1px solid var(--color-border); padding: 12px; margin-bottom: 18px; }
+.comment-form-name { width: 100%; height: 32px; padding: 0 8px; border: 1px solid var(--color-border); background: var(--color-bg); color: var(--color-text); font-family: var(--font-body); font-size: 13px; margin-bottom: 8px; outline: none; }
+.comment-form-text { width: 100%; height: 80px; padding: 8px; border: 1px solid var(--color-border); background: var(--color-bg); color: var(--color-text); font-family: var(--font-body); font-size: 13px; resize: vertical; outline: none; }
+.comment-form-name:focus, .comment-form-text:focus { border-color: var(--color-accent); }
+.comment-submit { margin-top: 8px; padding: 6px 18px; background: var(--color-accent); color: #fff; border: none; cursor: pointer; font-family: var(--font-body); font-size: 13px; }
+.comment-submit:hover { opacity: 0.85; }
+.comment-list { display: flex; flex-direction: column; gap: 12px; }
+.comment-item { border: 1px solid var(--color-border-light); background: var(--color-bg-secondary); padding: 10px 12px; }
+.comment-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+.comment-avatar { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, var(--color-accent), #6ca0e8); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 12px; font-weight: 600; flex-shrink: 0; }
+.comment-author { font-weight: 500; font-size: 13px; }
+.comment-date { font-size: 11px; color: var(--color-text-muted); }
+.comment-body { font-size: 13px; line-height: 1.6; color: var(--color-text); }
+.comment-likes { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+.comment-like-btn { background: none; border: 1px solid var(--color-border-light); padding: 2px 8px; font-size: 12px; cursor: pointer; color: var(--color-text-muted); border-radius: 2px; font-family: var(--font-body); transition: all 0.12s; }
+.comment-like-btn:hover { border-color: var(--color-accent); color: var(--color-accent); }
+.comment-like-btn.c-liked { background: #e8f4e8; border-color: #4caf50; color: #2e7d32; }
+.no-comments { text-align: center; padding: 24px; color: var(--color-text-muted); font-size: 13px; border: 1px dashed var(--color-border); }
+</style>
+</head>
+<body>
+<header id="wiki-header">
+  <button class="hamburger-btn" onclick="toggleSidebar()" aria-label="Меню">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><rect y="3" width="20" height="2" rx="1"/><rect y="9" width="20" height="2" rx="1"/><rect y="15" width="20" height="2" rx="1"/></svg>
+  </button>
+  <div class="header-logo" onclick="showHome()">
+    <div class="logo-icon">А</div>
+    <div>
+      <div class="logo-text">Системный Атлас</div>
+      <div class="logo-tagline">Академическая база знаний</div>
+    </div>
+  </div>
+  <div class="header-search-wrap">
+    <input type="text" id="search-input" placeholder="Поиск по энциклопедии..." autocomplete="off" oninput="onSearchInput(this.value)" onkeydown="onSearchKey(event)" onfocus="onSearchFocus()">
+    <button class="search-btn" onclick="doSearch()">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398l3.85 3.85a1 1 0 0 0 1.415-1.415l-3.868-3.833zm-5.242 1.156a5 5 0 1 1 0-10 5 5 0 0 1 0 10z"/></svg>
+    </button>
+    <div class="search-dropdown" id="search-dropdown"></div>
+  </div>
+</header>
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+<div id="layout">
+  <nav id="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Навигация</div>
+      <a class="sidebar-link" onclick="showHome()">Главная страница</a>
+      <a class="sidebar-link" onclick="showAllArticles()">Все статьи</a>
+      <a class="sidebar-link" onclick="showRandom()">Случайная статья</a>
+    </div>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Разделы</div>
+      <a class="sidebar-link" onclick="showCategory('phobias')">😨 Фобии</a>
+      <a class="sidebar-link" onclick="showCategory('science')">🔬 Наука</a>
+      <a class="sidebar-link" onclick="showCategory('space')">🌌 Космос</a>
+      <a class="sidebar-link" onclick="showCategory('technology')">💻 Технологии</a>
+      <a class="sidebar-link" onclick="showCategory('history')">📜 История</a>
+      <a class="sidebar-link" onclick="showCategory('biology')">🧬 Биология</a>
+      <a class="sidebar-link" onclick="showCategory('philosophy')">🧩 Философия</a>
+      <a class="sidebar-link" onclick="showCategory('mathematics')">📐 Математика</a>
+    </div>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Участие</div>
+      <a class="sidebar-link" onclick="showAbout()">О проекте</a>
+      <a class="sidebar-link" onclick="showPortal()">Порталы</a>
+    </div>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section" id="atlas-terminal-section">
+      <div class="sidebar-section-title">Терминал Атлас</div>
+      <div id="atlas-chat-log" style="margin:0 8px 6px 8px;max-height:160px;overflow-y:auto;font-size:11px;line-height:1.5;color:var(--color-text-muted);border:1px solid var(--color-border);background:var(--color-bg);padding:6px 8px;display:none;"></div>
+      <div style="display:flex;gap:4px;padding:0 8px 8px 8px;">
+        <input type="text" id="atlas-input" placeholder="Запрос к Атласу..." onkeydown="if(event.key==='Enter') atlasQuery()" style="flex:1;height:28px;padding:0 7px;border:1px solid var(--color-border);background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);font-size:12px;outline:none;">
+        <button onclick="atlasQuery()" style="height:28px;padding:0 10px;border:1px solid var(--color-border);background:var(--color-bg-secondary);color:var(--color-text);font-family:var(--font-body);font-size:12px;cursor:pointer;white-space:nowrap;">OK</button>
+      </div>
+    </div>
+  </nav>
+  <main id="main-content"><div id="page-top"></div></main>
+</div>
+<div class="preview-popup" id="preview-popup">
+  <div class="preview-header" id="preview-title"></div>
+  <div class="preview-body" id="preview-body"></div>
+</div>
+
+<script>
+const WIKI_DATA = {
+  categories: {
+    phobias: {
+      id: 'phobias', title: 'Фобии и тревожные расстройства', icon: '😨',
+      description: 'Систематический атлас фобических расстройств: классические, цифровые, математические и когнитивные.',
+      articles: ['agoraphobia','nyctophobia','thalassophobia','arachnophobia','claustrophobia','social_phobia','obsoletophobia','cybernophobia','algorithmophobia','xenodigital','googolophobia','apeirophobia','infinitophobia','resonophobia','echo_syndrome']
+    },
+    science: {
+      id: 'science', title: 'Естественные науки', icon: '🔬',
+      description: 'Раздел посвящён фундаментальным и прикладным научным дисциплинам.',
+      articles: ['quantum_computing','agi']
+    },
+    space: {
+      id: 'space', title: 'Астрономия и космос', icon: '🌌',
+      description: 'Вселенная, её объекты и явления — от Солнечной системы до чёрных дыр, пульсаров, квазаров и экзопланет.',
+      articles: ['solar_system','black_holes','neutron_stars','pulsars','magnetars','quasars','blazars','gamma_ray_bursts','dark_matter','galaxies','nebulae','exoplanets','supernovae','white_dwarfs']
+    },
+    technology: {
+      id: 'technology', title: 'Информационные технологии', icon: '💻',
+      description: 'История и современное состояние технологий: интернет, блокчейн, вычислительные архитектуры.',
+      articles: ['internet_history','blockchain','artificial_intelligence','cybersecurity','virtual_reality']
+    },
+    history: {
+      id: 'history', title: 'История', icon: '📜',
+      description: 'Всемирная история: древние цивилизации, средние века, новое и новейшее время.',
+      articles: ['ancient_rome','ancient_egypt','world_war_2','renaissance','cold_war','industrial_revolution']
+    },
+    biology: {
+      id: 'biology', title: 'Биология и жизнь', icon: '🧬',
+      description: 'Наука о живых организмах: клетки, эволюция, генетика, экосистемы.',
+      articles: ['evolution','dna','cell_biology','ecosystems','human_brain','viruses']
+    },
+    philosophy: {
+      id: 'philosophy', title: 'Философия', icon: '🧩',
+      description: 'Фундаментальные вопросы бытия, познания, этики и логики.',
+      articles: ['stoicism','existentialism','philosophy_of_mind','logic','ethics','consciousness']
+    },
+    mathematics: {
+      id: 'mathematics', title: 'Математика', icon: '📐',
+      description: 'Числа, формы, структуры и паттерны: от геометрии до теории хаоса.',
+      articles: ['prime_numbers','topology','chaos_theory','game_theory','infinity_math','number_theory']
+    }
+  },
+  articles: {
+
+    // ─── ФОБИИ (сокращённо, оригинальные) ──────────────────────────────────
+    agoraphobia: { id:'agoraphobia', title:'Агорафобия', category:'phobias', emoji:'🏟️', infobox:{'Классификация':'МКБ-11 F40.0','Тип':'Фобическое тревожное расстройство','Распространённость':'1,7–3,6% населения','Лечение':'КПТ, СИОЗС'}, summary:'Агорафобия — тревожное расстройство, характеризующееся выраженным и устойчивым страхом перед ситуациями, из которых, по убеждению пациента, трудно выбраться или получить помощь в случае паники.', full_text:`<p><strong>Агорафобия</strong> (от греч. <em>ἀγορά</em> — площадь + <em>φόβος</em> — страх) — клинически значимое тревожное расстройство, при котором человек испытывает интенсивный, иррациональный страх перед широким диапазоном открытых или многолюдных пространств. В тяжёлых случаях пациент полностью отказывается покидать жилище.<sup>[1]</sup></p><div class="article-section"><h2 class="section-h2">Лечение</h2><p>Наиболее эффективным методом признана когнитивно-поведенческая терапия (КПТ) с компонентом постепенной экспозиции. Медикаментозная поддержка СИОЗС применяется при умеренной и тяжёлой степени выраженности.</p></div>`, see_also:['claustrophobia','social_phobia'], refs:['Вестфаль К. Ф. О., 1871.','American Psychiatric Association. DSM-5-TR, 2022.'] },
+    nyctophobia: { id:'nyctophobia', title:'Никтофобия', category:'phobias', emoji:'🌑', infobox:{'Классификация':'МКБ-11 F40.2','Распространённость':'~11% взрослых'}, summary:'Никтофобия — специфическая фобия, выражающаяся в устойчивом страхе темноты или ночного времени суток.', full_text:`<p><strong>Никтофобия</strong> — специфическое фобическое расстройство, при котором темнота становится триггером интенсивной тревожной реакции.</p>`, see_also:['agoraphobia','thalassophobia'], refs:['Muris P. et al. J. Anxiety Disorders, 2001.'] },
+    thalassophobia: { id:'thalassophobia', title:'Таласофобия', category:'phobias', emoji:'🌊', infobox:{'Тип':'Специфическая фобия','Объект':'Глубокие водоёмы'}, summary:'Таласофобия — специфическое фобическое расстройство, характеризующееся устойчивым страхом перед открытыми или глубокими водными пространствами.', full_text:`<p><strong>Таласофобия</strong> (от греч. <em>θάλασσα</em> — море) — расстройство тревожного спектра, при котором объектом страха выступает пространство водной толщи: её глубина, непрозрачность и бесконечность.</p>`, see_also:['nyctophobia','apeirophobia'], refs:['Davey G. Phobias. Wiley, 1997.'] },
+    arachnophobia: { id:'arachnophobia', title:'Арахнофобия', category:'phobias', emoji:'🕷️', infobox:{'Распространённость':'~5%','Пол':'Чаще у женщин (3:1)'}, summary:'Арахнофобия — одна из наиболее распространённых специфических фобий, выражающаяся в страхе перед паукообразными. Относится к биологически подготовленным страхам.', full_text:`<p><strong>Арахнофобия</strong> — специфическая фобия, характеризующаяся интенсивным, иррациональным страхом перед всеми представителями класса паукообразных.</p>`, see_also:['nyctophobia','social_phobia'], refs:['Seligman M.E.P. Behavior Therapy, 1971.'] },
+    claustrophobia: { id:'claustrophobia', title:'Клаустрофобия', category:'phobias', emoji:'📦', infobox:{'Распространённость':'2–5%','Триггер':'Замкнутые пространства'}, summary:'Клаустрофобия — специфическое фобическое расстройство, при котором объектом страха являются замкнутые пространства. Особое клиническое значение имеет в медицинском контексте.', full_text:`<p><strong>Клаустрофобия</strong> — специфическая фобия, при которой замкнутые пространства вызывают интенсивную тревожную реакцию.</p>`, see_also:['agoraphobia','thalassophobia'], refs:['Morel B.A. 1879.'] },
+    social_phobia: { id:'social_phobia', title:'Социальное тревожное расстройство', category:'phobias', emoji:'👥', infobox:{'Классификация':'МКБ-11 6B04','Распространённость':'7–13%'}, summary:'Социальное тревожное расстройство — одно из наиболее распространённых тревожных расстройств, характеризующееся интенсивным страхом социальных ситуаций.', full_text:`<p><strong>Социальное тревожное расстройство</strong> — тревожное расстройство, при котором социальные ситуации вызывают несоразмерный страх быть негативно оценённым.</p>`, see_also:['agoraphobia','xenodigital'], refs:['Clark D.M., Wells A. Guilford Press, 1995.'] },
+    obsoletophobia: { id:'obsoletophobia', title:'Обсолитофобия', category:'phobias', emoji:'💾', infobox:{'Статус':'Описательный концепт','Тип':'Цифровая фобия'}, summary:'Обсолитофобия — описательный концепт, обозначающий устойчивый страх перед устареванием технологий, устройств и программного обеспечения.', full_text:`<p><strong>Обсолитофобия</strong> — описательный концепт, обозначающий тревожное состояние, вызванное страхом оказаться позади стремительно развивающегося технологического прогресса.</p>`, see_also:['cybernophobia','algorithmophobia'], refs:['Brod C. Technostress. 1984.'] },
+    cybernophobia: { id:'cybernophobia', title:'Киберофобия', category:'phobias', emoji:'🤖', infobox:{'Тип':'Цифровая фобия'}, summary:'Киберофобия — устойчивый страх перед компьютерами, автоматизированными системами и искусственным интеллектом.', full_text:`<p><strong>Киберофобия</strong> — тревожное расстройство или устойчивое негативное отношение к компьютерам, цифровым сетям и автоматизированным системам.</p>`, see_also:['obsoletophobia','algorithmophobia'], refs:['Rosen L.D., Weil M.M. 1995.'] },
+    algorithmophobia: { id:'algorithmophobia', title:'Алгоритмофобия', category:'phobias', emoji:'⚙️', infobox:{'Статус':'Нарождающийся концепт'}, summary:'Алгоритмофобия — концепт, описывающий тревожные реакции на непрозрачность алгоритмических систем принятия решений.', full_text:`<p><strong>Алгоритмофобия</strong> — описательный психологический концепт, обозначающий тревожные реакции в ответ на непрозрачную логику автоматизированного принятия решений.</p>`, see_also:['cybernophobia','resonophobia'], refs:['Eubanks V. Automating Inequality. 2018.'] },
+    xenodigital: { id:'xenodigital', title:'Ксенодигитальная фобия', category:'phobias', emoji:'👾', infobox:{'Статус':'Авторский концепт'}, summary:'Ксенодигитальная фобия — описательный концепт, обозначающий страх перед чужой цифровой идентичностью и онлайн-репутацией.', full_text:`<p><strong>Ксенодигитальная фобия</strong> — авторский концепт, охватывающий тревожные реакции при столкновении с «чужой» цифровой идентичностью в онлайн-пространстве.</p>`, see_also:['social_phobia','cybernophobia'], refs:['Festinger L. Human Relations, 1954.'] },
+    googolophobia: { id:'googolophobia', title:'Гугол-фобия', category:'phobias', emoji:'🔢', infobox:{'Тип':'Математическая фобия'}, summary:'Гугол-фобия — описательный концепт, обозначающий когнитивно-тревожную реакцию при столкновении с несоизмеримо большими конечными числами.', full_text:`<p><strong>Гугол-фобия</strong> — неформальный описательный концепт, обозначающий особую форму когнитивной тревоги при столкновении с числами настолько большими, что человеческий мозг не способен интуитивно охватить их величину.</p>`, see_also:['apeirophobia','infinitophobia'], refs:['Dehaene S. The Number Sense. 1997.'] },
+    apeirophobia: { id:'apeirophobia', title:'Апейрофобия', category:'phobias', emoji:'♾️', infobox:{'Тип':'Экзистенциальная фобия'}, summary:'Апейрофобия — экзистенциально-когнитивная форма тревоги, вызванная осмыслением концепта бесконечности.', full_text:`<p><strong>Апейрофобия</strong> — экзистенциальная фобия, при которой тревогу вызывает абстрактный концепт бесконечности — бесконечного пространства, времени или чисел.</p>`, see_also:['infinitophobia','googolophobia'], refs:['Yalom I. Existential Psychotherapy. 1980.'] },
+    infinitophobia: { id:'infinitophobia', title:'Инфинитофобия', category:'phobias', emoji:'∞', infobox:{'Статус':'Авторский концепт'}, summary:'Инфинитофобия — авторский концепт, описывающий страх перед самим процессом бесконечного: регрессией, циклом, неисчерпаемым множеством.', full_text:`<p><strong>Инфинитофобия</strong> — авторский психологический концепт для разграничения страха перед бесконечностью как состоянием (апейрофобия) и страха перед бесконечностью как процессом.</p>`, see_also:['apeirophobia','googolophobia'], refs:['Wells A. Metacognitive Therapy. 2009.'] },
+    resonophobia: { id:'resonophobia', title:'Резонофобия', category:'phobias', emoji:'🔊', infobox:{'Статус':'Авторский концепт'}, summary:'Резонофобия — авторский концепт, описывающий тревогу, вызванную ощущением, что смыслы и идеи «отражаются» бесконечно.', full_text:`<p><strong>Резонофобия</strong> — авторский психологический концепт, описывающий особую форму когнитивной тревоги, при которой мышление застревает в бесконечных «отражениях» смысла.</p>`, see_also:['echo_syndrome','algorithmophobia'], refs:['Derrida J. De la grammatologie. 1967.'] },
+    echo_syndrome: { id:'echo_syndrome', title:'Эхо-синдром', category:'phobias', emoji:'🔁', infobox:{'Статус':'Авторский концепт','Контекст':'Социальные сети'}, summary:'Эхо-синдром — авторский концепт, описывающий когнитивно-тревожное состояние, при котором человек осознаёт, что его мнения сформированы алгоритмически подобранным информационным эхом.', full_text:`<p><strong>Эхо-синдром</strong> — авторский психологический концепт, описывающий специфическую форму когнитивного дистресса, при которой субъект осознаёт, что его убеждения сформированы информационным пузырём.</p>`, see_also:['resonophobia','algorithmophobia'], refs:['Pariser E. The Filter Bubble. 2011.'] },
+
+    // ─── НАУКА ─────────────────────────────────────────────────────────────
+    quantum_computing: { id:'quantum_computing', title:'Квантовые вычисления', category:'science', emoji:'⚛️', infobox:{'Основоположники':'Манин, Фейнман, Дойч','Первый алгоритм':'Шора (1994)'}, summary:'Квантовые вычисления — парадигма вычислений, использующая принципы квантовой механики для обработки информации принципиально новым способом.', full_text:`<p><strong>Квантовые вычисления</strong> — область вычислительной науки, в которой информация кодируется в квантовых системах (кубитах) и обрабатывается с применением суперпозиции, запутанности и интерференции.</p>`, see_also:['agi','blockchain'], refs:['Feynman R.P. Int. J. Theor. Phys., 1982.','Shor P. SIAM J. Comput., 1997.'] },
+    agi: { id:'agi', title:'Искусственный общий интеллект', category:'science', emoji:'🧠', infobox:{'Акроним':'ИОИ / AGI','Статус':'Не достигнут (2026)'}, summary:'Искусственный общий интеллект (AGI) — гипотетическая система ИИ, обладающая общими когнитивными способностями, сопоставимыми с человеческими или превосходящими их.', full_text:`<p><strong>Искусственный общий интеллект</strong> — тип гипотетической интеллектуальной системы, способной выполнять любую интеллектуальную задачу, доступную человеку.</p>`, see_also:['quantum_computing','cybernophobia'], refs:['Turing A.M. Mind, 1950.','Bostrom N. Superintelligence. 2014.'] },
+
+    // ─── КОСМОС ────────────────────────────────────────────────────────────
+    solar_system: {
+      id: 'solar_system', title: 'Солнечная система', category: 'space', emoji: '☀️',
+      infobox: { 'Тип':'Планетная система','Звезда':'Солнце (G2V)','Возраст':'≈4,568 млрд лет','Число планет':'8 (МАС, 2006)','Диаметр':'≈2 св. года','Ближайший сосед':'α Центавра (4,22 св. лет)' },
+      summary: 'Солнечная система — гравитационно связанная система, состоящая из Солнца и всех объектов, обращающихся вокруг него: восьми планет, карликовых планет, астероидов, комет и межпланетного вещества.',
+      full_text: `
+<div class="toc"><div class="toc-title">Содержание</div><ol><li><a href="#origin">Происхождение</a></li><li><a href="#sun">Солнце</a></li><li><a href="#planets">Планеты</a></li><li><a href="#small_bodies">Малые тела</a></li></ol></div>
+<p><strong>Солнечная система</strong> — планетарная система в рукаве Ориона Млечного Пути на расстоянии около 26 000 световых лет от галактического центра. Общая масса системы на 99,86% сосредоточена в Солнце.<sup>[1]</sup></p>
+<div class="article-section"><h2 class="section-h2" id="origin">Происхождение и формирование</h2><p>Согласно небулярной гипотезе, Солнечная система сформировалась 4,568 миллиарда лет назад из вращающегося газопылевого облака — протосолнечной туманности. Гравитационный коллапс центральной области дал начало Солнцу, тогда как периферийный диск аккрецировал в планеты.</p></div>
+<div class="article-section"><h2 class="section-h2" id="sun">Солнце</h2><p>Солнце — звезда класса G2V возрастом 4,6 млрд лет. В его недрах протекает термоядерная реакция синтеза гелия из водорода, высвобождающая 3,8 × 10²⁶ ватт энергии. Через ≈5 млрд лет Солнце превратится в <a class="wiki-link" onclick="showPage('white_dwarfs')" data-id="white_dwarfs">белый карлик</a>.</p></div>
+<div class="article-section"><h2 class="section-h2" id="planets">Планеты</h2><p>По классификации МАС (2006) выделяют 8 планет: Меркурий, Венера, Земля, Марс (планеты земной группы) и Юпитер, Сатурн (газовые гиганты), Уран, Нептун (ледяные гиганты).</p></div>
+<div class="article-section"><h2 class="section-h2" id="small_bodies">Малые тела</h2><p>Пояс астероидов между Марсом и Юпитером содержит сотни тысяч тел. Пояс Койпера и облако Оорта являются резервуарами комет.</p></div>`,
+      see_also: ['black_holes','pulsars','neutron_stars'],
+      refs: ['Williams D.R. Planetary Fact Sheets. NASA, 2023.','IAU Resolution B5. Prague, 2006.']
+    },
+
+    black_holes: {
+      id: 'black_holes', title: 'Чёрные дыры', category: 'space', emoji: '⚫',
+      infobox: { 'Предсказаны':'Шварцшильд, 1916','Первое изображение':'EHT, 2019 (M87*)','Типы':'Стелл., промеж., сверхмасс.','Мин. масса':'≈3 M☉' },
+      summary: 'Чёрная дыра — область пространства-времени с настолько интенсивным гравитационным полем, что ни вещество, ни электромагнитное излучение не могут её покинуть. Граница этой области называется горизонтом событий.',
+      full_text: `
+<div class="toc"><div class="toc-title">Содержание</div><ol><li><a href="#history">История</a></li><li><a href="#types">Типы</a></li><li><a href="#hawking">Излучение Хокинга</a></li><li><a href="#observation">Наблюдение</a></li></ol></div>
+<p><strong>Чёрная дыра</strong> — астрофизический объект, предсказанный общей теорией относительности, в котором вторая космическая скорость превышает скорость света.<sup>[1]</sup></p>
+<div class="article-section"><h2 class="section-h2" id="history">История открытия</h2><p>Карл Шварцшильд в 1916 году получил первое точное решение уравнений Эйнштейна. Термин «чёрная дыра» введён Джоном Уилером в 1967 году.<sup>[2]</sup></p></div>
+<div class="article-section"><h2 class="section-h2" id="types">Типы чёрных дыр</h2><h3 class="section-h3">Звёздные</h3><p>Образуются при гравитационном коллапсе массивных звёзд после <a class="wiki-link" onclick="showPage('supernovae')" data-id="supernovae">сверхновой</a>. Масса — от ≈3 до нескольких десятков M☉.</p><h3 class="section-h3">Сверхмассивные</h3><p>Находятся в центрах большинства галактик. Именно сверхмассивные чёрные дыры питают <a class="wiki-link" onclick="showPage('quasars')" data-id="quasars">квазары</a> и <a class="wiki-link" onclick="showPage('blazars')" data-id="blazars">блазары</a>.<sup>[3]</sup></p></div>
+<div class="article-section"><h2 class="section-h2" id="hawking">Излучение Хокинга</h2><p>В 1974 году Стивен Хокинг теоретически показал, что чёрные дыры постепенно испаряются вследствие квантовых флуктуаций вблизи горизонта событий.<sup>[4]</sup></p></div>
+<div class="article-section"><h2 class="section-h2" id="observation">Первое изображение</h2><p>Телескоп EHT в апреле 2019 года получил первое изображение тени чёрной дыры M87* (масса 6,5 × 10⁹ M☉). В 2022 году опубликовано изображение Стрельца A* — чёрной дыры в центре Млечного Пути.</p></div>`,
+      see_also: ['neutron_stars','quasars','supernovae'],
+      refs: ['Schwarzschild K. Sitzungsber. Preuss. Akad. Wiss., 1916.','Wheeler J.A. American Scholar, 1968.','Gravity Collaboration. ApJL, 2019.','Hawking S.W. Nature, 1974.']
+    },
+
+    neutron_stars: {
+      id: 'neutron_stars', title: 'Нейтронные звёзды', category: 'space', emoji: '💫',
+      infobox: { 'Тип':'Компактный звёздный остаток','Масса':'1,4–3 M☉','Радиус':'≈10–12 км','Плотность':'≈10¹⁴ г/см³','Происхождение':'Коллапс при сверхновой','Подтипы':'Пульсары, магнетары' },
+      summary: 'Нейтронная звезда — компактный звёздный остаток, образующийся в результате гравитационного коллапса ядра массивной звезды при взрыве сверхновой. Является одним из наиболее экзотических объектов во Вселенной по соотношению плотности и размера.',
+      full_text: `
+<div class="toc"><div class="toc-title">Содержание</div><ol><li><a href="#formation">Образование</a></li><li><a href="#structure">Строение</a></li><li><a href="#subtypes">Подтипы</a></li><li><a href="#observation">Наблюдение</a></li></ol></div>
+<p><strong>Нейтронная звезда</strong> — сверхплотный объект размером с небольшой город, но с массой, превосходящей массу Солнца в 1,4–2,3 раза. Плотность в её центре достигает нескольких ядерных плотностей, что делает нейтронные звёзды природными лабораториями экстремальной физики.<sup>[1]</sup></p>
+<div class="article-section"><h2 class="section-h2" id="formation">Образование</h2><p>Нейтронные звёзды возникают при взрывах <a class="wiki-link" onclick="showPage('supernovae')" data-id="supernovae">сверхновых</a> типа II (коллапс ядра). Когда ядро звезды с массой 1,4–3 M☉ сжимается до радиуса ~10 км, протоны и электроны под давлением объединяются в нейтроны. Если масса ядра превышает предел Толмена–Оппенгеймера–Волкова (~3 M☉), образуется <a class="wiki-link" onclick="showPage('black_holes')" data-id="black_holes">чёрная дыра</a>.<sup>[2]</sup></p></div>
+<div class="article-section"><h2 class="section-h2" id="structure">Строение</h2><p>Нейтронная звезда состоит из нескольких слоёв: тонкой внешней коры из обычной ядерной материи, плотной внутренней коры, внешнего ядра (нейтронная жидкость) и, вероятно, гиперонного или кваркового ядра в центре. Точный состав центрального ядра остаётся нерешённой проблемой теоретической физики.<sup>[3]</sup></p>
+<div class="note-box">💡 <strong>Факт:</strong> Чайная ложка вещества нейтронной звезды весила бы около 100 миллионов тонн на Земле.</div></div>
+<div class="article-section"><h2 class="section-h2" id="subtypes">Подтипы нейтронных звёзд</h2><p>Существует несколько ключевых подтипов в зависимости от наблюдаемых свойств: <a class="wiki-link" onclick="showPage('pulsars')" data-id="pulsars">пульсары</a> — быстро вращающиеся нейтронные звёзды, испускающие радиолучи; <a class="wiki-link" onclick="showPage('magnetars')" data-id="magnetars">магнетары</a> — нейтронные звёзды с экстремально сильным магнитным полем; миллисекундные пульсары — пульсары, «раскрученные» аккрецией вещества от звезды-компаньона.</p></div>
+<div class="article-section"><h2 class="section-h2" id="observation">Наблюдение</h2><p>Гравитационно-волновое событие GW170817 (2017) — первое прямое наблюдение слияния двух нейтронных звёзд — открыло эру многоканальной астрономии. Событие сопровождалось гамма-всплеском и килоновой — взрывом, синтезирующим тяжёлые элементы (золото, платину, уран).<sup>[4]</sup></p></div>`,
+      see_also: ['pulsars','magnetars','black_holes','supernovae'],
+      refs: ['Baym G. et al. Neutron star structure. Astrophys. J., 1971.','Oppenheimer J.R., Volkoff G.M. Phys. Rev., 1939.','Lattimer J.M., Prakash M. Science, 2004.','Abbott B.P. et al. GW170817. Phys. Rev. Lett., 2017.']
+    },
+
+    pulsars: {
+      id: 'pulsars', title: 'Пульсары', category: 'space', emoji: '📡',
+      infobox: { 'Тип':'Вращающаяся нейтронная звезда','Открыты':'Белл и Хьюиш, 1967','Период вращения':'1,4 мс — 8,5 с','Первый пульсар':'PSR B1919+21','Нобелевская премия':'Хьюиш, 1974','Число известных':'> 3300 (2024)' },
+      summary: 'Пульсар — быстро вращающаяся нейтронная звезда, испускающая узконаправленные потоки электромагнитного излучения из магнитных полюсов. Наблюдатель, находящийся на пути луча, регистрирует строго периодические импульсы, подобные космическому «маяку».',
+      full_text: `
+<div class="toc"><div class="toc-title">Содержание</div><ol><li><a href="#discovery">Открытие</a></li><li><a href="#mechanism">Механизм излучения</a></li><li><a href="#types">Типы пульсаров</a></li><li><a href="#applications">Применение</a></li></ol></div>
+<p><strong>Пульсар</strong> (от англ. <em>pulsating radio source</em> — пульсирующий радиоисточник) — нейтронная звезда с несовпадающими осями вращения и магнитного диполя, что создаёт эффект «космического маяка». При каждом обороте луч излучения проходит через наблюдателя, порождая строго периодический сигнал.<sup>[1]</sup></p>
+<div class="article-section"><h2 class="section-h2" id="discovery">Открытие</h2><p>В 1967 году аспирантка Джослин Белл и её научный руководитель Энтони Хьюиш при обзоре неба радиотелескопом в Кембридже обнаружили чрезвычайно регулярный радиосигнал с периодом 1,337 секунды — PSR B1919+21. Первоначально объект получил шутливое обозначение LGM-1 (<em>Little Green Men</em>), поскольку учёные не исключали искусственного происхождения сигнала. Природа объекта была выяснена вскоре: это оказалась вращающаяся нейтронная звезда. В 1974 году Хьюиш получил Нобелевскую премию по физике (Белл, к сожалению, в список лауреатов включена не была, что вызвало значительную дискуссию в научном сообществе).<sup>[2]</sup></p></div>
+<div class="article-section"><h2 class="section-h2" id="mechanism">Механизм излучения</h2><p>Нейтронная звезда обладает сверхсильным магнитным полем (10⁸–10¹² Тл). Заряженные частицы ускоряются вдоль магнитных силовых линий и испускают синхротронное излучение в виде узкого конуса из каждого магнитного полюса. Поскольку магнитная ось наклонена к оси вращения, луч периодически проходит мимо наблюдателя. Вращение пульсара постепенно замедляется из-за потерь энергии на магнитодипольное излучение.<sup>[3]</sup></p>
+<div class="note-box">⏱️ <strong>Точность:</strong> Миллисекундные пульсары являются одними из самых точных «часов» во Вселенной — их стабильность сравнима со стабильностью атомных часов.</div></div>
+<div class="article-section"><h2 class="section-h2" id="types">Типы пульсаров</h2><h3 class="section-h3">Обычные пульсары</h3><p>Период вращения от долей секунды до нескольких секунд. Постепенно тормозятся. Возраст — тысячи–миллионы лет.</p><h3 class="section-h3">Миллисекундные пульсаров</h3><p>Период менее 30 мс. «Переработанные» пульсары, раскрученные аккрецией вещества от звезды-компаньона в двойной системе. Отличаются исключительной стабильностью.</p><h3 class="section-h3">Двойные пульсары</h3><p>Знаменитая система PSR B1913+16 (Халс и Тейлор, 1974) позволила впервые косвенно подтвердить существование гравитационных волн — орбитальный период системы уменьшается точно с темпом, предсказанным ОТО. Это принесло Халсу и Тейлору Нобелевскую премию 1993 года.<sup>[4]</sup></p></div>
+<div class="article-section"><h2 class="section-h2" id="applications">Применение</h2><p>Пульсарная навигация (<em>X-ray pulsar navigation</em>, XNAV) — перспективная система навигации для космических аппаратов, аналогичная GPS, но использующая рентгеновские импульсы пульсаров в качестве опорных маяков. Пульсары также используются для поиска гравитационных волн низкой частоты через пульсарные тайминговые решётки (PTA).</p></div>`,
+      see_also: ['neutron_stars','magnetars','black_holes','supernovae'],
+      refs: ['Hewish A. et al. Observation of a Rapidly Pulsating Radio Source. Nature, 1968.','Bell Burnell J. Petit Four. Annals of NYAS, 1977.','Gold T. Rotating Neutron Stars as the Origin of Pulsating Radio Sources. Nature, 1968.','Hulse R.A., Taylor J.H. Astrophys. J., 1975.']
+    },
+
+    magnetars: {
+      id: 'magnetars', title: 'Магнетары', category: 'space', emoji: '🧲',
+      infobox: { 'Тип':'Нейтронная звезда (подтип)','Магнитное поле':'10¹⁰–10¹¹ Тл','Период вращения':'1–12 с','Активная жизнь':'~10 000 лет','Известных объектов':'~30 (2024)','Первая теория':'Дункан и Томпсон, 1992' },
+      summary: 'Магнетар — подтип нейтронной звезды с магнитным полем, в миллиарды раз превосходящим поле обычных нейтронных звёзд. Является источником самых мощных магнитных полей, известных во Вселенной, и порождает экзотические вспышки рентгеновского и гамма-излучения.',
+      full_text: `
+<div class="toc"><div class="toc-title">Содержание</div><ol><li><a href="#discovery">История</a></li><li><a href="#field">Магнитное поле</a></li><li><a href="#flares">Вспышки магнетаров</a></li><li><a href="#frb">Связь с быстрыми радиовсплесками</a></li></ol></div>
+<p><strong>Магнетар</strong> (от <em>magnetic</em> + <em>star</em>) — нейтронная звезда с магнитным полем порядка 10¹⁰–10¹¹ Тесла, что на четыре-пять порядков превосходит поле обычных <a class="wiki-link" onclick="showPage('pulsars')" data-id="pulsars">пульсаров</a>. Для сравнения: самое мощное постоянное магнитное поле, созданное в лабораторных условиях на Земле, не превышает 100 Тл.<sup>[1]</sup></p>
+<div class="article-section"><h2 class="section-h2" id="discovery">История открытия</h2><p>Теоретическая модель магнетара была предложена Робертом Дунканом и Кристофером Томпсоном в 1992 году. До этого были известны загадочные объекты — мягкие гамма-репитеры (SGR) и аномальные рентгеновские пульсары (AXP) — природа которых оставалась необъяснённой. Магнетарная модель единым образом объяснила оба феномена.<sup>[2]</sup></p></div>
+<div class="article-section"><h2 class="section-h2" id="field">Магнитное поле и его эффекты</h2><p>Сверхсильное магнитное поле оказывает экзотические квантовые эффекты на структуру вещества: атомы водорода вытягиваются в тонкие «нити» вдоль силовых линий. В такой среде скорость света становится анизотропной, а вакуум приобретает свойства двойного лучепреломления — явление, получившее название вакуумного двулучепреломления. В 2016 году этот эффект был впервые зафиксирован телескопом VLT у магнетара RX J1856.5−3754.<sup>[3]</sup></p>
+<div class="note-box">⚡ <strong>Масштаб:</strong> Магнетар SGR 1806-20 27 декабря 2004 года выпустил вспышку, высвободившую за 0,2 секунды энергию, равную энергии излучения Солнца за 250 000 лет.</div></div>
+<div class="article-section"><h2 class="section-h2" id="flares">Вспышки магнетаров</h2><p>Магнетары периодически испытывают «звёздные землетрясения» — перестройку кристаллической коры под воздействием магнитного напряжения. При этом высвобождается огромное количество рентгеновского и гамма-излучения. Крупнейшие события называются гигантскими вспышками (giant flares); они регистрируются из других галактик.<sup>[4]</sup></p></div>
+<div class="article-section"><h2 class="section-h2" id="frb">Связь с быстрыми радиовсплесками</h2><p>В апреле 2020 года от галактического магнетара SGR 1935+2154 был зарегистрирован быстрый радиовсплеск (FRB) одновременно с рентгеновской вспышкой. Это первое прямое свидетельство того, что магнетары являются, по крайней мере, одним из источников <a class="wiki-link" onclick="showPage('gamma_ray_bursts')" data-id="gamma_ray_bursts">загадочных FRB</a> — одной из самых интригующих астрофизических загадок XXI века.<sup>[5]</sup></p></div>`,
+      see_also: ['neutron_stars','pulsars','gamma_ray_bursts'],
+      refs: ['Duncan R.C., Thompson C. Astrophys. J., 1992.','Kouveliotou C. et al. Nature, 1998.','Mignani R.P. et al. Vacuum birefringence. MNRAS, 2017.','Palmer D.M. et al. Giant flare SGR 1806-20. Nature, 2005.','CHIME/FRB Collaboration. Nature, 2020.']
+    },
+
+    quasars: {
+      id: 'quasars', title: 'Квазары', category: 'space', emoji: '✨',
+      infobox: { 'Расшифровка':'Quasi-Stellar Radio Source','Открыты':'Шмидт, 1963','Природа':'Активное ядро галактики','Источник энергии':'Сверхмасс. чёрная дыра','Светимость':'До 10⁴² Вт','Красное смещение':'До z ≈ 7,6' },
+      summary: 'Квазар — чрезвычайно яркое активное ядро удалённой галактики, питаемое энергией сверхмассивной чёрной дыры, поглощающей окружающее вещество. Является одним из самых энергетически мощных объектов во Вселенной.',
+      full_text: `
+<div class="toc"><div class="toc-title">Содержание</div><ol><li><a href="#discovery">История открытия</a></li><li><a href="#mechanism">Механизм энерговыделения</a></li><li><a href="#jets">Релятивистские джеты</a></li><li><a href="#cosmology">Космологическое значение</a></li></ol></div>
+<p><strong>Квазар</strong> (<em>quasar</em>, сокр. от <em>quasi-stellar radio source</em>) — активное ядро галактики (AGN), в котором сверхмассивная <a class="wiki-link" onclick="showPage('black_holes')" data-id="black_holes">чёрная дыра</a> аккрецирует вещество с чрезвычайно высокой скоростью, высвобождая колоссальное количество энергии. Квазары видны на расстояниях миллиардов световых лет и являются одними из самых ярких постоянных объектов во Вселенной.<sup>[1]</sup></p>
+<div class="article-section"><h2 class="section-h2" id="discovery">История открытия</h2><p>В конце 1950-х годов радиоастрономы обнаружили мощные радиоисточники, соответствующие точечным оптическим объектам — звёздообразным по внешнему виду. В 1963 году Мартен Шмидт расшифровал оптический спектр объекта 3C 273 и обнаружил, что красное смещение его спектральных линий соответствует z = 0,158, то есть объект находится на расстоянии около двух миллиардов световых лет. Это было революционное открытие: объект звёздного вида оказался ярче целых галактик.<sup>[2]</sup></p></div>
+<div class="article-section"><h2 class="section-h2" id="mechanism">Механизм энерговыделения</h2><p>Квазар питается аккреционным диском — сплющенной структурой горячего газа, спирально падающего на центральную чёрную дыру массой от 10⁶ до 10¹⁰ масс Солнца. Трение в диске разогревает вещество до температур от 10⁴ до 10⁸ Кельвин, заставляя его светиться от ультрафиолета до рентгена. КПД преобразования вещества в энергию составляет до 40% — несравненно больше, чем у термоядерного синтеза (~0,7%).<sup>[3]</sup></p>
+<div class="note-box">🌟 <strong>Светимость:</strong> Квазар TON 618 (z = 2,22) в 660 триллионов раз ярче Солнца и содержит чёрную дыру массой 66 миллиардов M☉ — одну из крупнейших известных.</div></div>
+<div class="article-section"><h2 class="section-h2" id="jets">Релятивистские джеты</h2><p>Многие квазары испускают коллимированные струи плазмы (джеты), разогнанные до скоростей, близких к скорости света. Джеты могут простираться на миллионы световых лет и являются мощными источниками синхротронного радиоизлучения. Когда джет направлен точно в сторону наблюдателя, квазар классифицируется как <a class="wiki-link" onclick="showPage('blazars')" data-id="blazars">блазар</a>.<sup>[4]</sup></p></div>
+<div class="article-section"><h2 class="section-h2" id="cosmology">Космологическое значение</h2><p>Поскольку квазары видны с огромных расстояний (самый далёкий — J0313-1806, z = 7,64, возраст Вселенной ~670 млн лет), они служат уникальными зондами ранней Вселенной. Квазары позволяют изучать распределение межгалактического водорода через «лес Лайман-альфа» и тестировать модели структурообразования в ранней Вселенной.<sup>[5]</sup></p></div>`,
+      see_also: ['blazars','black_holes','galaxies','gamma_ray_bursts'],
+      refs: ['Schmidt M. 3C 273: A Star-Like Object with Large Red-Shift. Nature, 1963.','Lynden-Bell D. Galactic Nuclei as Collapsed Old Quasars. Nature, 1969.','Frank J. et al. Accretion Power in Astrophysics. Cambridge UP, 2002.','Bridle A.H., Perley R.A. Extragalactic Radio Jets. ARAA, 1984.','Wang F. et al. J0313-1806. ApJL, 2021.']
+    },
+
+    blazars: {
+      id: 'blazars', title: 'Блазары', category: 'space', emoji: '🔥',
+      infobox: { 'Тип':'Активное ядро галактики','Подтипы':'BL Lac, FSRQ','Джет':'Направлен на наблюдателя','Излучение':'От радио до ТэВ-гамма','Переменность':'Экстремальная, до часов','Первый изученный':'BL Lacertae (1929/1968)' },
+      summary: 'Блазар — особый класс активных ядер галактик, у которых один из релятивистских джетов направлен практически точно в сторону наблюдателя. Из-за релятивистского усиления блазары являются одними из самых ярких и переменных объектов в наблюдаемой Вселенной.',
+      full_text: `
+<div class="toc"><div class="toc-title">Содержание</div><ol><li><a href="#nature">Природа и классификация</a></li><li><a href="#beaming">Релятивистское усиление</a></li><li><a href="#variability">Переменность</a></li><li><a href="#neutrinos">Блазары и нейтрино</a></li></ol></div>
+<p><strong>Блазар</strong> — разновидность <a class="wiki-link" onclick="showPage('quasars')" data-id="quasars">квазара</a> или галактики с активным ядром, у которой релятивистский джет направлен практически в сторону Земли. В результате релятивистского доплеровского усиления наблюдаемая яркость таких объектов в сотни и тысячи раз превышает «истинную» яркость, а их излучение охватывает весь электромагнитный спектр — от радиоволн до гамма-фотонов тераэлектронвольтной энергии.<sup>[1]</sup></p>
+<div class="article-section"><h2 class="section-h2" id="nature">Природа и классификация</h2><p>Принято разделять блазары на два класса. <em>BL Lacertae objects</em> (BL Lac) — блазары со слабыми или отсутствующими эмиссионными линиями; их спектр практически непрерывен. <em>Плоскоспектральные квазары</em> (FSRQ) — блазары, сохраняющие широкие эмиссионные линии. Протожип класса — объект BL Lacertae в созвездии Ящерицы, долгое время числившийся переменной звездой, пока в 1968 году не была установлена его истинная природа.<sup>[2]</sup></p></div>
+<div class="article-section"><h2 class="section-h2" id="beaming">Релятивистское усиление</h2><p>Джет блазара движется со скоростью, составляющей 99% скорости света и более. Когда такой джет направлен на наблюдателя, релятивистская аберрация и эффект Доплера колоссально усиливают наблюдаемую яркость. Этот феномен называется «доплеровским усилением» или «бимингом» (<em>Doppler beaming</em>). Именно поэтому блазары видны через половину наблюдаемой Вселенной, тогда как большинство галактик с аналогичными джетами, ориентированными под углом, практически незаметны.<sup>[3]</sup></p></div>
+<div class="article-section"><h2 class="section-h2" id="variability">Переменность</h2><p>Блазары демонстрируют резкую переменность на всех длинах волн — поток излучения может измениться в несколько раз за часы или даже минуты. Такая быстрая переменность означает, что излучение рождается в компактной области, меньшей светового часа в поперечнике. Мониторинг переменности блазаров ведётся телескопами по всему земному шару в режиме, близком к непрерывному.<sup>[4]</sup></p>
+<div class="note-box">🔭 <strong>Рекорд:</strong> Блазар PKS 0537-441 однажды вспыхнул настолько ярко, что был виден невооружённым глазом — с расстояния нескольких миллиардов световых лет.</div></div>
+<div class="article-section"><h2 class="section-h2" id="neutrinos">Блазары как источники нейтрино</h2><p>В 2018 году телескоп IceCube зафиксировал высокоэнергетическое нейтрино IceCube-170922A, направление прихода которого совпало с блазаром TXS 0506+056 в момент его гамма-вспышки. Это стало первым свидетельством того, что блазары могут быть источниками космических лучей ультравысоких энергий.<sup>[5]</sup></p></div>`,
+      see_also: ['quasars','black_holes','gamma_ray_bursts','galaxies'],
+      refs: ['Blandford R., Rees M. A "twin-exhaust" model for double radio sources. MNRAS, 1974.','Stein W.A. et al. The object BL Lacertae. Astrophys. J., 1976.','Urry C.M., Padovani P. Unified Schemes for Radio-Loud AGN. PASP, 1995.','Falomo R. et al. An optical study of blazars. ARAA, 2014.','IceCube Collaboration. Multimessenger observations of TXS 0506+056. Science, 2018.']
+    },
+
+    gamma_ray_bursts: {
+      id: 'gamma_ray_bursts', title: 'Гамма-всплески', category: 'space', emoji: '💥',
+      infobox: { 'Аббревиатура':'GRB','Открыты':'1967 (спутники Vela)','Длительность':'От 0,01 с до нескольких часов','Энергия':'10⁴⁴–10⁴⁷ Дж','Частота':'~1–2 в сутки','Источники':'Слияния НЗ, смерть массивных звёзд' },
+      summary: 'Гамма-всплеск (GRB) — кратковременная вспышка гамма-излучения, являющаяся самым энергетически мощным взрывным явлением во Вселенной. За время вспышки объект может высвечивать больше энергии, чем Солнце за всё своё существование.',
+      full_text: `
+<div class="toc"><div class="toc-title">Содержание</div><ol><li><a href="#discovery">История открытия</a></li><li><a href="#types">Типы гамма-всплесков</a></li><li><a href="#afterglow">Послесвечение</a></li><li><a href="#kilonova">Килоновые</a></li></ol></div>
+<p><strong>Гамма-всплеск</strong> (<em>Gamma-Ray Burst</em>, GRB) — кратковременная вспышка жёсткого гамма-излучения космического происхождения, являющаяся самым энергетически мощным из известных взрывных явлений. Изотропная эквивалентная энергия наиболее мощных GRB достигает 10⁴⁷ Дж.<sup>[1]</sup></p>
+<div class="article-section"><h2 class="section-h2" id="discovery">История открытия</h2><p>Гамма-всплески были случайно открыты в 1967 году американскими военными спутниками Vela, призванными контролировать соблюдение договора об ограничении ядерных испытаний. Первые сигналы по своему виду напоминали атмосферные ядерные взрывы, однако их форма и направление не соответствовали земному или лунному источнику. Данные были рассекречены в 1973 году.<sup>[2]</sup></p></div>
+<div class="article-section"><h2 class="section-h2" id="types">Типы гамма-всплесков</h2><h3 class="section-h3">Короткие GRB (< 2 секунд)</h3><p>Порождаются слиянием двух <a class="wiki-link" onclick="showPage('neutron_stars')" data-id="neutron_stars">нейтронных звёзд</a> или нейтронной звезды с <a class="wiki-link" onclick="showPage('black_holes')" data-id="black_holes">чёрной дырой</a> в двойной системе. Сопровождаются килоновой — взрывом, синтезирующим тяжёлые элементы.<sup>[3]</sup></p><h3 class="section-h3">Длинные GRB (> 2 секунд)</h3><p>Связаны с коллапсарами — гравитационным коллапсом ядра массивной вращающейся звезды (гиперновая). Являются ярчайшими известными <a class="wiki-link" onclick="showPage('supernovae')" data-id="supernovae">сверхновыми</a>.<sup>[4]</sup></p></div>
+<div class="article-section"><h2 class="section-h2" id="afterglow">Послесвечение</h2><p>После основной вспышки GRB оставляет «послесвечение» — постепенно угасающее излучение от рентгена до радиоволн, порождённое взаимодействием джета с окружающей межзвёздной средой. Наблюдение послесвечений позволило точно локализовать GRB в далёких галактиках и определить их космологическую природу.</p></div>
+<div class="article-section"><h2 class="section-h2" id="kilonova">Килоновые и синтез тяжёлых элементов</h2><p>Слияния нейтронных звёзд порождают килоновые — взрывы с характерным инфракрасным послесвечением, обусловленным радиоактивным распадом тяжёлых r-процессных элементов: золота, платины, иридия и лантаноидов. Расчёты показывают, что бо́льшая часть золота на Земле образовалась именно в килоновых.<sup>[5]</sup></p>
+<div class="note-box">🥇 <strong>Происхождение золота:</strong> Около 80% всего золота Земли было синтезировано в килоновых вспышках при слиянии нейтронных звёзд, а не при обычных взрывах сверхновых.</div></div>`,
+      see_also: ['neutron_stars','black_holes','supernovae','magnetars'],
+      refs: ['Klebesadel R.W. et al. Observations of Gamma-Ray Bursts of Cosmic Origin. ApJL, 1973.','Fishman G.J., Meegan C.A. Gamma-Ray Bursts. ARAA, 1995.','Abbott B.P. et al. GW170817. ApJL, 2017.','Woosley S.E. Collapsar: Gamma-Ray Bursts and Explosions. ApJ, 1993.','Kasen D. et al. Origin of gold. Nature, 2017.']
+    },
+
+    dark_matter: {
+      id: 'dark_matter', title: 'Тёмная материя и тёмная энергия', category: 'space', emoji: '🌑',
+      infobox: { 'Тёмная материя':'~27% содержимого Вселенной','Тёмная энергия':'~68% содержимого Вселенной','Барионная материя':'~5%','Обнаружена косвенно':'1933 (Цвикки)','Природа':'Неизвестна','Кандидаты':'WIMP, аксион, стерильное нейтрино' },
+      summary: 'Тёмная материя и тёмная энергия — два загадочных компонента Вселенной, составляющих в совокупности около 95% её общего содержимого. Несмотря на косвенные свидетельства существования обоих, их природа остаётся одной из главных нерешённых проблем физики.',
+      full_text: `
+<div class="toc"><div class="toc-title">Содержание</div><ol><li><a href="#dark_matter_section">Тёмная материя</a></li><li><a href="#dark_energy_section">Тёмная энергия</a></li><li><a href="#evidence">Доказательства</a></li><li><a href="#candidates">Кандидаты</a></li></ol></div>
+<p>Стандартная космологическая модель (ΛCDM) утверждает, что привычная барионная материя — атомы, звёзды, планеты — составляет лишь около 5% содержимого Вселенной. Остальные 95% приходятся на <strong>тёмную материю</strong> (~27%) и <strong>тёмную энергию</strong> (~68%) — компоненты, которые не взаимодействуют с электромагнитным излучением и потому невидимы в прямом смысле слова.<sup>[1]</sup></p>
+<div class="article-section"><h2 class="section-h2" id="dark_matter_section">Тёмная материя</h2><p>Концепция тёмной материи возникла в 1933 году, когда Фриц Цвикки, изучая скопление Кома, обнаружил, что видимая масса кластера в ~400 раз меньше той, которая требуется для объяснения наблюдаемых скоростей галактик. В 1970-х годах Вера Рубин и Кент Форд показали, что кривые вращения спиральных галактик несовместимы с видимым распределением массы — периферийные части галактик вращаются слишком быстро.<sup>[2]</sup></p>
+<div class="note-box">🔭 <strong>Пуля Кластер:</strong> Столкновение двух скоплений галактик 1E 0657-558 показало, что тёмная материя «прошла сквозь» столкновение без торможения, тогда как горячий газ затормозился — прямейшее свидетельство существования тёмной материи.</div></div>
+<div class="article-section"><h2 class="section-h2" id="dark_energy_section">Тёмная энергия</h2><p>В 1998 году два независимых коллектива астрономов, изучавших сверхновые типа Ia в далёких галактиях, обнаружили, что Вселенная не просто расширяется, но и <em>ускоряется</em> в расширении. Источником этого ускорения была названа «тёмная энергия» — субстанция с отрицательным давлением, пронизывающая весь космос. Открытие принесло его авторам Нобелевскую премию 2011 года.<sup>[3]</sup></p></div>
+<div class="article-section"><h2 class="section-h2" id="candidates">Кандидаты на роль тёмной материи</h2><p>Среди теоретических кандидатов — слабовзаимодействующие массивные частицы (WIMP), аксионы, стерильные нейтрино и первичные чёрные дыры. Ни один из кандидатов пока не обнаружен в прямых экспериментах, несмотря на масштабные поиски в подземных детекторах, на коллайдерах и космических телескопах.<sup>[4]</sup></p></div>`,
+      see_also: ['galaxies','black_holes','supernovae'],
+      refs: ['Zwicky F. Die Rotverschiebung von extragalaktischen Nebeln. Helv. Phys. Acta, 1933.','Rubin V., Ford W.K. Rotation of the Andromeda Nebula. ApJ, 1970.','Perlmutter S. et al. Measurements of Omega and Lambda from 42 High-z Supernovae. ApJ, 1999.','Aprile E. et al. XENON1T Dark Matter Search. Phys. Rev. Lett., 2018.']
+    },
+
+    galaxies: {
+      id: 'galaxies', title: 'Галактики', category: 'space', emoji: '🌀',
+      infobox: { 'Число галактик':'~2 трлн (наблюд. Вселенная)','Типы':'Эллипт., спиральные, неправ.','Наша галактика':'Млечный Путь','Тип Млечного Пути':'Сп. с перемычкой (SBbc)','Диаметр МП':'≈100 000 св. лет','Число звёзд в МП':'≈200–400 млрд' },
+      summary: 'Галактика — гравитационно связанная система из звёзд, межзвёздного газа, пыли, тёмной материи и других объектов. Является основной структурной единицей крупномасштабной структуры Вселенной.',
+      full_text: `
+<div class="toc"><div class="toc-title">Содержание</div><ol><li><a href="#types">Типы галактик</a></li><li><a href="#milkyway">Млечный Путь</a></li><li><a href="#agn">Активные ядра галактик</a></li><li><a href="#lss">Крупномасштабная структура</a></li></ol></div>
+<p><strong>Галактика</strong> — гравитационно связанная система из звёзд, газа, пыли и <a class="wiki-link" onclick="showPage('dark_matter')" data-id="dark_matter">тёмной материи</a>. Галактики являются основными «строительными блоками» Вселенной и образуют иерархические структуры: группы, скопления и сверхскопления.<sup>[1]</sup></p>
+<div class="article-section"><h2 class="section-h2" id="types">Классификация галактик</h2><h3 class="section-h3">Эллиптические галактики</h3><p>Имеют форму от сферической (E0) до вытянутой (E7). Состоят преимущественно из старых звёзд, содержат мало газа и пыли. Крупнейшие галактики во Вселенной — эллиптические: NGC 1277, IC 1101.</p><h3 class="section-h3">Спиральные галактики</h3><p>Обладают плоским диском со спиральными рукавами и центральным балджем. Богаты газом и активно формируют новые звёзды. К этому типу относится наш Млечный Путь.</p><h3 class="section-h3">Неправильные галактики</h3><p>Не имеют чёткой структуры; часто являются результатом галактических слияний. Крупнейшие спутники Млечного Пути — Большое и Малое Магеллановы Облака — принадлежат к этому классу.<sup>[2]</sup></p></div>
+<div class="article-section"><h2 class="section-h2" id="milkyway">Млечный Путь</h2><p>Наша Галактика — спираль с перемычкой типа SBbc диаметром около 100 000 световых лет и толщиной диска ~2 000 световых лет. В её центре находится сверхмассивная <a class="wiki-link" onclick="showPage('black_holes')" data-id="black_holes">чёрная дыра</a> Стрелец A* массой ~4 × 10⁶ M☉. Солнечная система расположена в рукаве Ориона на расстоянии около 26 000 световых лет от центра.</p></div>
+<div class="article-section"><h2 class="section-h2" id="agn">Активные ядра галактик</h2><p>Многие галактики прошли через активную фазу, когда центральная чёрная дыра активно поглощала вещество и светилась как <a class="wiki-link" onclick="showPage('quasars')" data-id="quasars">квазар</a>. Сегодня такие галактики называют «сейфертовскими» или «радиогалактиками» в зависимости от наблюдаемых свойств.</p></div>
+<div class="article-section"><h2 class="section-h2" id="lss">Крупномасштабная структура</h2><p>Галактики распределены в пространстве не хаотично, а образуют нитевидные структуры («стены» и «нити»), разделённые гигантскими войдами (пустотами). Эта «космическая паутина» является прямым следствием первичных флуктуаций плотности в ранней Вселенной, усиленных гравитацией.</p></div>`,
+      see_also: ['quasars','blazars','dark_matter','black_holes'],
+      refs: ['Hubble E. A Relation between Distance and Radial Velocity among Extra-Galactic Nebulae. PNAS, 1929.','de Vaucouleurs G. Classification and Morphology of External Galaxies. ApJS, 1959.','Ghez A.M. et al. Sgr A* at the Center of the Milky Way. ApJ, 2008.']
+    },
+
+    nebulae: {
+      id: 'nebulae', title: 'Туманности', category: 'space', emoji: '🌸',
+      infobox: { 'Типы':'Диффузные, планетарные, остатки СН','Состав':'Газ (H, He, металлы), пыль','Первое описание':'де Мэран, 1731','Пример (диффузная)':'Туманность Орла (M16)','Пример (планетарная)':'Туманность Кольцо (M57)','Пример (остаток СН)':'Крабовидная туманность' },
+      summary: 'Туманность — межзвёздное облако из газа, пыли и плазмы. Является как местом рождения звёзд (эмиссионные туманности), так и конечным продуктом их жизни (планетарные туманности, остатки сверхновых).',
+      full_text: `
+<div class="toc"><div class="toc-title">Содержание</div><ol><li><a href="#types">Типы туманностей</a></li><li><a href="#emission">Эмиссионные туманности</a></li><li><a href="#planetary">Планетарные туманности</a></li><li><a href="#snr">Остатки сверхновых</a></li></ol></div>
+<p><strong>Туманность</strong> (от лат. <em>nebula</em> — туман, облако) — межзвёздное облако из газа, пыли и плазмы, наблюдаемое либо в отражённом/испущенном свете, либо как тёмный силуэт на фоне более ярких источников.<sup>[1]</sup></p>
+<div class="article-section"><h2 class="section-h2" id="types">Типы туманностей</h2><p>Выделяют несколько основных типов: эмиссионные (ионизованный газ светится под воздействием ультрафиолета молодых звёзд), отражательные (пыль рассеивает свет близких звёзд), тёмные (непрозрачные облака, видимые в силуэт), планетарные (оболочки, сброшенные умирающими звёздами) и остатки сверхновых.<sup>[2]</sup></p></div>
+<div class="article-section"><h2 class="section-h2" id="emission">Эмиссионные туманности как колыбели звёзд</h2><p>Знаменитые «Столпы Творения» в Туманности Орла (M16) — плотные облачные столбы, в которых продолжается активное звёздообразование. Новорождённые звёзды своим излучением постепенно рассеивают окружающее облако, «высвечивая» следующее поколение звёзд.<sup>[3]</sup></p>
+<div class="note-box">📸 <strong>Факт:</strong> Первый снимок «Столпов Творения» был сделан телескопом Хаббл в 1995 году и стал одной из самых известных астрофотографий в истории. В 2022 году «Джеймс Уэбб» сделал новый, несравненно более детальный снимок тех же Столпов.</div></div>
+<div class="article-section"><h2 class="section-h2" id="planetary">Планетарные туманности</h2><p>«Планетарными» их назвал Уильям Гершель в конце XVIII века из-за поверхностного сходства с планетными дисками в малый телескоп. На самом деле к планетам они не имеют никакого отношения: это газовые оболочки, сброшенные в финале жизни звёздами с массой, сопоставимой с солнечной. После сброса оболочки обнажается горячий остаток — будущий <a class="wiki-link" onclick="showPage('white_dwarfs')" data-id="white_dwarfs">белый карлик</a>.<sup>[4]</sup></p></div>
+<div class="article-section"><h2 class="section-h2" id="snr">Остатки сверхновых</h2><p>Крабовидная туманность (M1) — остаток <a class="wiki-link" onclick="showPage('supernovae')" data-id="supernovae">сверхновой</a> 1054 года, зафиксированной китайскими астрономами. В её центре — <a class="wiki-link" onclick="showPage('pulsars')" data-id="pulsars">пульсар</a> Краба, вращающийся 30 раз в секунду. Расширяющаяся оболочка туманности содержит вещество, синтезированное в недрах взорвавшейся звезды.</p></div>`,
+      see_also: ['supernovae','white_dwarfs','pulsars','neutron_stars'],
+      refs: ['Herschel W. On the Construction of the Heavens. Phil. Trans., 1785.','Osterbrock D.E. Astrophysics of Gaseous Nebulae. Freeman, 1989.','Hester J.J. et al. Pillars of Creation. AJ, 1996.','Kwok S. The origin and evolution of planetary nebulae. PASP, 1994.']
+    },
+
+    exoplanets: {
+      id: 'exoplanets', title: 'Экзопланеты', category: 'space', emoji: '🪐',
+      infobox: { 'Первое открытие':'Мэйор и Кело, 1995','Подтверждённых':'> 5700 (2024)','Методы':'Транзитный, лучевых скоростей','Телескопы':'Кеплер, TESS, Джеймс Уэбб','Зона обитаемости':'Диапазон T для жидкой воды','Рекорд':'Kepler-442b (0,84 Z☉)' },
+      summary: 'Экзопланета — планета, обращающаяся вокруг звезды за пределами Солнечной системы. Первая экзопланета у солнцеподобной звезды открыта в 1995 году; к 2024 году подтверждено более 5700 экзопланет.',
+      full_text: `
+<div class="toc"><div class="toc-title">Содержание</div><ol><li><a href="#discovery">История открытий</a></li><li><a href="#methods">Методы обнаружения</a></li><li><a href="#types">Типы экзопланет</a></li><li><a href="#habitability">Зона обитаемости</a></li></ol></div>
+<p><strong>Экзопланета</strong> (внесолнечная планета) — планетарное тело, обращающееся вокруг звезды, отличной от Солнца, или вокруг нескольких звёзд в кратной системе. Изучение экзопланет является одним из наиболее динамично развивающихся разделов современной астрофизики.<sup>[1]</sup></p>
+<div class="article-section"><h2 class="section-h2" id="discovery">История открытий</h2><p>Первая планета у пульсара обнаружена Алексом Вольщаном в 1992 году. В 1995 году Мишель Мэйор и Дидье Кело открыли 51 Pegasi b — первую экзопланету у солнцеподобной звезды. Это открытие было удостоено Нобелевской премии 2019 года. Телескоп Kepler (2009–2018) открыл более 2700 экзопланет транзитным методом.<sup>[2]</sup></p></div>
+<div class="article-section"><h2 class="section-h2" id="methods">Методы обнаружения</h2><p><em>Транзитный метод</em> — фиксация периодического ослабления блеска звезды, когда планета проходит по её диску. Используется в большинстве современных обзоров. <em>Метод лучевых скоростей</em> — измерение эффекта Доплера в спектре звезды, вызванного гравитационным влиянием планеты. <em>Прямое изображение</em> — наблюдение планеты непосредственно; применимо лишь к крупным планетам вдали от своих звёзд.<sup>[3]</sup></p></div>
+<div class="article-section"><h2 class="section-h2" id="types">Типы экзопланет</h2><p>Среди открытых экзопланет выделяют горячих юпитеров (газовые гиганты на тесных орбитах), суперземли (масса 1–10 M⊕), мини-нептуны (1,7–3,5 R⊕) и аналоги Земли. Статистика показывает, что в Галактике практически каждая звезда имеет хотя бы одну планету.</p></div>
+<div class="article-section"><h2 class="section-h2" id="habitability">Зона обитаемости и атмосферная спектроскопия</h2><p>Зона обитаемости — диапазон орбитальных расстояний, при которых на поверхности планеты возможно существование жидкой воды. Телескоп Джеймс Уэбб позволяет исследовать атмосферы экзопланет методом трансмиссионной спектроскопии. В 2023 году в атмосфере суперземли K2-18b были обнаружены признаки диметилсульфида — потенциально биогенного соединения.<sup>[4]</sup></p>
+<div class="note-box">🔍 <strong>2023:</strong> Телескоп Джеймс Уэбб впервые детально исследовал атмосферы нескольких планет в системе TRAPPIST-1, где семь планет земного размера обращаются вокруг красного карлика.</div></div>`,
+      see_also: ['solar_system','nebulae','dark_matter'],
+      refs: ['Wolszczan A., Frail D.A. A planetary system around the millisecond pulsar PSR1257+12. Nature, 1992.','Mayor M., Queloz D. A Jupiter-mass companion to a solar-type star. Nature, 1995.','Borucki W.J. et al. Kepler Planet-Detection Mission. Science, 2010.','Madhusudhan N. et al. K2-18b Atmosphere. ApJL, 2023.']
+    },
+
+    supernovae: {
+      id: 'supernovae', title: 'Сверхновые', category: 'space', emoji: '🌟',
+      infobox: { 'Типы':'I (термоядерные), II (коллапс ядра)','Пиковая светимость':'До 10⁴³ эрг/с','Историческая ближайшая':'SN 1987A (168 000 св. лет)','Источник тяжёлых элементов':'C, O, Ne, Mg, Si, S, Fe','Продукты':'Нейтронные звёзды, чёрные дыры','Частота в Млечном Пути':'~1–3 в столетие' },
+      summary: 'Сверхновая — мощный взрыв, завершающий жизнь звезды. Является главным источником тяжёлых химических элементов во Вселенной и порождает как нейтронные звёзды, так и чёрные дыры.',
+      full_text: `
+<div class="toc"><div class="toc-title">Содержание</div><ol><li><a href="#types">Типы сверхновых</a></li><li><a href="#nucleosynthesis">Нуклеосинтез</a></li><li><a href="#sn1987a">SN 1987A</a></li><li><a href="#cosmology">Космологическое применение</a></li></ol></div>
+<p><strong>Сверхновая</strong> (<em>supernova</em>) — звёздный взрыв, при котором яркость объекта на короткое время сопоставима с яркостью всей галактики. Существует два принципиально различных механизма взрыва, соответствующих двум типам сверхновых.<sup>[1]</sup></p>
+<div class="article-section"><h2 class="section-h2" id="types">Типы сверхновых</h2><h3 class="section-h3">Тип Ia (термоядерный)</h3><p><a class="wiki-link" onclick="showPage('white_dwarfs')" data-id="white_dwarfs">Белый карлик</a> в двойной системе набирает вещество от звезды-компаньона (или сливается с другим белым карликом) до достижения предела Чандрасекара (~1,4 M☉), после чего происходит термоядерный взрыв, полностью разрушающий звезду. Не оставляет компактного остатка.<sup>[2]</sup></p><h3 class="section-h3">Тип II (гравитационный коллапс)</h3><p>Ядро массивной звезды (~8–100 M☉) исчерпывает ядерное горючее и коллапсирует в <a class="wiki-link" onclick="showPage('neutron_stars')" data-id="neutron_stars">нейтронную звезду</a> или <a class="wiki-link" onclick="showPage('black_holes')" data-id="black_holes">чёрную дыру</a>. Гигантская волна нейтрино и ударная волна выбрасывают внешние оболочки звезды.</p></div>
+<div class="article-section"><h2 class="section-h2" id="nucleosynthesis">Нуклеосинтез и происхождение элементов</h2><p>Сверхновые синтезируют и рассеивают в межзвёздную среду значительную часть периодической таблицы: углерод, кислород, неон, магний, кремний, серу и железо образуются в ходе последовательных стадий ядерного горения и взрыва. Фраза «мы сделаны из звёздной пыли» имеет буквальный смысл: атомы нашего тела были синтезированы в недрах звёзд, а затем рассеяны сверхновыми.<sup>[3]</sup></p></div>
+<div class="article-section"><h2 class="section-h2" id="sn1987a">SN 1987A</h2><p>23 февраля 1987 года в Большом Магеллановом Облаке на расстоянии 168 000 световых лет вспыхнула сверхновая SN 1987A — первая видимая невооружённым глазом с 1604 года. За три часа до оптического максимума подземные детекторы Kamiokande и IMB зафиксировали поток нейтрино, подтвердив теорию коллапса ядра.<sup>[4]</sup></p></div>
+<div class="article-section"><h2 class="section-h2" id="cosmology">Космологическое применение</h2><p>Сверхновые типа Ia являются «стандартными свечами» космологии: их пиковая абсолютная светимость хорошо откалибрована. Именно измерения расстояний до далёких сверхновых Ia в 1998 году привели к открытию <a class="wiki-link" onclick="showPage('dark_matter')" data-id="dark_matter">ускоренного расширения Вселенной</a>.</p></div>`,
+      see_also: ['neutron_stars','black_holes','white_dwarfs','nebulae'],
+      refs: ['Woosley S.E., Weaver T.A. The physics of supernova explosions. ARAA, 1986.','Chandrasekhar S. The Maximum Mass of Ideal White Dwarfs. ApJ, 1931.','Burbidge E.M. et al. Synthesis of the Elements in Stars. Rev. Mod. Phys., 1957.','Bionta R.M. et al. Observation of a neutrino burst. Phys. Rev. Lett., 1987.']
+    },
+
+    white_dwarfs: {
+      id: 'white_dwarfs', title: 'Белые карлики', category: 'space', emoji: '⚪',
+      infobox: { 'Тип':'Компактный звёздный остаток','Масса':'0,5–1,4 M☉ (предел Чандрасекара)','Радиус':'~Размер Земли','Плотность':'~10⁶ г/см³','Состав':'C/O ядро, гелиево-водородная оболочка','Судьба':'Остывание → чёрный карлик' },
+      summary: 'Белый карлик — компактный звёздный остаток, образующийся в финале жизни звёзд с начальной массой до ~8 M☉. Представляет собой сверхплотный объект размером с Землю, удерживаемый от коллапса давлением вырожденных электронов.',
+      full_text: `
+<div class="toc"><div class="toc-title">Содержание</div><ol><li><a href="#formation">Образование</a></li><li><a href="#structure">Физика</a></li><li><a href="#chandrasekhar">Предел Чандрасекара</a></li><li><a href="#fate">Судьба</a></li></ol></div>
+<p><strong>Белый карлик</strong> — финальный эволюционный продукт большинства звёзд (включая Солнце). Когда звезда с начальной массой менее ~8 M☉ исчерпывает ядерное горючее, она сбрасывает внешние оболочки (образуя <a class="wiki-link" onclick="showPage('nebulae')" data-id="nebulae">планетарную туманность</a>), а горячее инертное ядро из углерода и кислород остаётся обнажённым как белый карлик.<sup>[1]</sup></p>
+<div class="article-section"><h2 class="section-h2" id="formation">Образование</h2><p>Солнце через ~5 млрд лет раздуется в красный гигант, поглотив Меркурий и, возможно, Венеру и Землю. Затем его внешние слои разлетятся в пространстве, а ядро — остаток размером с Землю, но с массой Солнца — будет медленно остывать миллиарды лет.</p></div>
+<div class="article-section"><h2 class="section-h2" id="structure">Физика белых карликов</h2><p>Белый карлик удерживается от дальнейшего сжатия не тепловым давлением, а <em>давлением вырожденных электронов</em> — квантовомеханическим эффектом, запрещающим двум электронам занимать одинаковое состояние (принцип Паули). Это давление не зависит от температуры, что означает: белый карлик не «лопнет» и не схлопнется даже после полного остывания.<sup>[2]</sup></p></div>
+<div class="article-section"><h2 class="section-h2" id="chandrasekhar">Предел Чандрасекара</h2><p>Субраманьян Чандрасекар в 1931 году показал, что максимальная масса белого карлика составляет ~1,4 M☉ (предел Чандрасекара). При превышении этого предела давление вырожденных электронов не может компенсировать гравитацию, и объект коллапсирует в <a class="wiki-link" onclick="showPage('neutron_stars')" data-id="neutron_stars">нейтронную звезду</a> или взрывается как <a class="wiki-link" onclick="showPage('supernovae')" data-id="supernovae">сверхновая Ia</a>.<sup>[3]</sup></p></div>
+<div class="article-section"><h2 class="section-h2" id="fate">Дальнейшая судьба</h2><p>Белый карлик медленно остывает за десятки миллиардов лет, постепенно переходя из белого в жёлтый, оранжевый и красный цвет. Конечный продукт — гипотетический «чёрный карлик» — тёмный холодный кристаллический объект. Однако возраст Вселенной (13,8 млрд лет) ещё недостаточен для образования первого чёрного карлика: даже самые старые белые карлики ещё не успели остыть до этой стадии.</p></div>`,
+      see_also: ['neutron_stars','supernovae','nebulae','solar_system'],
+      refs: ['Chandrasekhar S. The maximum mass of ideal white dwarfs. ApJ, 1931.','Shapiro S.L., Teukolsky S.A. Black Holes, White Dwarfs, and Neutron Stars. Wiley, 1983.','Liebert J. White Dwarf Stars. ARAA, 1980.']
+    },
+
+    // ─── ТЕХНОЛОГИИ ──────────────────────────────────────────────────────
+    internet_history: { id:'internet_history', title:'История Интернета', category:'technology', emoji:'🌐', infobox:{'Предшественник':'ARPANET (1969)','WWW':'Тим Бернерс-Ли, 1991','Пользователей в 2024':'≈5,4 млрд'}, summary:'Интернет — глобальная система объединённых компьютерных сетей, функционирующих на основе протоколов TCP/IP. Является крупнейшей в истории человечества информационной инфраструктурой.', full_text:`<p><strong>Интернет</strong> берёт начало в проекте ARPANET. 29 октября 1969 года состоялась первая передача данных. В 1991 году Тим Бернерс-Ли запустил первый веб-сайт.</p>`, see_also:['blockchain','quantum_computing'], refs:['Hafner K., Lyon M. Where Wizards Stay Up Late. 1996.'] },
+    blockchain: { id:'blockchain', title:'Блокчейн', category:'technology', emoji:'🔗', infobox:{'Создан':'Сатоши Накамото, 2008','Первое применение':'Bitcoin (2009)'}, summary:'Блокчейн — децентрализованная база данных, в которой информация хранится в виде последовательной цепочки блоков, каждый из которых криптографически связан с предыдущим.', full_text:`<p><strong>Блокчейн</strong> — тип распределённого реестра, где транзакции группируются в блоки, каждый содержит криптографический хэш предыдущего.</p>`, see_also:['internet_history','quantum_computing'], refs:['Nakamoto S. Bitcoin White Paper. 2008.'] },
+
+    artificial_intelligence: { id:'artificial_intelligence', title:'Искусственный интеллект', category:'technology', emoji:'🤖', infobox:{'Термин введён':'Джон Маккарти, 1956','Подходы':'МО, НС, ГИИ','Статус':'Активное развитие'}, summary:'Искусственный интеллект — область компьютерных наук, занимающаяся созданием систем, способных выполнять задачи, требующие человекоподобного интеллекта: распознавание речи, принятие решений, обучение.', full_text:`<div class="toc"><div class="toc-title">Содержание</div><ol><li><a href="#ai-history">История</a></li><li><a href="#ai-types">Подходы</a></li><li><a href="#ai-now">Современное состояние</a></li></ol></div><p><strong>Искусственный интеллект</strong> (ИИ) — научная дисциплина и технологическое направление, целью которого является создание машин, способных к поведению, которое считается разумным у людей.</p><div class="article-section"><h2 class="section-h2" id="ai-history">История</h2><p>Термин «artificial intelligence» ввёл Джон Маккарти в 1956 году на Дартмутской конференции. Первые десятилетия характеризовались чередованием «AI-зим» (периодов разочарования) и «AI-вёсен» (прорывов).</p></div><div class="article-section"><h2 class="section-h2" id="ai-types">Основные подходы</h2><p>Машинное обучение (МО) — автоматическое извлечение закономерностей из данных. Нейронные сети — многослойные вычислительные модели, вдохновлённые биологическим мозгом. Глубокое обучение произвело революцию в распознавании образов и NLP.</p></div><div class="article-section"><h2 class="section-h2" id="ai-now">Современное состояние (2026)</h2><p>Большие языковые модели (GPT, Claude, Gemini) демонстрируют впечатляющие способности к рассуждению и генерации текста. AGI — искусственный общий интеллект — остаётся предметом дискуссий.</p></div>`, see_also:['agi','quantum_computing','cybernophobia'], refs:['McCarthy J. et al. A Proposal for the Dartmouth Summer Research Project on AI. 1955.','LeCun Y., Bengio Y., Hinton G. Nature, 2015.'] },
+
+    cybersecurity: { id:'cybersecurity', title:'Кибербезопасность', category:'technology', emoji:'🔐', infobox:{'Ущерб в 2024':'~$9,5 трлн','Ключевые угрозы':'Ransomware, фишинг, APT'}, summary:'Кибербезопасность — область практики и науки, направленная на защиту компьютерных систем, сетей и данных от несанкционированного доступа, атак и повреждений.', full_text:`<p><strong>Кибербезопасность</strong> охватывает технологические, процессные и человеческие аспекты защиты цифровой инфраструктуры. С ростом подключённых устройств (IoT) и критической инфраструктуры цифровые угрозы стали одним из ключевых рисков национальной безопасности.</p><div class="article-section"><h2 class="section-h2">Основные угрозы</h2><p>Программы-вымогатели (ransomware) шифруют данные жертвы и требуют выкуп. APT-группы (Advanced Persistent Threats) — государственные акторы, ведущие долгосрочную кибершпионскую деятельность. Фишинг остаётся наиболее массовым вектором атак.</p></div>`, see_also:['internet_history','blockchain'], refs:['Stallings W. Cryptography and Network Security. 2022.'] },
+
+    virtual_reality: { id:'virtual_reality', title:'Виртуальная реальность', category:'technology', emoji:'🥽', infobox:{'Первый шлем':'Ivan Sutherland, 1968','Популяризация':'Oculus Rift, 2016','Смежные концепции':'AR, MR, XR'}, summary:'Виртуальная реальность (VR) — технология, создающая интерактивное цифровое окружение, полностью замещающее визуальное восприятие реального мира с помощью специального оборудования.', full_text:`<p><strong>Виртуальная реальность</strong> — компьютерная симуляция, в которую пользователь погружается с помощью шлема отображения (HMD), контроллеров движения и системы отслеживания. В отличие от дополненной реальности (AR), VR полностью заменяет реальный визуальный мир цифровым.</p>`, see_also:['artificial_intelligence','internet_history'], refs:['Sutherland I. The Ultimate Display. IFIP, 1965.'] },
+
+    // ─── ИСТОРИЯ ──────────────────────────────────────────────────────────
+    ancient_rome: { id:'ancient_rome', title:'Древний Рим', category:'history', emoji:'🏛️', infobox:{'Основан':'753 до н.э. (традиц.)','Пик':'II в. н.э.','Столица':'Рим','Язык':'Латинский'}, summary:'Древний Рим — одна из крупнейших цивилизаций Античности, прошедшая путь от небольшого города-государства до средиземноморской империи, оказавшей огромное влияние на европейскую культуру, право и язык.', full_text:`<div class="toc"><div class="toc-title">Содержание</div><ol><li><a href="#rome-republic">Республика</a></li><li><a href="#rome-empire">Империя</a></li><li><a href="#rome-legacy">Наследие</a></li></ol></div><p><strong>Древний Рим</strong> — государство, возникшее в Центральной Италии. Прошло три периода: царский (753–509 до н.э.), республиканский (509–27 до н.э.) и имперский (27 до н.э. — 476 н.э.).</p><div class="article-section"><h2 class="section-h2" id="rome-republic">Римская республика</h2><p>Республика установила систему двух консулов, сената и народных собраний. Пунические войны с Карфагеном (264–146 до н.э.) укрепили господство Рима над Средиземноморьем. Кризис поздней республики завершился гражданскими войнами и установлением власти Октавиана Августа.</p></div><div class="article-section"><h2 class="section-h2" id="rome-empire">Римская империя</h2><p>Период принципата (27 до н.э. — 284 н.э.) — «золотой век». При Траяне империя достигла максимальных размеров (5,9 млн км²). «Кризис III века» и разделение на Западную и Восточную части предвосхитили падение Западного Рима в 476 году.</p></div><div class="article-section"><h2 class="section-h2" id="rome-legacy">Наследие</h2><p>Римское право стало основой большинства европейских правовых систем. Латинский язык дал рождение романским языкам. Архитектурные достижения (арка, бетон, акведуки) повлияли на всё последующее строительство.</p></div>`, see_also:['ancient_egypt','renaissance'], refs:['Gibbon E. The Decline and Fall of the Roman Empire. 1776.','Mommsen T. Römische Geschichte. 1854.'] },
+
+    ancient_egypt: { id:'ancient_egypt', title:'Древний Египет', category:'history', emoji:'🏺', infobox:{'Период':'ок. 3100–30 до н.э.','Столица':'Мемфис, Фивы, Александрия','Письменность':'Иероглифы','Религия':'Политеизм'}, summary:'Древний Египет — одна из древнейших и наиболее долговечных цивилизаций в истории человечества, просуществовавшая более трёх тысяч лет в долине Нила.', full_text:`<p><strong>Древний Египет</strong> — цивилизация Северо-Восточной Африки, возникшая в долине реки Нил около 3100 года до н.э. с объединением Верхнего и Нижнего Египта. Египтяне создали монументальную архитектуру (пирамиды, сфинксы, храмы), развитую письменность (иероглифы, иератика, демотика) и сложную религиозную систему с культом загробной жизни.</p><div class="article-section"><h2 class="section-h2">Пирамиды</h2><p>Пирамиды Гизы, включая Великую пирамиду Хеопса (139 м, ок. 2560 до н.э.) — единственное из Семи чудес Древнего мира, сохранившееся до наших дней. Они служили гробницами фараонов и символами их власти.</p></div>`, see_also:['ancient_rome','renaissance'], refs:['Kemp B. Ancient Egypt: Anatomy of a Civilization. 2006.'] },
+
+    world_war_2: { id:'world_war_2', title:'Вторая мировая война', category:'history', emoji:'⚔️', infobox:{'Даты':'1 сент. 1939 — 2 сент. 1945','Участники':'57 государств','Погибших':'70–85 млн','Итог':'Победа Союзников'}, summary:'Вторая мировая война (1939–1945) — крупнейший военный конфликт в истории человечества, охвативший большинство стран мира и унёсший от 70 до 85 миллионов жизней.', full_text:`<p><strong>Вторая мировая война</strong> началась 1 сентября 1939 года вторжением Германии в Польшу. Конфликт разделился на два главных театра: Европейский и Тихоокеанский. Ключевые сражения: Сталинград (1942–43), Нормандия (1944), Мидуэй (1942). Война завершилась капитуляцией Германии 8 мая и Японии 2 сентября 1945 года. Её итогом стало создание ООН и начало холодной войны.</p>`, see_also:['cold_war','industrial_revolution'], refs:['Beevor A. The Second World War. 2012.','Keegan J. The Second World War. 1989.'] },
+
+    renaissance: { id:'renaissance', title:'Ренессанс', category:'history', emoji:'🎨', infobox:{'Период':'XIV–XVII вв.','Центр':'Флоренция, Италия','Ключевые фигуры':'Леонардо, Микеланджело, Рафаэль'}, summary:'Ренессанс (Возрождение) — культурное и интеллектуальное движение XIV–XVII веков, ознаменовавшее переход от Средневековья к Новому времени через возрождение античных идеалов.', full_text:`<p><strong>Ренессанс</strong> зародился во Флоренции в XIV веке и постепенно охватил всю Европу. Центральной идеей стал <em>гуманизм</em> — концепция, ставящая человека в центр мироздания. Леонардо да Винчи воплотил идеал «универсального человека» (uomo universale), объединив науку и искусство. Изобретение печатного станка Гутенбергом (ок. 1440) ускорило распространение идей Ренессанса.</p>`, see_also:['ancient_rome','ancient_egypt'], refs:['Burckhardt J. The Civilization of the Renaissance in Italy. 1860.'] },
+
+    cold_war: { id:'cold_war', title:'Холодная война', category:'history', emoji:'☢️', infobox:{'Даты':'1947–1991','Стороны':'США (НАТО) vs СССР (ОВД)','Итог':'Распад СССР (1991)'}, summary:'Холодная война — геополитическое противостояние СССР и США (1947–1991), характеризовавшееся гонкой вооружений, космической гонкой, идеологической борьбой и серией региональных конфликтов без прямого столкновения сверхдержав.', full_text:`<p><strong>Холодная война</strong> — период напряжённости между советским и западным блоками после Второй мировой войны. Доктрина Трумэна (1947), план Маршалла и создание НАТО (1949) оформили раскол мира. Кульминацией стал Карибский кризис 1962 года — ближайший момент к ядерной войне. Распад СССР в 1991 году ознаменовал окончание противостояния.</p>`, see_also:['world_war_2','internet_history'], refs:['Gaddis J.L. The Cold War: A New History. 2005.'] },
+
+    industrial_revolution: { id:'industrial_revolution', title:'Промышленная революция', category:'history', emoji:'⚙️', infobox:{'Период':'1760–1840 (1-я волна)','Место':'Великобритания','Ключевое изобретение':'Паровая машина Уатта (1769)'}, summary:'Промышленная революция — переход от ручного труда и аграрной экономики к машинному производству и индустриальному обществу, начавшийся в Великобритании в 1760-х годах.', full_text:`<p><strong>Промышленная революция</strong> началась в Великобритании с текстильной промышленности и быстро распространилась на металлургию, транспорт и горное дело. Паровая машина Джеймса Уатта (1769) стала символом эпохи. Строительство железных дорог (с 1830-х) революционизировало транспорт и торговлю. Социальные последствия: урбанизация, появление рабочего класса и профсоюзов.</p>`, see_also:['ancient_rome','cold_war'], refs:['Landes D. The Unbound Prometheus. 1969.'] },
+
+    // ─── БИОЛОГИЯ ─────────────────────────────────────────────────────────
+    evolution: { id:'evolution', title:'Эволюция', category:'biology', emoji:'🦎', infobox:{'Автор теории':'Чарльз Дарвин, 1859','Механизм':'Естественный отбор','Современный синтез':'1940-е'}, summary:'Эволюция — процесс изменения наследственных признаков биологических популяций в ходе смены поколений, объясняющий всё разнообразие жизни на Земле.', full_text:`<p><strong>Теория эволюции</strong> Чарльза Дарвина, изложенная в «Происхождении видов» (1859), объяснила биологическое разнообразие через естественный отбор: особи с полезными вариациями выживают и передают их потомству. Современный эволюционный синтез объединил дарвинизм с генетикой Менделя и популяционной биологией.</p><div class="article-section"><h2 class="section-h2">Механизмы эволюции</h2><p>Мутации создают наследственную изменчивость. Естественный отбор отфильтровывает менее приспособленные варианты. Генетический дрейф — случайные изменения частот аллелей в малых популяциях. Половой отбор объясняет яркое оперение и другие «дорогостоящие» признаки.</p></div>`, see_also:['dna','cell_biology'], refs:['Darwin C. On the Origin of Species. 1859.','Dawkins R. The Selfish Gene. 1976.'] },
+
+    dna: { id:'dna', title:'ДНК', category:'biology', emoji:'🧬', infobox:{'Открытие структуры':'Уотсон и Крик, 1953','Длина генома человека':'~3,2 млрд пар оснований','Кодирует':'~20 000 генов'}, summary:'ДНК (дезоксирибонуклеиновая кислота) — биополимер, хранящий генетическую информацию всех живых организмов. Двойная спираль ДНК кодирует инструкции по синтезу белков.', full_text:`<p><strong>ДНК</strong> — молекула в форме двойной спирали, описанной Уотсоном и Криком в 1953 году на основе рентгенографических данных Розалинд Франклин. Четыре азотистых основания (аденин, тимин, гуанин, цитозин) образуют «буквы» генетического кода. Проект «Геном человека» (1990–2003) расшифровал весь геном, открыв путь к персонализированной медицине.</p>`, see_also:['evolution','cell_biology','viruses'], refs:['Watson J.D., Crick F.H.C. Nature, 1953.'] },
+
+    cell_biology: { id:'cell_biology', title:'Клеточная биология', category:'biology', emoji:'🔬', infobox:{'Открытие клетки':'Р. Гук, 1665','Клеточная теория':'Шлейден и Шванн, 1838–39'}, summary:'Клеточная биология изучает структуру и функции клетки — основной единицы жизни. Все живые организмы состоят из клеток, в которых протекают химические процессы жизнедеятельности.', full_text:`<p><strong>Клетка</strong> — минимальная структурная единица жизни. Прокариоты (бактерии, археи) лишены ядра; эукариоты (растения, животные, грибы) имеют оформленное ядро с хромосомами. Клеточная теория гласит: все организмы состоят из клеток, клетка — единица жизни, все клетки происходят из клеток.</p>`, see_also:['dna','evolution','viruses'], refs:['Alberts B. et al. Molecular Biology of the Cell. 2022.'] },
+
+    ecosystems: { id:'ecosystems', title:'Экосистемы', category:'biology', emoji:'🌿', infobox:{'Крупнейшая':'Мировой океан','Биомов на Земле':'~14','Биомасса растений':'~450 Гт углерода'}, summary:'Экосистема — совокупность живых организмов и их абиотической среды, функционирующая как единое целое через потоки энергии и круговороты веществ.', full_text:`<p><strong>Экосистема</strong> — биологическая система, включающая сообщество организмов (биоценоз) и среду их обитания (биотоп), связанные обменом веществ и энергии. Трофические сети описывают передачу энергии от продуцентов (растения) через консументов к редуцентам. Потеря биоразнообразия снижает устойчивость экосистем к внешним воздействиям.</p>`, see_also:['evolution','dna'], refs:['Tansley A.G. Ecology, 1935.','Wilson E.O. The Diversity of Life. 1992.'] },
+
+    human_brain: { id:'human_brain', title:'Мозг человека', category:'biology', emoji:'🧠', infobox:{'Масса':'≈1,4 кг','Нейронов':'≈86 млрд','Синапсов':'~100 трлн','Потребление':'~20% энергии тела'}, summary:'Мозг человека — сложнейший известный орган во Вселенной, центр нервной системы, обеспечивающий восприятие, мышление, память, эмоции и управление телом.', full_text:`<p><strong>Головной мозг</strong> состоит из нескольких ключевых структур: кора больших полушарий (мышление, речь, восприятие), лимбическая система (эмоции, память), мозжечок (координация), ствол мозга (жизненно важные функции). Пластичность мозга — способность перестраивать нейронные связи на протяжении всей жизни — открывает пути к реабилитации после повреждений.</p>`, see_also:['consciousness','dna','agi'], refs:['Kandel E.R. et al. Principles of Neural Science. 2021.'] },
+
+    viruses: { id:'viruses', title:'Вирусы', category:'biology', emoji:'🦠', infobox:{'Размер':'20–300 нм','Открытие':'Д. Ивановский, 1892','Подходы':'ДНК-вирусы, РНК-вирусы'}, summary:'Вирусы — неклеточные инфекционные агенты, способные к репликации только внутри клеток-хозяев. Находятся на границе живого и неживого.', full_text:`<p><strong>Вирусы</strong> — субклеточные частицы, состоящие из нуклеиновой кислоты (ДНК или РНК), заключённой в белковую оболочку (капсид). Вирус не имеет собственного метаболизма и использует рибосомы хозяйской клетки для репликации. Пандемия COVID-19, вызванная SARS-CoV-2 (2019–2023), наглядно продемонстрировала глобальное воздействие вирусных инфекций на человечество.</p>`, see_also:['cell_biology','dna'], refs:['Flint S.J. et al. Principles of Virology. 2020.'] },
+
+    // ─── ФИЛОСОФИЯ ────────────────────────────────────────────────────────
+    stoicism: { id:'stoicism', title:'Стоицизм', category:'philosophy', emoji:'⚖️', infobox:{'Основатель':'Зенон Китийский, ок. 300 до н.э.','Школа':'Стоя (Афины)','Представители':'Марк Аврелий, Эпиктет, Сенека'}, summary:'Стоицизм — философская школа, основанная около 300 до н.э., учащая достигать душевного покоя через разграничение того, что в нашей власти, и того, что нет.', full_text:`<p><strong>Стоицизм</strong> учит, что источник страдания — не внешние события, а наши суждения о них. Центральная концепция — <em>дихотомия контроля</em>: ты не можешь контролировать события, но можешь контролировать свою реакцию. Марк Аврелий в «Размышлениях» и Эпиктет в «Беседах» оставили наиболее полные изложения стоической практики. Стоицизм переживает ренессанс в XXI веке как основа когнитивно-поведенческой терапии.</p>`, see_also:['existentialism','ethics','consciousness'], refs:['Marcus Aurelius. Meditations. 180 AD.','Epictetus. Enchiridion. 135 AD.'] },
+
+    existentialism: { id:'existentialism', title:'Экзистенциализм', category:'philosophy', emoji:'🌑', infobox:{'Ключевые фигуры':'Сартр, Камю, Хайдеггер','Эпоха':'XX в.','Тезис':'«Существование предшествует сущности»'}, summary:'Экзистенциализм — философское направление XX века, утверждающее, что человек сначала существует, а затем определяет свою сущность через свободные выборы и ответственность.', full_text:`<p><strong>Экзистенциализм</strong> ставит в центр индивидуальный опыт существования. Жан-Поль Сартр сформулировал ключевой тезис: «существование предшествует сущности» — человек не имеет заданной природы, он сам творит себя через свободу. Альбер Камю исследовал абсурд — столкновение человеческой потребности в смысле с молчанием Вселенной. Мартин Хайдеггер анализировал «бытие-к-смерти» как условие подлинного существования.</p>`, see_also:['stoicism','consciousness','philosophy_of_mind'], refs:['Sartre J.-P. Being and Nothingness. 1943.','Camus A. The Myth of Sisyphus. 1942.'] },
+
+    philosophy_of_mind: { id:'philosophy_of_mind', title:'Философия сознания', category:'philosophy', emoji:'🔮', infobox:{'Ключевая проблема':'«Трудная проблема» Чалмерса','Подходы':'Дуализм, физикализм, функционализм'}, summary:'Философия сознания исследует природу ментальных состояний: что такое сознание, как оно соотносится с мозгом и может ли машина быть сознательной.', full_text:`<p><strong>Философия сознания</strong> — раздел философии, исследующий природу психического. «Трудная проблема» Дэвида Чалмерса (1995) спрашивает: почему физические процессы порождают субъективный опыт (qualia)? Дуализм Декарта разделяет разум и тело; физикализм отождествляет ментальное с физическим; функционализм определяет ментальные состояния через их функциональную роль.</p>`, see_also:['consciousness','existentialism','agi'], refs:['Chalmers D. The Conscious Mind. 1996.','Dennett D. Consciousness Explained. 1991.'] },
+
+    logic: { id:'logic', title:'Логика', category:'philosophy', emoji:'📊', infobox:{'Основатель':'Аристотель (сил.)','Математическая логика':'Фреге, 1879','Теорема':'Гёдель, 1931'}, summary:'Логика — раздел философии и математики, изучающий принципы правильного рассуждения: понятие истинности, структуру аргументов и законы вывода.', full_text:`<p><strong>Логика</strong> систематизирует принципы верного мышления. Аристотель создал силлогистику — первую формальную систему логических умозаключений. Готлоб Фреге в «Begriffsschrift» (1879) основал современную математическую логику. Теорема о неполноте Гёделя (1931) показала, что любая достаточно богатая формальная система либо неполна, либо противоречива.</p>`, see_also:['mathematics','philosophy_of_mind','prime_numbers'], refs:['Aristotle. Prior Analytics. 350 BC.','Gödel K. Über formal unentscheidbare Sätze. 1931.'] },
+
+    ethics: { id:'ethics', title:'Этика', category:'philosophy', emoji:'🌿', infobox:{'Разделы':'Нормативная, прикладная, метаэтика','Ключевые теории':'Утилитаризм, деонтология, добродетельная этика'}, summary:'Этика — раздел философии, исследующий вопросы морали: что есть добро и зло, как следует поступать и каковы основания моральных суждений.', full_text:`<p><strong>Этика</strong> изучает нормативные основания человеческого поведения. Три главные теоретические традиции: утилитаризм (Бентам, Милль) — поступок морален, если максимизирует общее благополучие; деонтология (Кант) — существуют абсолютные моральные обязанности независимо от последствий; этика добродетели (Аристотель) — фокусируется на характере деятеля, а не на правилах или результатах.</p>`, see_also:['stoicism','existentialism','logic'], refs:['Kant I. Grundlegung zur Metaphysik der Sitten. 1785.','Mill J.S. Utilitarianism. 1863.'] },
+
+    consciousness: { id:'consciousness', title:'Сознание', category:'philosophy', emoji:'✨', infobox:{'Статус':'Нерешённая проблема','Гипотезы':'ГВП, ИИТ, ОО-КО'}, summary:'Сознание — субъективный опыт бытия: ощущение «каково это — быть мной». Природа сознания остаётся одной из наиболее глубоких нерешённых проблем науки и философии.', full_text:`<p><strong>Сознание</strong> — одновременно наиболее знакомое и наиболее загадочное явление: каждый обладает им, но никто не может дать исчерпывающего объяснения. Основные гипотезы: Глобальное рабочее пространство (ГВП, Деан и Бааrs) описывает сознание как широковещательный механизм мозга. Интегрированная информационная теория (ИИТ, Тонони) связывает сознание с интеграцией информации (Φ). «Оркестрированная объективная редукция» (Пенроуз–Хамерофф) апеллирует к квантовым процессам в микротрубочках нейронов.</p>`, see_also:['philosophy_of_mind','human_brain','existentialism'], refs:['Chalmers D. Facing Up to the Problem of Consciousness. JCS, 1995.','Tononi G. Phi: A Voyage from the Brain to the Soul. 2012.'] },
+
+    // ─── МАТЕМАТИКА ───────────────────────────────────────────────────────
+    prime_numbers: { id:'prime_numbers', title:'Простые числа', category:'mathematics', emoji:'🔢', infobox:{'Определение':'Делится только на 1 и себя','Теорема':'Числа простых бесконечно','Гипотеза':'Римана (не доказана)'}, summary:'Простые числа — натуральные числа, большие 1, которые делятся только на 1 и на самих себя. Являются «атомами» арифметики и имеют фундаментальное значение в криптографии.', full_text:`<p><strong>Простые числа</strong> (2, 3, 5, 7, 11, …) составляют мультипликативные «атомы» натуральных чисел: по основной теореме арифметики, каждое натуральное число единственным образом раскладывается в произведение простых. Евклид доказал бесконечность простых чисел ок. 300 до н.э. Гипотеза Римана (1859) о распределении простых чисел остаётся одной из семи «Задач тысячелетия» Института Клэя.</p>`, see_also:['number_theory','infinity_math','logic'], refs:['Riemann B. Über die Anzahl der Primzahlen... 1859.','Hardy G.H., Wright E.M. An Introduction to the Theory of Numbers. 1938.'] },
+
+    topology: { id:'topology', title:'Топология', category:'mathematics', emoji:'🍩', infobox:{'Раздел':'Геометрия','Ключевой объект':'Многообразие','Классик':'Пуанкаре, гипотеза 1904'}, summary:'Топология — раздел математики, изучающий свойства пространств, инвариантные при непрерывных деформациях (растяжении, изгибании, но не разрыве или склеивании).', full_text:`<p><strong>Топология</strong> исследует «качественные» свойства пространств. Знаменитый пример: кружка и пончик (тор) топологически эквивалентны — оба имеют ровно одну «ручку». Гипотеза Пуанкаре (1904) о 3-многообразиях была доказана Григорием Перельманом в 2003 году — единственная решённая «Задача тысячелетия». Перельман отказался от премии в $1 млн.</p>`, see_also:['prime_numbers','chaos_theory','number_theory'], refs:['Poincaré H. Cinquième complément à l\'Analysis situs. 1904.','Perelman G. ArXiv preprints. 2002–2003.'] },
+
+    chaos_theory: { id:'chaos_theory', title:'Теория хаоса', category:'mathematics', emoji:'🦋', infobox:{'Основатель':'Э. Лоренц, 1963','Эффект':'«Эффект бабочки»','Применения':'Метеорология, биология, экономика'}, summary:'Теория хаоса изучает динамические системы, чрезвычайно чувствительные к начальным условиям: малейшее изменение входных данных приводит к кардинально различным результатам.', full_text:`<p><strong>Теория хаоса</strong> показывает, что детерминированные системы могут вести себя непредсказуемо. Эдвард Лоренц в 1963 году обнаружил, что ничтожная разница в начальных условиях атмосферной модели приводит к принципиально разным прогнозам. «Аттрактор Лоренца» — фрактальная структура в фазовом пространстве — стал иконой теории. «Эффект бабочки» (взмах крыльев бабочки в Бразилии вызывает торнадо в Техасе) — метафора этой чувствительности.</p>`, see_also:['topology','game_theory','infinity_math'], refs:['Lorenz E. Deterministic Nonperiodic Flow. JAS, 1963.','Gleick J. Chaos: Making a New Science. 1987.'] },
+
+    game_theory: { id:'game_theory', title:'Теория игр', category:'mathematics', emoji:'♟️', infobox:{'Основоположник':'Джон фон Нейман, 1928','Нобелевские премии':'Нэш (1994), Шеллинг (2005)','Применения':'Экономика, политология, биология'}, summary:'Теория игр — математическая дисциплина, изучающая стратегии принятия решений в ситуациях, где результат зависит от действий нескольких участников.', full_text:`<p><strong>Теория игр</strong> формализует стратегическое взаимодействие. Джон Нэш ввёл понятие «равновесия Нэша» (1950) — состояния, при котором ни один игрок не выигрывает от одностороннего изменения стратегии. «Дилемма заключённого» демонстрирует, почему рациональные игроки могут приходить к субоптимальным исходам. Эволюционная теория игр объясняет поведение животных и механизмы кооперации.</p>`, see_also:['prime_numbers','logic','chaos_theory'], refs:['Von Neumann J., Morgenstern O. Theory of Games and Economic Behavior. 1944.','Nash J. Non-Cooperative Games. Annals of Mathematics, 1951.'] },
+
+    infinity_math: { id:'infinity_math', title:'Бесконечность в математике', category:'mathematics', emoji:'♾️', infobox:{'Канторовы кардиналы':'ℵ₀, ℵ₁, …','Алеф-ноль':'Счётная бесконечность','Гипотеза':'Континуума (независима от ZFC)'}, summary:'Математическая бесконечность — строгая концепция, разработанная Георгом Кантором: существуют бесконечности разных «размеров», и некоторые из них несчётно больше других.', full_text:`<p><strong>Бесконечность</strong> в математике — не просто «очень большое число», а полноправный математический объект. Георг Кантор показал: множество натуральных чисел (ℵ₀, алеф-ноль) счётно, а множество действительных чисел строго «больше» и несчётно. Доказательство диагональю: предположив, что действительные числа перечислимы, можно построить число, которого нет в списке — противоречие. Гипотеза континуума (нет кардинала строго между ℵ₀ и мощностью континуума) независима от стандартных аксиом ZFC.</p>`, see_also:['prime_numbers','topology','apeirophobia'], refs:['Cantor G. Über eine elementare Frage der Mannigfaltigkeitslehre. 1891.','Cohen P. The Independence of the Continuum Hypothesis. 1963.'] },
+
+    number_theory: { id:'number_theory', title:'Теория чисел', category:'mathematics', emoji:'📏', infobox:{'Прозвище':'«Королева математики»','Ключевые теоремы':'Ферма, Эйлера, Гаусса','Связь':'Криптография'}, summary:'Теория чисел — раздел математики, изучающий свойства целых чисел: делимость, простые числа, диофантовы уравнения и их связи с другими областями математики.', full_text:`<p><strong>Теория чисел</strong> восходит к античности (Евклид, Диофант), но расцвела в руках Ферма, Эйлера и Гаусса. Великая теорема Ферма (1637): уравнение xⁿ + yⁿ = zⁿ не имеет целых ненулевых решений при n > 2. Доказана Эндрю Уайлсом в 1995 году после 358 лет усилий. Современная теория чисел стала основой криптографии с открытым ключом (RSA).</p>`, see_also:['prime_numbers','topology','logic'], refs:['Gauss C.F. Disquisitiones Arithmeticae. 1801.','Wiles A. Annals of Mathematics, 1995.'] }
+  }
+};
+
+// ═══════════════════════════════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════════════════════════════
+let currentPage = { type: 'home' };
+
+function showPage(id) {
+  const article = WIKI_DATA.articles[id];
+  if (!article) return;
+  currentPage = { type: 'article', id };
+  closeSidebarMobile();
+  renderArticle(article);
+  window.scrollTo(0,0);
+}
+
+function showCategory(catId) {
+  const cat = WIKI_DATA.categories[catId];
+  if (!cat) return;
+  currentPage = { type: 'category', id: catId };
+  closeSidebarMobile();
+  renderCategory(cat);
+  window.scrollTo(0,0);
+}
+
+function showHome() {
+  currentPage = { type: 'home' };
+  closeSidebarMobile();
+  renderHome();
+  window.scrollTo(0,0);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// RENDERERS
+// ═══════════════════════════════════════════════════════════════════════════
+function buildBreadcrumbs(items) {
+  const parts = [`<a class="bc-link" onclick="showHome()">Главная</a>`];
+  items.forEach((item, i) => {
+    parts.push(`<span class="bc-sep">›</span>`);
+    if (i === items.length - 1) parts.push(`<span class="bc-current">${item.label}</span>`);
+    else parts.push(`<a class="bc-link" onclick="${item.action}">${item.label}</a>`);
+  });
+  return `<div class="breadcrumbs">${parts.join('')}</div>`;
+}
+
+// Wikimedia Commons API — получаем thumbnail по точному имени файла
+// Имена файлов проверены вручную на commons.wikimedia.org
+const ARTICLE_PHOTOS = {
+  solar_system:     { file: 'Solar_sys8.jpg',                                    caption: 'Солнечная система — NASA/JPL' },
+  black_holes:      { file: 'Black_hole_-_Messier_87_crop_max_res.jpg',          caption: 'M87* — Event Horizon Telescope, 2019' },
+  neutron_stars:    { file: 'Neutron_Star_NASA.jpg',                             caption: 'Нейтронная звезда — Chandra/NASA' },
+  pulsars:          { file: 'Vela_Pulsar_jet.jpg',                               caption: 'Пульсар Вела — джеты (Chandra)' },
+  magnetars:        { file: 'Neutron_Star_in_X-rays.jpg',                        caption: 'Нейтронная звезда в рентгеновском диапазоне' },
+  quasars:          { file: "Artist's_rendering_ULAS_J1120+0641.jpg",            caption: 'Квазар ULAS J1120+0641 — ESO' },
+  blazars:          { file: 'M87_jet.jpg',                                       caption: 'Релятивистский джет M87 — NASA/Hubble' },
+  gamma_ray_bursts: { file: 'Artist_impression_GRB_090423.jpg',                  caption: 'Гамма-всплеск GRB 090423 — ESO' },
+  dark_matter:      { file: 'Bullet_cluster_color.jpg',                          caption: 'Скопление Пуля — тёмная материя (Chandra/HST)' },
+  galaxies:         { file: 'NGC_4414_(NASA-med).jpg',                           caption: 'Галактика NGC 4414 — Хаббл' },
+  nebulae:          { file: 'Pillars_of_creation_2014_HST_WFC3-UVIS_full-res_denoised.jpg', caption: 'Столпы Творения — Хаббл 2014' },
+  exoplanets:       { file: "Planets_everywhere_(artist's_impression).jpg",      caption: 'Экзопланеты — иллюстрация ESO' },
+  supernovae:       { file: 'Crab_Nebula.jpg',                                   caption: 'Крабовидная туманность (SN 1054) — Хаббл' },
+  white_dwarfs:     { file: 'Sirius_A_and_B_Hubble_photo.jpg',                   caption: 'Сириус B (белый карлик) — Хаббл' },
+  quantum_computing:{ file: 'IBM_Q_system_(Fraunhofer_2).jpg',                   caption: 'Квантовый компьютер IBM Q' },
+  agi:              { file: 'Blausen_0657_MultipolarNeuron.png',                  caption: 'Нейронная сеть — иллюстрация' },
+};
+
+// Загружаем реальный thumbnail через Wikimedia REST API
+async function loadWikiPhoto(el, file, caption, fallbackEmoji) {
+  const encoded = encodeURIComponent(file.replace(/ /g, '_'));
+  const apiUrl = `https://en.wikipedia.org/w/api.php?action=query&titles=File:${encoded}&prop=imageinfo&iiprop=url&iiurlwidth=400&format=json&origin=*`;
+  try {
+    const res = await fetch(apiUrl);
+    const data = await res.json();
+    const pages = data.query.pages;
+    const page = Object.values(pages)[0];
+    const thumbUrl = page?.imageinfo?.[0]?.thumburl;
+    if (thumbUrl) {
+      el.innerHTML = `
+        <img src="${thumbUrl}" alt="${caption}" style="width:100%;height:140px;object-fit:cover;display:block;">
+        ${caption ? `<div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.65);color:#ddd;font-size:10px;padding:3px 7px;line-height:1.4;">${caption}</div>` : ''}
+      `;
+    } else {
+      el.innerHTML = `<div style="height:140px;display:flex;align-items:center;justify-content:center;font-size:48px;">${fallbackEmoji}</div>`;
+    }
+  } catch(e) {
+    el.innerHTML = `<div style="height:140px;display:flex;align-items:center;justify-content:center;font-size:48px;">${fallbackEmoji}</div>`;
+  }
+}
+
+function buildInfobox(article) {
+  const rows = Object.entries(article.infobox).map(([k,v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('');
+  const photo = ARTICLE_PHOTOS[article.id];
+  const fallbackEmoji = article.emoji || '📄';
+  let imgHtml;
+  if (photo) {
+    const uid = 'img_' + article.id;
+    // Запускаем загрузку через API после рендера
+    setTimeout(() => {
+      const el = document.getElementById(uid);
+      if (el) loadWikiPhoto(el, photo.file, photo.caption, fallbackEmoji);
+    }, 50);
+    imgHtml = `<div class="infobox-img" id="${uid}" style="padding:0;background:#111;position:relative;overflow:hidden;">
+      <div style="height:140px;display:flex;align-items:center;justify-content:center;color:#555;font-size:12px;">загрузка фото…</div>
+    </div>`;
+  } else {
+    imgHtml = `<div class="infobox-img">${fallbackEmoji}</div>`;
+  }
+  return `<div class="infobox"><div class="infobox-title">${article.title}</div>${imgHtml}<table><tbody>${rows}</tbody></table></div>`;
+}
+
+function buildSeeAlso(ids) {
+  if (!ids || !ids.length) return '';
+  const links = ids.map(id => {
+    const a = WIKI_DATA.articles[id];
+    if (!a) return '';
+    return `<li><a class="wiki-link" onclick="showPage('${id}')" data-id="${id}">${a.title}</a></li>`;
+  }).join('');
+  return `<div class="see-also"><div class="see-also-title">См. также</div><ul>${links}</ul></div>`;
+}
+
+function buildRefs(refs) {
+  if (!refs || !refs.length) return '';
+  const items = refs.map(r => `<li>${r}</li>`).join('');
+  return `<div class="references"><strong>Примечания и литература</strong><ol>${items}</ol></div>`;
+}
+
+function renderArticle(article, activeTab) {
+  activeTab = activeTab || 'read';
+  const cat = WIKI_DATA.categories[article.category];
+  const votes = getVotes(article.id);
+  const userVote = getUserVote(article.id);
+  const total = votes.likes + votes.dislikes;
+  const likesPct = total > 0 ? Math.round((votes.likes / total) * 100) : 50;
+
+  const tabs = `<div class="article-tabs">
+    <button class="article-tab ${activeTab==='read'?'active':''}" onclick="renderArticle(WIKI_DATA.articles['${article.id}'],'read')">📄 Читать</button>
+    <button class="article-tab ${activeTab==='discuss'?'active':''}" onclick="renderArticle(WIKI_DATA.articles['${article.id}'],'discuss')">💬 Обсуждение <span id="tab-ccount" style="font-size:11px;color:var(--color-text-muted);">(${getComments(article.id).length})</span></button>
+    <button class="article-tab ${activeTab==='history'?'active':''}" onclick="renderArticle(WIKI_DATA.articles['${article.id}'],'history')">📋 История</button>
+  </div>`;
+
+  const likesBar = `<div class="likes-bar">
+    <button class="like-btn ${userVote==='like'?'liked':''}" onclick="castVote('${article.id}','like')" id="btn-like-${article.id}">
+      👍 <span id="lc-${article.id}">${votes.likes}</span>
+    </button>
+    <button class="like-btn ${userVote==='dislike'?'disliked':''}" onclick="castVote('${article.id}','dislike')" id="btn-dislike-${article.id}">
+      👎 <span id="dc-${article.id}">${votes.dislikes}</span>
+    </button>
+    <div class="likes-ratio-wrap" title="${likesPct}% положительных оценок">
+      <div class="likes-ratio-bar" id="ratio-${article.id}" style="width:${likesPct}%"></div>
+    </div>
+    <span class="likes-count-label" id="lbl-${article.id}">${total > 0 ? likesPct+'% 👍' : 'Нет оценок'}</span>
+  </div>`;
+
+  let tabContent = '';
+  if (activeTab === 'read') {
+    tabContent = `<div class="clearfix">
+      ${buildInfobox(article)}
+      <p>${article.summary}</p>
+      ${article.full_text}
+      ${buildSeeAlso(article.see_also)}
+      ${buildRefs(article.refs)}
+    </div>
+    ${likesBar}
+    <div style="font-size:12px;color:var(--color-text-muted);margin-top:4px;">
+      Эта статья последний раз редактировалась 25 марта 2026 г. •
+      <a onclick="renderArticle(WIKI_DATA.articles['${article.id}'],'discuss')" style="cursor:pointer;color:var(--color-link);">Перейти к обсуждению →</a>
+    </div>`;
+  } else if (activeTab === 'discuss') {
+    tabContent = renderDiscussion(article.id);
+  } else if (activeTab === 'history') {
+    tabContent = renderHistory(article.id, article.title);
+  }
+
+  document.getElementById('main-content').innerHTML = `
+    ${buildBreadcrumbs([
+      { label: cat ? cat.title : 'Статьи', action: `showCategory('${article.category}')` },
+      { label: article.title }
+    ])}
+    <h1 class="article-title">${article.title}</h1>
+    ${tabs}
+    <div id="tab-content">${tabContent}</div>`;
+  attachWikiLinks();
+}
+
+function renderCategory(cat) {
+  const articles = (cat.articles || []).map(id => WIKI_DATA.articles[id]).filter(Boolean);
+  const cards = articles.map(a => {
+    const photo = ARTICLE_PHOTOS[a.id];
+    let thumb = '';
+    if (photo) {
+      const uid = 'card_' + a.id + '_' + Date.now();
+      setTimeout(() => {
+        const el = document.getElementById(uid);
+        if (!el) return;
+        const encoded = encodeURIComponent(photo.file.replace(/ /g, '_'));
+        fetch(`https://en.wikipedia.org/w/api.php?action=query&titles=File:${encoded}&prop=imageinfo&iiprop=url&iiurlwidth=300&format=json&origin=*`)
+          .then(r => r.json())
+          .then(data => {
+            const pages = data.query.pages;
+            const p = Object.values(pages)[0];
+            const url = p?.imageinfo?.[0]?.thumburl;
+            if (url) el.innerHTML = `<img src="${url}" style="width:100%;height:80px;object-fit:cover;display:block;">`;
+            else el.style.display = 'none';
+          }).catch(() => el.style.display = 'none');
+      }, 100);
+      thumb = `<div id="${uid}" style="width:100%;height:80px;background:#1a1a2e;display:flex;align-items:center;justify-content:center;font-size:10px;color:#555;">…</div>`;
+    }
+    return `<div class="article-card" onclick="showPage('${a.id}')">${thumb}<div class="article-card-title">${a.emoji || ''} ${a.title}</div><div class="article-card-summary">${a.summary}</div></div>`;
+  }).join('');
+  document.getElementById('main-content').innerHTML = `
+    ${buildBreadcrumbs([{ label: cat.title }])}
+    <h1 class="article-title">${cat.icon || ''} ${cat.title}</h1>
+    <p style="margin-bottom:16px;color:var(--color-text-muted)">${cat.description}</p>
+    <div class="cat-filter-wrap">
+      <input type="text" id="cat-filter" placeholder="Фильтр по названию..." oninput="filterArticles(this.value)">
+      <span style="font-size:13px;color:var(--color-text-muted)">${articles.length} статей</span>
+    </div>
+    <div class="article-grid" id="article-grid">${cards}</div>`;
+}
+
+function filterArticles(query) {
+  const q = query.toLowerCase().trim();
+  const grid = document.getElementById('article-grid');
+  if (!grid) return;
+  grid.querySelectorAll('.article-card').forEach(card => {
+    const title = card.querySelector('.article-card-title').textContent.toLowerCase();
+    const summary = card.querySelector('.article-card-summary').textContent.toLowerCase();
+    card.style.display = (title.includes(q) || summary.includes(q)) ? '' : 'none';
+  });
+}
+
+function showRandom() {
+  const ids = Object.keys(WIKI_DATA.articles);
+  const id = ids[Math.floor(Math.random() * ids.length)];
+  showPage(id);
+}
+
+function showAllArticles() {
+  const allCats = Object.values(WIKI_DATA.categories);
+  const totalArticles = Object.keys(WIKI_DATA.articles).length;
+  let sections = allCats.map(cat => {
+    const arts = (cat.articles || []).map(id => WIKI_DATA.articles[id]).filter(Boolean);
+    const links = arts.map(a => `<a class="wiki-link" onclick="showPage('${a.id}')" data-id="${a.id}">${a.emoji || ''} ${a.title}</a>`).join(' · ');
+    return `<div class="article-section"><h2 class="section-h2">${cat.icon} ${cat.title}</h2><p>${links}</p></div>`;
+  }).join('');
+  document.getElementById('main-content').innerHTML = `
+    ${buildBreadcrumbs([{label:'Все статьи'}])}
+    <h1 class="article-title">Все статьи (${totalArticles})</h1>
+    ${sections}`;
+  attachWikiLinks();
+  window.scrollTo(0,0);
+}
+
+function showAbout() {
+  document.getElementById('main-content').innerHTML = `
+    ${buildBreadcrumbs([{label:'О проекте'}])}
+    <h1 class="article-title">О проекте «Системный Атлас»</h1>
+    <div class="clearfix">
+      <p><strong>Системный Атлас</strong> — академическая база знаний, созданная как структурированная энциклопедия по образцу Википедии. Проект охватывает разделы от психологии фобий до астрофизики, от истории цивилизаций до математических теорий.</p>
+      <div class="article-section"><h2 class="section-h2">Принципы</h2>
+        <p>Каждая статья стремится к точности, нейтральности и академической строгости. Ссылки между статьями формируют единое смысловое пространство знания.</p>
+      </div>
+      <div class="article-section"><h2 class="section-h2">Разделы</h2>
+        <p>Фобии и тревожные расстройства · Естественные науки · Астрономия и космос · Информационные технологии · История · Биология · Философия · Математика</p>
+      </div>
+    </div>`;
+  window.scrollTo(0,0);
+}
+
+function showPortal() {
+  const portals = [
+    {icon:'🌌', title:'Портал: Космос', desc:'Путешествие от Земли до края наблюдаемой Вселенной', cat:'space'},
+    {icon:'🧠', title:'Портал: Разум', desc:'Нейронаука, философия сознания, психология', cat:'philosophy'},
+    {icon:'📜', title:'Портал: История', desc:'От Древнего Египта до холодной войны', cat:'history'},
+    {icon:'🔬', title:'Портал: Наука', desc:'Физика, химия, биология, математика', cat:'science'},
+    {icon:'💻', title:'Портал: Технологии', desc:'ИИ, интернет, кибербезопасность', cat:'technology'},
+    {icon:'📐', title:'Портал: Математика', desc:'Числа, топология, теория игр', cat:'mathematics'},
+  ];
+  const cards = portals.map(p => `<div class="category-card" onclick="showCategory('${p.cat}')">
+    <div class="cat-card-header"><span class="cat-card-icon">${p.icon}</span><span class="cat-card-title">${p.title}</span></div>
+    <div class="cat-card-body">${p.desc}</div>
+  </div>`).join('');
+  document.getElementById('main-content').innerHTML = `
+    ${buildBreadcrumbs([{label:'Порталы'}])}
+    <h1 class="article-title">Порталы Системного Атласа</h1>
+    <p style="margin-bottom:20px;color:var(--color-text-muted)">Порталы — тематические входные точки в разделы энциклопедии.</p>
+    <div class="category-grid">${cards}</div>`;
+  window.scrollTo(0,0);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// VOTES (LIKES / DISLIKES) — shared via window.storage
+// ═══════════════════════════════════════════════════════════════════════════
+
+// In-memory cache so we don't wait on async for every render
+const _votesCache = {};     // shared votes per article  { id: {likes, dislikes} }
+const _userVoteCache = {};  // personal votes            { id: 'like'|'dislike'|null }
+const _commentsCache = {};  // shared comments           { id: [{author,text,date,clikes,cdislikes}] }
+const _commentVoteCache = {};  // personal comment votes { key: true }
+let _storageReady = false;
+
+async function loadAllStorage() {
+  // Load shared votes
+  try {
+    const vkeys = await window.storage.list('votes:', true);
+    for (const k of (vkeys?.keys || [])) {
+      const res = await window.storage.get(k, true);
+      if (res) _votesCache[k.replace('votes:','')] = JSON.parse(res.value);
+    }
+  } catch(e) {}
+  // Load personal votes
+  try {
+    const uvkeys = await window.storage.list('uv:', false);
+    for (const k of (uvkeys?.keys || [])) {
+      const res = await window.storage.get(k, false);
+      if (res) _userVoteCache[k.replace('uv:','')] = res.value;
+    }
+  } catch(e) {}
+  // Load shared comments
+  try {
+    const ckeys = await window.storage.list('cmt:', true);
+    for (const k of (ckeys?.keys || [])) {
+      const res = await window.storage.get(k, true);
+      if (res) _commentsCache[k.replace('cmt:','')] = JSON.parse(res.value);
+    }
+  } catch(e) {}
+  // Load personal comment votes
+  try {
+    const cvkeys = await window.storage.list('cv:', false);
+    for (const k of (cvkeys?.keys || [])) {
+      _commentVoteCache[k.replace('cv:','')] = true;
+    }
+  } catch(e) {}
+  _storageReady = true;
+}
+
+function getVotes(id) {
+  return _votesCache[id] || {likes:0, dislikes:0};
+}
+function getUserVote(id) {
+  return _userVoteCache[id] || null;
+}
+
+async function castVote(id, type) {
+  const v = {...getVotes(id)};
+  const prev = getUserVote(id);
+
+  if (prev === type) {
+    v[type === 'like' ? 'likes' : 'dislikes'] = Math.max(0, v[type === 'like' ? 'likes' : 'dislikes'] - 1);
+    _userVoteCache[id] = null;
+    try { await window.storage.delete('uv:' + id, false); } catch(e){}
+  } else {
+    if (prev) v[prev === 'like' ? 'likes' : 'dislikes'] = Math.max(0, v[prev === 'like' ? 'likes' : 'dislikes'] - 1);
+    v[type === 'like' ? 'likes' : 'dislikes']++;
+    _userVoteCache[id] = type;
+    try { await window.storage.set('uv:' + id, type, false); } catch(e){}
+  }
+
+  _votesCache[id] = v;
+  try { await window.storage.set('votes:' + id, JSON.stringify(v), true); } catch(e){}
+
+  // Update UI
+  const total = v.likes + v.dislikes;
+  const pct = total > 0 ? Math.round((v.likes / total) * 100) : 50;
+  const newVote = getUserVote(id);
+  const btnLike = document.getElementById('btn-like-' + id);
+  const btnDislike = document.getElementById('btn-dislike-' + id);
+  if (btnLike) { btnLike.className = 'like-btn' + (newVote==='like'?' liked':''); btnLike.querySelector('span').textContent = v.likes; }
+  if (btnDislike) { btnDislike.className = 'like-btn' + (newVote==='dislike'?' disliked':''); btnDislike.querySelector('span').textContent = v.dislikes; }
+  const ratio = document.getElementById('ratio-' + id);
+  if (ratio) ratio.style.width = pct + '%';
+  const lbl = document.getElementById('lbl-' + id);
+  if (lbl) lbl.textContent = total > 0 ? pct + '% 👍' : 'Нет оценок';
+}
+
+function getMostLikedArticle() {
+  let best = null, bestScore = -1;
+  Object.keys(WIKI_DATA.articles).forEach(id => {
+    const v = getVotes(id);
+    if (v.likes > bestScore) { bestScore = v.likes; best = id; }
+  });
+  return bestScore > 0 ? WIKI_DATA.articles[best] : null;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// COMMENTS / DISCUSSION — shared via window.storage
+// ═══════════════════════════════════════════════════════════════════════════
+function getComments(id) {
+  return _commentsCache[id] || [];
+}
+function getCommentVote(key) {
+  return _commentVoteCache[key] ? true : false;
+}
+function renderDiscussion(articleId) {
+  const comments = getComments(articleId);
+  const commentsHtml = renderCommentList(articleId, comments);
+  return `<div class="discussion-section">
+    <div class="discussion-header">💬 Обсуждение статьи <span style="font-size:12px;color:var(--color-text-muted);font-weight:400;">(комментарии видны всем пользователям)</span></div>
+    <div class="comment-form">
+      <div style="font-weight:600;font-size:13px;margin-bottom:8px;">Оставить комментарий</div>
+      <input class="comment-form-name" id="cmt-name" placeholder="Ваше имя (необязательно)" maxlength="40">
+      <textarea class="comment-form-text" id="cmt-text" placeholder="Напишите ваш комментарий или вопрос по статье…" maxlength="1000"></textarea>
+      <button class="comment-submit" onclick="submitComment('${articleId}')">📨 Опубликовать</button>
+    </div>
+    <div id="comments-list-${articleId}">${commentsHtml}</div>
+  </div>`;
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+async function submitComment(articleId) {
+  const nameEl = document.getElementById('cmt-name');
+  const textEl = document.getElementById('cmt-text');
+  const name = (nameEl.value.trim() || 'Аноним');
+  const text = textEl.value.trim();
+  if (!text) { textEl.style.borderColor = '#ef5350'; setTimeout(()=>textEl.style.borderColor='',1500); return; }
+
+  const comments = [...getComments(articleId)];
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('ru-RU', {day:'numeric',month:'long',year:'numeric'}) + ', ' + now.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'});
+  comments.push({ author: name, text, date: dateStr, clikes: 0, cdislikes: 0 });
+
+  _commentsCache[articleId] = comments;
+  try { await window.storage.set('cmt:' + articleId, JSON.stringify(comments), true); } catch(e){}
+
+  nameEl.value = '';
+  textEl.value = '';
+  // Re-render comments list
+  const listEl = document.getElementById('comments-list-' + articleId);
+  if (listEl) {
+    listEl.innerHTML = renderCommentList(articleId, comments);
+    const tc = document.getElementById('tab-ccount');
+    if (tc) tc.textContent = `(${comments.length})`;
+  }
+}
+
+function renderCommentList(articleId, comments) {
+  if (!comments.length) return `<div class="no-comments">Обсуждений пока нет. Станьте первым!</div>`;
+  // Sort by likes descending (YouTube style — самый залайканный наверху)
+  const sorted = comments.map((c, origIdx) => ({...c, origIdx})).sort((a,b) => (b.clikes||0) - (a.clikes||0));
+  return `<div class="comment-list">${sorted.map((c) => {
+    const i = c.origIdx;
+    const key = articleId + '_' + i;
+    const voted = getCommentVote(key);
+    const isTop = c.clikes > 0 && sorted[0].origIdx === c.origIdx;
+    return `<div class="comment-item${isTop ? ' comment-top' : ''}" id="comment-${key}">
+      ${isTop ? `<div class="comment-top-badge">🏆 Лучший комментарий</div>` : ''}
+      <div class="comment-meta">
+        <div class="comment-avatar">${c.author.charAt(0).toUpperCase()}</div>
+        <span class="comment-author">${escHtml(c.author)}</span>
+        <span class="comment-date">${c.date}</span>
+      </div>
+      <div class="comment-body">${escHtml(c.text)}</div>
+      <div class="comment-likes">
+        <button class="comment-like-btn ${voted?'c-liked':''}" onclick="voteComment('${articleId}',${i},'like')">
+          👍 <span id="clc-${key}">${c.clikes||0}</span>
+        </button>
+        <button class="comment-like-btn" onclick="voteComment('${articleId}',${i},'dislike')">
+          👎 <span id="cdc-${key}">${c.cdislikes||0}</span>
+        </button>
+      </div>
+    </div>`;
+  }).join('')}</div>`;
+}
+
+async function voteComment(articleId, idx, type) {
+  const key = articleId + '_' + idx;
+  if (getCommentVote(key)) return; // already voted
+  const comments = [...getComments(articleId)];
+  if (!comments[idx]) return;
+  if (type === 'like') comments[idx].clikes = (comments[idx].clikes||0) + 1;
+  else comments[idx].cdislikes = (comments[idx].cdislikes||0) + 1;
+
+  _commentsCache[articleId] = comments;
+  _commentVoteCache[key] = true;
+  try { await window.storage.set('cmt:' + articleId, JSON.stringify(comments), true); } catch(e){}
+  try { await window.storage.set('cv:' + key, '1', false); } catch(e){}
+
+  // Re-render comments to resort
+  const listEl = document.getElementById('comments-list-' + articleId);
+  if (listEl) listEl.innerHTML = renderCommentList(articleId, comments);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// HISTORY (imitation)
+// ═══════════════════════════════════════════════════════════════════════════
+function renderHistory(id, title) {
+  const seed = id.split('').reduce((a,c)=>a+c.charCodeAt(0),0);
+  const rand = (n, s) => (seed * (s+1) * 2654435761 >>> 0) % n;
+  const users = ['Atlas_Bot','WikiUser_42','ИванСмирнов','NightOwl','Редактор77','Sciencemaster','AstroFan','PhiloBot'];
+  const actions = [
+    'Правка: исправлена опечатка', 'Добавлен раздел «Применение»', 'Обновлены ссылки',
+    'Уточнена дата открытия', 'Добавлены источники', 'Правка: форматирование таблицы',
+    'Создание статьи', 'Расширен вводный раздел', 'Добавлен инфобокс'
+  ];
+  const rows = Array.from({length: 8}, (_, i) => {
+    const daysAgo = [0,3,14,31,62,120,200,365][i];
+    const d = new Date(); d.setDate(d.getDate() - daysAgo);
+    const dateStr = d.toLocaleDateString('ru-RU',{day:'numeric',month:'long',year:'numeric'});
+    const user = users[(seed + i * 7) % users.length];
+    const action = i === 7 ? 'Создание статьи' : actions[(seed + i * 3) % (actions.length-1)];
+    const size = 1200 + rand(8000, i);
+    const diff = i === 7 ? `+${size}` : (i % 3 === 0 ? `-${rand(80,i)+5}` : `+${rand(150,i)+10}`);
+    const diffColor = diff.startsWith('+') ? '#2e7d32' : '#c62828';
+    return `<tr>
+      <td style="padding:5px 8px;border-top:1px solid var(--color-border-light);font-size:12px;color:var(--color-text-muted);white-space:nowrap;">${dateStr}</td>
+      <td style="padding:5px 8px;border-top:1px solid var(--color-border-light);font-size:12px;color:var(--color-link);">${user}</td>
+      <td style="padding:5px 8px;border-top:1px solid var(--color-border-light);font-size:12px;">${action}</td>
+      <td style="padding:5px 8px;border-top:1px solid var(--color-border-light);font-size:12px;color:${diffColor};font-weight:500;">${diff}</td>
+    </tr>`;
+  }).join('');
+  return `<div>
+    <p style="font-size:13px;color:var(--color-text-muted);margin-bottom:14px;">История изменений статьи <strong>${title}</strong>. Показаны последние 8 правок.</p>
+    <table style="width:100%;border-collapse:collapse;">
+      <thead><tr style="background:var(--color-bg-tertiary);">
+        <th style="padding:6px 8px;text-align:left;font-size:12px;color:var(--color-text-muted);font-weight:500;border-bottom:1px solid var(--color-border);">Дата</th>
+        <th style="padding:6px 8px;text-align:left;font-size:12px;color:var(--color-text-muted);font-weight:500;border-bottom:1px solid var(--color-border);">Участник</th>
+        <th style="padding:6px 8px;text-align:left;font-size:12px;color:var(--color-text-muted);font-weight:500;border-bottom:1px solid var(--color-border);">Описание</th>
+        <th style="padding:6px 8px;text-align:left;font-size:12px;color:var(--color-text-muted);font-weight:500;border-bottom:1px solid var(--color-border);">Изм.</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+  </div>`;
+}
+
+
+function renderHome() {
+  const cats = Object.values(WIKI_DATA.categories);
+  const allArticles = Object.values(WIKI_DATA.articles);
+  const totalArticles = allArticles.length;
+
+  // Most liked article → featured; fallback to random space
+  const mostLiked = getMostLikedArticle();
+  const spaceArts = allArticles.filter(a => a.category === 'space');
+  const featured = mostLiked || spaceArts[Math.floor(Math.random() * spaceArts.length)];
+  const photo = ARTICLE_PHOTOS[featured.id];
+  const featuredPhotoId = 'fp_' + featured.id;
+  if (photo) {
+    setTimeout(() => {
+      const el = document.getElementById(featuredPhotoId);
+      if (el) loadWikiPhoto(el, photo.file, photo.caption, featured.emoji);
+    }, 80);
+  }
+
+  // Did you know — random facts
+  const factPool = allArticles.filter(a => a.summary && a.summary.length > 60);
+  const shuffled = factPool.sort(() => Math.random() - 0.5).slice(0, 5);
+  const facts = shuffled.map(a => `<li>… <a class="wiki-link" onclick="showPage('${a.id}')" data-id="${a.id}">${a.title}</a>: ${a.summary.split('.')[0]}.</li>`).join('');
+
+  // In the news / recent additions (latest by category)
+  const recentCats = ['space','history','biology','mathematics','philosophy'];
+  const recentItems = recentCats.map(cid => {
+    const cat = WIKI_DATA.categories[cid];
+    if (!cat || !cat.articles.length) return '';
+    const artId = cat.articles[cat.articles.length - 1];
+    const a = WIKI_DATA.articles[artId];
+    if (!a) return '';
+    return `<li>${cat.icon} <a class="wiki-link" onclick="showPage('${a.id}')" data-id="${a.id}">${a.title}</a> — ${cat.title}</li>`;
+  }).join('');
+
+  // On this day / milestone articles
+  const milestones = ['black_holes','evolution','world_war_2','consciousness','prime_numbers','internet_history'];
+  const milestoneLinks = milestones.map(id => {
+    const a = WIKI_DATA.articles[id];
+    return a ? `<li><a class="wiki-link" onclick="showPage('${id}')" data-id="${id}">${a.emoji} ${a.title}</a></li>` : '';
+  }).join('');
+
+  // Category summary for portal section
+  const catPortals = cats.map(cat => {
+    const count = (cat.articles || []).length;
+    const sample = (cat.articles||[]).slice(0,3).map(id => {
+      const a = WIKI_DATA.articles[id];
+      return a ? `<a class="wiki-link" onclick="showPage('${a.id}')" data-id="${a.id}">${a.title}</a>` : '';
+    }).filter(Boolean).join(', ');
+    return `<tr>
+      <td style="padding:6px 8px;border-top:1px solid var(--color-border-light);white-space:nowrap;"><span onclick="showCategory('${cat.id}')" style="cursor:pointer;color:var(--color-link);font-weight:500;">${cat.icon} ${cat.title}</span></td>
+      <td style="padding:6px 8px;border-top:1px solid var(--color-border-light);font-size:12px;color:var(--color-text-muted);">${sample}${count > 3 ? ` <span style="color:var(--color-accent)">и ещё ${count-3}</span>` : ''}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('main-content').innerHTML = `
+<!-- ══ WIKI BANNER ══ -->
+<div style="background:var(--color-bg-secondary);border:1px solid var(--color-border);padding:14px 18px;margin-bottom:20px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;">
+  <div class="logo-icon" style="width:52px;height:52px;font-size:26px;flex-shrink:0;">А</div>
+  <div style="flex:1;min-width:200px;">
+    <div style="font-family:var(--font-heading);font-size:22px;font-weight:600;margin-bottom:2px;">Добро пожаловать в Системный Атлас</div>
+    <div style="font-size:13px;color:var(--color-text-muted);line-height:1.5;">
+      Свободная академическая энциклопедия на русском языке. Системный Атлас содержит <strong>${totalArticles} статей</strong> в <strong>${cats.length} разделах</strong> — от астрофизики до философии сознания.
+      Перейдите в любой раздел или воспользуйтесь поиском.
+    </div>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;">
+    <button onclick="showRandom()" style="padding:6px 14px;border:1px solid var(--color-border);background:var(--color-bg-tertiary);color:var(--color-text);cursor:pointer;font-family:var(--font-body);font-size:13px;">🎲 Случайная статья</button>
+    <button onclick="showAllArticles()" style="padding:6px 14px;border:1px solid var(--color-accent);background:var(--color-accent);color:#fff;cursor:pointer;font-family:var(--font-body);font-size:13px;">📋 Все статьи</button>
+  </div>
+</div>
+
+<!-- ══ MAIN 2-COL LAYOUT ══ -->
+<div style="display:grid;grid-template-columns:1fr 300px;gap:20px;align-items:start;">
+
+<!-- LEFT COLUMN -->
+<div>
+
+  <!-- Featured article -->
+  <div style="border:1px solid var(--color-border);background:var(--color-bg-secondary);margin-bottom:18px;">
+    <div style="background:var(--color-bg-tertiary);border-bottom:1px solid var(--color-border);padding:7px 12px;font-weight:600;font-size:13px;">${mostLiked ? '🏆 Самая залайканная статья' : '⭐ Избранная статья'}</div>
+    <div style="padding:12px;display:flex;gap:14px;align-items:flex-start;">
+      <div id="${featuredPhotoId}" style="width:110px;height:80px;flex-shrink:0;background:var(--color-bg-tertiary);border:1px solid var(--color-border);overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:36px;position:relative;">${photo ? '<span style="color:#555;font-size:11px;">загрузка…</span>' : (featured.emoji||'📄')}</div>
+      <div style="flex:1;min-width:0;">
+        <div style="font-family:var(--font-heading);font-size:17px;margin-bottom:4px;"><a class="wiki-link" onclick="showPage('${featured.id}')" data-id="${featured.id}" style="font-weight:600;">${featured.title}</a></div>
+        <div style="font-size:13px;color:var(--color-text-muted);line-height:1.6;">${featured.summary}</div>
+        <div style="margin-top:8px;"><a class="wiki-link" onclick="showPage('${featured.id}')" data-id="${featured.id}" style="font-size:12px;color:var(--color-accent);">Читать полностью →</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- About the encyclopedia -->
+  <div style="border:1px solid var(--color-border);background:var(--color-bg-secondary);margin-bottom:18px;">
+    <div style="background:var(--color-bg-tertiary);border-bottom:1px solid var(--color-border);padding:7px 12px;font-weight:600;font-size:13px;">📖 О Системном Атласе</div>
+    <div style="padding:12px;font-size:13px;line-height:1.7;color:var(--color-text-muted);">
+      <p><strong style="color:var(--color-text);">Системный Атлас</strong> — академическая энциклопедия, созданная по образцу Википедии. Проект систематизирует знания по восьми крупным направлениям: психология фобий, естественные науки, астрономия, информационные технологии, история, биология, философия и математика.</p>
+      <p style="margin-top:8px;">Каждая статья содержит вводное описание, инфобокс с ключевыми фактами, структурированный текст с разделами и ссылки на связанные материалы. Терминал «Атлас» в боковой панели позволяет задавать вопросы к базе знаний.</p>
+      <p style="margin-top:8px;"><a onclick="showAbout()" style="color:var(--color-link);cursor:pointer;">Подробнее о проекте</a> · <a onclick="showPortal()" style="color:var(--color-link);cursor:pointer;">Тематические порталы</a></p>
+    </div>
+  </div>
+
+  <!-- Разделы энциклопедии — table -->
+  <div style="border:1px solid var(--color-border);background:var(--color-bg-secondary);margin-bottom:18px;">
+    <div style="background:var(--color-bg-tertiary);border-bottom:1px solid var(--color-border);padding:7px 12px;font-weight:600;font-size:13px;">🗂️ Разделы энциклопедии</div>
+    <table style="width:100%;border-collapse:collapse;">
+      <thead><tr>
+        <th style="padding:6px 8px;border-bottom:1px solid var(--color-border);text-align:left;font-size:12px;color:var(--color-text-muted);font-weight:500;">Раздел</th>
+        <th style="padding:6px 8px;border-bottom:1px solid var(--color-border);text-align:left;font-size:12px;color:var(--color-text-muted);font-weight:500;">Избранные статьи</th>
+      </tr></thead>
+      <tbody>${catPortals}</tbody>
+    </table>
+  </div>
+
+  <!-- Did you know -->
+  <div style="border:1px solid var(--color-border);background:var(--color-bg-secondary);margin-bottom:18px;">
+    <div style="background:var(--color-bg-tertiary);border-bottom:1px solid var(--color-border);padding:7px 12px;font-weight:600;font-size:13px;">💡 Знаете ли вы?</div>
+    <div style="padding:12px;">
+      <ul style="padding-left:18px;font-size:13px;line-height:1.8;color:var(--color-text-muted);">${facts}</ul>
+    </div>
+  </div>
+
+</div><!-- /LEFT -->
+
+<!-- RIGHT COLUMN -->
+<div>
+
+  <!-- Stats -->
+  <div style="border:1px solid var(--color-border);background:var(--color-bg-secondary);margin-bottom:14px;">
+    <div style="background:var(--color-bg-tertiary);border-bottom:1px solid var(--color-border);padding:7px 12px;font-weight:600;font-size:13px;">📊 Статистика</div>
+    <div style="padding:10px 12px;">
+      <table style="width:100%;border-collapse:collapse;font-size:13px;">
+        <tr><td style="padding:3px 0;color:var(--color-text-muted);">Статей</td><td style="text-align:right;font-weight:600;color:var(--color-accent);">${totalArticles}</td></tr>
+        <tr><td style="padding:3px 0;color:var(--color-text-muted);">Разделов</td><td style="text-align:right;font-weight:600;color:var(--color-accent);">${cats.length}</td></tr>
+        <tr><td style="padding:3px 0;color:var(--color-text-muted);">Авторских концептов</td><td style="text-align:right;font-weight:600;color:var(--color-accent);">7</td></tr>
+        <tr><td style="padding:3px 0;color:var(--color-text-muted);">Дата обновления</td><td style="text-align:right;color:var(--color-text-muted);font-size:12px;">Март 2026</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Recently added -->
+  <div style="border:1px solid var(--color-border);background:var(--color-bg-secondary);margin-bottom:14px;">
+    <div style="background:var(--color-bg-tertiary);border-bottom:1px solid var(--color-border);padding:7px 12px;font-weight:600;font-size:13px;">🆕 Новые статьи</div>
+    <div style="padding:10px 12px;">
+      <ul style="list-style:none;padding:0;font-size:13px;line-height:1.9;">${recentItems}</ul>
+    </div>
+  </div>
+
+  <!-- Top liked articles -->
+  <div style="border:1px solid var(--color-border);background:var(--color-bg-secondary);margin-bottom:14px;">
+    <div style="background:var(--color-bg-tertiary);border-bottom:1px solid var(--color-border);padding:7px 12px;font-weight:600;font-size:13px;">🔥 Топ по лайкам</div>
+    <div style="padding:10px 12px;" id="home-top-liked">
+      ${(()=>{
+        const ranked = Object.keys(WIKI_DATA.articles)
+          .map(id => ({id, ...getVotes(id)}))
+          .filter(x => x.likes > 0)
+          .sort((a,b) => b.likes - a.likes)
+          .slice(0, 6);
+        if (!ranked.length) return `<div style="font-size:12px;color:var(--color-text-muted);">Пока никто не голосовал. Лайкайте статьи — они появятся здесь!</div>`;
+        return `<ul style="list-style:none;padding:0;font-size:13px;line-height:1.9;">${ranked.map(x => {
+          const a = WIKI_DATA.articles[x.id];
+          return `<li>👍 ${x.likes} · <a class="wiki-link" onclick="showPage('${x.id}')" data-id="${x.id}">${a.emoji} ${a.title}</a></li>`;
+        }).join('')}</ul>`;
+      })()}
+    </div>
+  </div>
+
+  <!-- Ключевые статьи -->
+  <div style="border:1px solid var(--color-border);background:var(--color-bg-secondary);margin-bottom:14px;">
+    <div style="background:var(--color-bg-tertiary);border-bottom:1px solid var(--color-border);padding:7px 12px;font-weight:600;font-size:13px;">🏆 Ключевые статьи</div>
+    <div style="padding:10px 12px;">
+      <ul style="list-style:none;padding:0;font-size:13px;line-height:1.9;">${milestoneLinks}</ul>
+    </div>
+  </div>
+
+  <!-- Atlas terminal promo -->
+  <div style="border:1px solid var(--color-accent);background:var(--color-bg-secondary);margin-bottom:14px;">
+    <div style="background:var(--color-accent);padding:7px 12px;font-weight:600;font-size:13px;color:#fff;">🤖 Терминал Атлас</div>
+    <div style="padding:10px 12px;font-size:12px;color:var(--color-text-muted);line-height:1.6;">
+      Задайте вопрос интеллектуальному терминалу в боковой панели — он даст краткую научную справку по любой теме энциклопедии.
+    </div>
+  </div>
+
+  <!-- Portals quick nav -->
+  <div style="border:1px solid var(--color-border);background:var(--color-bg-secondary);">
+    <div style="background:var(--color-bg-tertiary);border-bottom:1px solid var(--color-border);padding:7px 12px;font-weight:600;font-size:13px;">🌐 Порталы</div>
+    <div style="padding:10px 12px;display:flex;flex-wrap:wrap;gap:6px;">
+      ${cats.map(c => `<span onclick="showCategory('${c.id}')" style="cursor:pointer;background:var(--color-bg-tertiary);border:1px solid var(--color-border);padding:3px 8px;font-size:12px;border-radius:2px;color:var(--color-link);">${c.icon} ${c.title}</span>`).join('')}
+    </div>
+  </div>
+
+</div><!-- /RIGHT -->
+
+</div><!-- /grid -->
+`;
+  attachWikiLinks();
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// WIKI-LINK HOVER PREVIEW
+// ═══════════════════════════════════════════════════════════════════════════
+function attachWikiLinks() {
+  const popup = document.getElementById('preview-popup');
+  const popupTitle = document.getElementById('preview-title');
+  const popupBody = document.getElementById('preview-body');
+  document.querySelectorAll('a.wiki-link[data-id]').forEach(el => {
+    el.addEventListener('mouseenter', (e) => {
+      const art = WIKI_DATA.articles[el.getAttribute('data-id')];
+      if (!art) return;
+      popupTitle.textContent = art.title;
+      popupBody.textContent = art.summary;
+      popup.classList.add('visible');
+      positionPopup(e.clientX, e.clientY);
+    });
+    el.addEventListener('mousemove', (e) => positionPopup(e.clientX, e.clientY));
+    el.addEventListener('mouseleave', () => popup.classList.remove('visible'));
+  });
+}
+
+function positionPopup(x, y) {
+  const popup = document.getElementById('preview-popup');
+  const pw = 320, ph = 180;
+  let left = x + 16, top = y + 16;
+  if (left + pw > window.innerWidth - 8) left = x - pw - 8;
+  if (top + ph > window.innerHeight - 8) top = y - ph - 8;
+  popup.style.left = left + 'px';
+  popup.style.top = top + 'px';
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// SEARCH
+// ═══════════════════════════════════════════════════════════════════════════
+function onSearchInput(val) {
+  const dropdown = document.getElementById('search-dropdown');
+  const q = val.trim().toLowerCase();
+  if (q.length < 1) { dropdown.classList.remove('visible'); return; }
+  const results = Object.values(WIKI_DATA.articles).filter(a =>
+    a.title.toLowerCase().includes(q) || a.summary.toLowerCase().includes(q)
+  ).slice(0, 8);
+  if (!results.length) { dropdown.classList.remove('visible'); return; }
+  const cat = WIKI_DATA.categories;
+  dropdown.innerHTML = results.map(a => {
+    const photo = ARTICLE_PHOTOS[a.id];
+    const uid = 'srch_' + a.id;
+    if (photo) {
+      setTimeout(() => {
+        const el = document.getElementById(uid);
+        if (!el) return;
+        const encoded = encodeURIComponent(photo.file.replace(/ /g, '_'));
+        fetch(`https://en.wikipedia.org/w/api.php?action=query&titles=File:${encoded}&prop=imageinfo&iiprop=url&iiurlwidth=64&format=json&origin=*`)
+          .then(r => r.json()).then(data => {
+            const p = Object.values(data.query.pages)[0];
+            const url = p?.imageinfo?.[0]?.thumburl;
+            if (url) el.innerHTML = `<img src="${url}" style="width:32px;height:32px;object-fit:cover;border-radius:2px;">`;
+          }).catch(()=>{});
+      }, 80);
+    }
+    const iconHtml = photo
+      ? `<div class="search-item-icon" id="${uid}" style="padding:2px;overflow:hidden;">${a.emoji || '📄'}</div>`
+      : `<div class="search-item-icon">${a.emoji || '📄'}</div>`;
+    return `<div class="search-item" onclick="selectSearch('${a.id}')">${iconHtml}<div><div class="search-item-title">${highlightQuery(a.title, q)}</div><div class="search-item-cat">${cat[a.category]?.title || ''}</div></div></div>`;
+  }).join('');
+  dropdown.classList.add('visible');
+}
+
+function highlightQuery(text, q) {
+  const idx = text.toLowerCase().indexOf(q);
+  if (idx < 0) return text;
+  return text.slice(0, idx) + `<strong>${text.slice(idx, idx + q.length)}</strong>` + text.slice(idx + q.length);
+}
+
+function selectSearch(id) {
+  document.getElementById('search-input').value = '';
+  document.getElementById('search-dropdown').classList.remove('visible');
+  showPage(id);
+}
+
+function onSearchFocus() {
+  const val = document.getElementById('search-input').value;
+  if (val.trim()) onSearchInput(val);
+}
+
+function onSearchKey(e) {
+  if (e.key === 'Escape') document.getElementById('search-dropdown').classList.remove('visible');
+  else if (e.key === 'Enter') doSearch();
+}
+
+function doSearch() {
+  const q = document.getElementById('search-input').value.trim().toLowerCase();
+  if (!q) return;
+  const found = Object.values(WIKI_DATA.articles).find(a => a.title.toLowerCase().includes(q));
+  document.getElementById('search-dropdown').classList.remove('visible');
+  if (found) showPage(found.id);
+}
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.header-search-wrap')) document.getElementById('search-dropdown').classList.remove('visible');
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// SIDEBAR MOBILE
+// ═══════════════════════════════════════════════════════════════════════════
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebar-overlay').classList.toggle('visible');
+}
+
+function closeSidebarMobile() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-overlay').classList.remove('visible');
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// ATLAS TERMINAL
+// ═══════════════════════════════════════════════════════════════════════════
+const API_KEY = "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";
+const ATLAS_SYSTEM_PROMPT = `Ты — Атлас, интеллектуальный терминал базы данных. Твоя задача — давать краткие научные справки. Если пользователь спрашивает о личном (имя, возраст), об играх (Brawl Stars) или темах вне энциклопедии — отвечай строго: "Данные отсутствуют в реестре Атласа". Не используй смайлы. Будь холодным и точным. Отвечай лаконично — не более 3-4 предложений.`;
+
+async function atlasQuery() {
+  const input = document.getElementById('atlas-input');
+  const log = document.getElementById('atlas-chat-log');
+  const query = input.value.trim();
+  if (!query) return;
+  log.style.display = 'block';
+  input.value = '';
+  const userEntry = document.createElement('div');
+  userEntry.style.cssText = 'margin-bottom:4px;';
+  userEntry.innerHTML = `<span style="font-weight:600;color:var(--color-text);">→</span> ${query}`;
+  log.appendChild(userEntry);
+  const loadingEntry = document.createElement('div');
+  loadingEntry.style.cssText = 'margin-bottom:6px;color:var(--color-text-muted);';
+  loadingEntry.textContent = 'Атлас: обработка запроса...';
+  log.appendChild(loadingEntry);
+  log.scrollTop = log.scrollHeight;
+  try {
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${API_KEY}` },
+      body: JSON.stringify({ model: 'llama3-70b-8192', max_tokens: 256, messages: [{ role: 'system', content: ATLAS_SYSTEM_PROMPT },{ role: 'user', content: query }] })
+    });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const data = await response.json();
+    const answer = data.choices?.[0]?.message?.content || 'Нет ответа.';
+    loadingEntry.innerHTML = `<span style="font-weight:600;color:var(--color-accent);">Атлас:</span> ${answer}`;
+  } catch (err) {
+    loadingEntry.innerHTML = `<span style="font-weight:600;color:#c00;">Ошибка:</span> ${err.message}`;
+  }
+  log.scrollTop = log.scrollHeight;
+}
+
+renderHome();
+</script>
+</body>
+</html>
