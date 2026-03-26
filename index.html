@@ -196,6 +196,9 @@ sup { font-size: 10px; color: var(--color-link); cursor: default; }
 .comment-like-btn:hover { border-color: var(--color-accent); color: var(--color-accent); }
 .comment-like-btn.c-liked { background: #e8f4e8; border-color: #4caf50; color: #2e7d32; }
 .no-comments { text-align: center; padding: 24px; color: var(--color-text-muted); font-size: 13px; border: 1px dashed var(--color-border); }
+.comment-top { border-color: #4caf50 !important; }
+.comment-top-badge { font-size: 11px; font-weight: 600; color: #2e7d32; background: #e8f4e8; padding: 2px 8px; display: inline-block; margin-bottom: 6px; border-radius: 2px; }
+@media (prefers-color-scheme: dark) { .comment-top { border-color: #4caf50 !important; } .comment-top-badge { background: #1a2e1a; color: #81c784; } }
 </style>
 </head>
 <body>
@@ -238,6 +241,7 @@ sup { font-size: 10px; color: var(--color-link); cursor: default; }
       <a class="sidebar-link" onclick="showCategory('biology')">🧬 Биология</a>
       <a class="sidebar-link" onclick="showCategory('philosophy')">🧩 Философия</a>
       <a class="sidebar-link" onclick="showCategory('mathematics')">📐 Математика</a>
+      <a class="sidebar-link" onclick="showCategory('googology')">🔭 Гугология</a>
     </div>
     <div class="sidebar-divider"></div>
     <div class="sidebar-section">
@@ -304,6 +308,11 @@ const WIKI_DATA = {
       id: 'mathematics', title: 'Математика', icon: '📐',
       description: 'Числа, формы, структуры и паттерны: от геометрии до теории хаоса.',
       articles: ['prime_numbers','topology','chaos_theory','game_theory','infinity_math','number_theory']
+    },
+    googology: {
+      id: 'googology', title: 'Гугология', icon: '🔭',
+      description: 'Наука о больших числах: от гугола до несчислимых бесконечностей. Числа настолько огромные, что обычная математика бессильна их записать.',
+      articles: ['googol','googolplex','grahams_number','tree3','skewes_number','busy_beaver','fast_growing','rayo_number','large_cardinals','googology_intro']
     }
   },
   articles: {
@@ -608,7 +617,140 @@ const WIKI_DATA = {
 
     infinity_math: { id:'infinity_math', title:'Бесконечность в математике', category:'mathematics', emoji:'♾️', infobox:{'Канторовы кардиналы':'ℵ₀, ℵ₁, …','Алеф-ноль':'Счётная бесконечность','Гипотеза':'Континуума (независима от ZFC)'}, summary:'Математическая бесконечность — строгая концепция, разработанная Георгом Кантором: существуют бесконечности разных «размеров», и некоторые из них несчётно больше других.', full_text:`<p><strong>Бесконечность</strong> в математике — не просто «очень большое число», а полноправный математический объект. Георг Кантор показал: множество натуральных чисел (ℵ₀, алеф-ноль) счётно, а множество действительных чисел строго «больше» и несчётно. Доказательство диагональю: предположив, что действительные числа перечислимы, можно построить число, которого нет в списке — противоречие. Гипотеза континуума (нет кардинала строго между ℵ₀ и мощностью континуума) независима от стандартных аксиом ZFC.</p>`, see_also:['prime_numbers','topology','apeirophobia'], refs:['Cantor G. Über eine elementare Frage der Mannigfaltigkeitslehre. 1891.','Cohen P. The Independence of the Continuum Hypothesis. 1963.'] },
 
-    number_theory: { id:'number_theory', title:'Теория чисел', category:'mathematics', emoji:'📏', infobox:{'Прозвище':'«Королева математики»','Ключевые теоремы':'Ферма, Эйлера, Гаусса','Связь':'Криптография'}, summary:'Теория чисел — раздел математики, изучающий свойства целых чисел: делимость, простые числа, диофантовы уравнения и их связи с другими областями математики.', full_text:`<p><strong>Теория чисел</strong> восходит к античности (Евклид, Диофант), но расцвела в руках Ферма, Эйлера и Гаусса. Великая теорема Ферма (1637): уравнение xⁿ + yⁿ = zⁿ не имеет целых ненулевых решений при n > 2. Доказана Эндрю Уайлсом в 1995 году после 358 лет усилий. Современная теория чисел стала основой криптографии с открытым ключом (RSA).</p>`, see_also:['prime_numbers','topology','logic'], refs:['Gauss C.F. Disquisitiones Arithmeticae. 1801.','Wiles A. Annals of Mathematics, 1995.'] }
+    number_theory: { id:'number_theory', title:'Теория чисел', category:'mathematics', emoji:'📏', infobox:{'Прозвище':'«Королева математики»','Ключевые теоремы':'Ферма, Эйлера, Гаусса','Связь':'Криптография'}, summary:'Теория чисел — раздел математики, изучающий свойства целых чисел: делимость, простые числа, диофантовы уравнения и их связи с другими областями математики.', full_text:`<p><strong>Теория чисел</strong> восходит к античности (Евклид, Диофант), но расцвела в руках Ферма, Эйлера и Гаусса. Великая теорема Ферма (1637): уравнение xⁿ + yⁿ = zⁿ не имеет целых ненулевых решений при n > 2. Доказана Эндрю Уайлсом в 1995 году после 358 лет усилий. Современная теория чисел стала основой криптографии с открытым ключом (RSA).</p>`, see_also:['prime_numbers','topology','logic'], refs:['Gauss C.F. Disquisitiones Arithmeticae. 1801.','Wiles A. Annals of Mathematics, 1995.'] },
+
+    // ─── ГУГОЛОГИЯ ────────────────────────────────────────────────────────
+    googology_intro: {
+      id: 'googology_intro', title: 'Гугология', category: 'googology', emoji: '🔭',
+      infobox: { 'Термин':'от «googol» + «-logy»','Основатель':'Джонатан Бауэрс (1990-е)','Связь':'Теория функций, логика','Ключевой вопрос':'Что является наибольшим числом?' },
+      summary: 'Гугология — неформальная математическая дисциплина, изучающая очень большие конечные числа и функции быстрого роста. Исследует пределы того, что вообще можно «определить» в математике.',
+      full_text: `<div class="toc"><div class="toc-title">Содержание</div><ol><li><a href="#what">Что такое гугология</a></li><li><a href="#notation">Системы нотации</a></li><li><a href="#fgh">Иерархия быстро растущих функций</a></li><li><a href="#limits">Пределы определимости</a></li></ol></div>
+<p><strong>Гугология</strong> (от англ. <em>googology</em>) — раздел математики и любительская дисциплина, посвящённая изучению, именованию и сравнению очень больших конечных чисел. Она исследует границу между тем, что математически «определимо», и тем, что превосходит любое формальное описание.<sup>[1]</sup></p>
+<div class="article-section"><h2 class="section-h2" id="what">Что такое гугология</h2><p>Гугология задаёт вопрос: насколько большим может быть конечное число? Ответ оказывается парадоксальным — как только вы придумываете «самое большое» число, всегда находится ещё большее. Гугология систематизирует эту гонку, создавая строгую иерархию чисел и функций.<sup>[2]</sup></p>
+<div class="note-box">💡 <strong>Факт:</strong> Число атомов в наблюдаемой Вселенной (~10⁸⁰) — ничтожная пылинка по меркам гугологии. Числа типа TREE(3) делают его буквально неотличимым от нуля.</div></div>
+<div class="article-section"><h2 class="section-h2" id="notation">Системы нотации</h2><p>Обычная математическая запись (степени, суперстепени) беспомощна для больших гугологических чисел. Поэтому разработаны специальные нотации: стрелочная нотация Кнута (↑↑↑), скобочная нотация Конвея, массивная нотация Бауэрса (BEAF). Каждая следующая система экспоненциально мощнее предыдущей.<sup>[3]</sup></p></div>
+<div class="article-section"><h2 class="section-h2" id="fgh">Иерархия быстро растущих функций (FGH)</h2><p>FGH — формальная математическая система, в которой каждому трансфинитному ординалу α соответствует функция f_α(n), растущая всё быстрее с ростом α. f_0(n) = n+1 (функция следования), f_1(n) = 2n, f_ω(n) — уже несравнимо больше любой элементарной функции. Число Грэма — примерно f_{ω+1}(64) в этой иерархии.<sup>[4]</sup></p></div>
+<div class="article-section"><h2 class="section-h2" id="limits">Пределы определимости</h2><p>Гугология упирается в фундаментальные ограничения логики. Число Рэйо — наибольшее «именованное» число в стандартной математике. Но теорема Гёделя о неполноте подразумевает: всегда существуют числа, которые нельзя определить в данной формальной системе. Гугология буквально прощупывает границы математики.</p></div>`,
+      see_also: ['googol','grahams_number','tree3','rayo_number','infinity_math'],
+      refs: ['Bowers J. Exploding Array Function. 2002.','Sbiis Saibian. Large Numbers. googology.wikia.com.','Knuth D. Mathematics and Computer Science. Science, 1976.','Wainer S.S. Ordinal recursion. J. Symb. Logic, 1972.']
+    },
+
+    googol: {
+      id: 'googol', title: 'Гугол', category: 'googology', emoji: '1️⃣',
+      infobox: { 'Значение':'10¹⁰⁰','Придумал':'Милтон Сиротта, 9 лет (1938)','Записать цифрами':'100-значное число','В честь него':'Google (опечатка)','Больше атомов Вселенной?':'Да, в ~10²⁰ раз' },
+      summary: 'Гугол — число 10¹⁰⁰, единица со ста нулями. Придумано девятилетним мальчиком в 1938 году и стало отправной точкой гугологии. Несмотря на огромность, в гугологии считается «маленьким» числом.',
+      full_text: `<div class="toc"><div class="toc-title">Содержание</div><ol><li><a href="#origin">Происхождение</a></li><li><a href="#scale">Масштаб</a></li><li><a href="#google">Связь с Google</a></li></ol></div>
+<p><strong>Гугол</strong> (англ. <em>googol</em>) = 10¹⁰⁰ — число, состоящее из единицы и ста нулей. Математически это выглядит так:</p>
+<p style="font-family:monospace;font-size:13px;word-break:break-all;background:var(--color-bg-tertiary);padding:8px;border-radius:2px;">10 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000</p>
+<div class="article-section"><h2 class="section-h2" id="origin">Происхождение названия</h2><p>В 1938 году американский математик Эдвард Каснер гулял с двумя племянниками и спросил девятилетнего Милтона Сиротту, как бы тот назвал очень-очень большое число. Мальчик придумал слово «googol». Каснер использовал это число в своей книге «Математика и воображение» (1940), и термин вошёл в обиход.<sup>[1]</sup></p></div>
+<div class="article-section"><h2 class="section-h2" id="scale">Масштаб числа</h2><p>Гугол превышает количество атомов в наблюдаемой Вселенной (~10⁸⁰) примерно в 10²⁰ раз. Он больше числа элементарных частиц во Вселенной, больше числа возможных партий в шахматы (~10¹²⁰ — это уже «шахматное число» или число Шеннона). Тем не менее в гугологии гугол считается исчезающе малым — он даже близко не подходит к числу Грэма или TREE(3).<sup>[2]</sup></p>
+<div class="note-box">🎲 <strong>Сравнение:</strong> Если бы каждый атом Вселенной был целой Вселенной, суммарное число атомов во всех этих вселенных всё равно было бы меньше гугола.</div></div>
+<div class="article-section"><h2 class="section-h2" id="google">Связь с Google</h2><p>В 1997 году аспиранты Стэнфорда Лэрри Пейдж и Сергей Брин назвали свою поисковую систему «Googol» в знак безграничного количества веб-страниц, которые она должна была индексировать. Но при регистрации домена кто-то допустил опечатку, написав «Google» — и это имя осталось навсегда.<sup>[3]</sup></p></div>`,
+      see_also: ['googolplex','grahams_number','infinity_math','googology_intro'],
+      refs: ['Kasner E., Newman J. Mathematics and the Imagination. 1940.','Conway J.H., Guy R.K. The Book of Numbers. 1996.','Koller D. The History of Google\'s Name. Stanford, 2004.']
+    },
+
+    googolplex: {
+      id: 'googolplex', title: 'Гуголплекс', category: 'googology', emoji: '💫',
+      infobox: { 'Значение':'10^(10¹⁰⁰) = 10^гугол','Цифр в записи':'Гугол + 1','Можно ли записать?':'Нет — не хватит атомов Вселенной','Придумал':'Каснер и Сиротта, 1938','В гугологии':'Всё ещё «маленькое»' },
+      summary: 'Гуголплекс — число 10 в степени гугол (10^10^100). Его десятичная запись содержит гугол нулей — больше, чем атомов в наблюдаемой Вселенной. Физически невозможно записать это число полностью.',
+      full_text: `<div class="toc"><div class="toc-title">Содержание</div><ol><li><a href="#definition">Определение</a></li><li><a href="#impossibility">Невозможность записи</a></li><li><a href="#context">В контексте гугологии</a></li></ol></div>
+<p><strong>Гуголплекс</strong> = 10^(10^100) = 10^гугол. Это единица, за которой следует гугол нулей. Уже само число нулей (гугол ≈ 10¹⁰⁰) превосходит число атомов во Вселенной примерно в 10²⁰ раз.<sup>[1]</sup></p>
+<div class="article-section"><h2 class="section-h2" id="impossibility">Физическая невозможность записи</h2><p>Если бы каждый атом наблюдаемой Вселенной (~10⁸⁰) был использован как один символ (одна цифра «0»), удалось бы записать лишь 10⁸⁰ нулей — несравнимо меньше гугола нулей, необходимых для записи гуголплекса. Даже если каждый атом сжать до планковского объёма и заполнить весь горизонт Вселенной — по-прежнему не хватит места.<sup>[2]</sup></p>
+<div class="note-box">📝 <strong>Итог:</strong> Гуголплекс физически невозможно написать полностью ни в какой системе записи в этой Вселенной.</div></div>
+<div class="article-section"><h2 class="section-h2" id="context">В контексте гугологии</h2><p>Несмотря на запредельный размер гуголплекса с точки зрения физики, в гугологии он по-прежнему считается скромным числом. Стрелочная нотация Кнута: 10↑↑3 = 10^10^10 уже больше гуголплекса. Число Грэма несравнимо превосходит гуголплекс в той же степени, в которой гуголплекс превосходит единицу.<sup>[3]</sup></p></div>`,
+      see_also: ['googol','grahams_number','tree3','googology_intro'],
+      refs: ['Kasner E., Newman J. Mathematics and the Imagination. 1940.','Sagan C. Cosmos. 1980 (ch. 9 — Googolplex).','Knuth D. Coping with Finiteness. Science, 1976.']
+    },
+
+    grahams_number: {
+      id: 'grahams_number', title: 'Число Грэма', category: 'googology', emoji: '∞',
+      infobox: { 'Обозначение':'G или G₆₄','Нотация':'Стрелочная (Кнут)','Определено':'Рональд Грэм, 1977','Последние цифры':'…2464195387','Рекорд':'Попало в Книгу рекордов Гиннесса (1980)' },
+      summary: 'Число Грэма — одно из наибольших чисел, когда-либо использованных в серьёзном математическом доказательстве. Оно настолько велико, что гуголплекс в сравнении с ним — буквально ноль. Определяется через башню стрелочных нотаций Кнута.',
+      full_text: `<div class="toc"><div class="toc-title">Содержание</div><ol><li><a href="#origin">Происхождение</a></li><li><a href="#notation">Стрелочная нотация</a></li><li><a href="#construction">Построение числа Грэма</a></li><li><a href="#digits">Последние цифры</a></li></ol></div>
+<p><strong>Число Грэма</strong> — верхняя оценка в задаче Грэма–Ротшильда из рамсеевской комбинаторики: при каком минимальном числе измерений N гиперкуба гарантированно найдётся одноцветный «кирпич»? Грэм использовал это число как верхнюю границу N в 1977 году.<sup>[1]</sup></p>
+<div class="article-section"><h2 class="section-h2" id="notation">Стрелочная нотация Кнута</h2><p>Дональд Кнут ввёл стрелочную нотацию:
+a↑b = aᵇ (возведение в степень)
+a↑↑b = a^a^a^…^a (b раз) — тетрация
+a↑↑↑b — пентация (башня тетраций)
+Каждая дополнительная стрелка создаёт новый уровень «гиперопераций», экспоненциально превосходящий предыдущий.<sup>[2]</sup></p></div>
+<div class="article-section"><h2 class="section-h2" id="construction">Построение числа Грэма</h2><p>Определим последовательность: g₁ = 3↑↑↑↑3 (3 со стрелкой из четырёх стрелок). g₂ = 3↑…↑3, где количество стрелок равно g₁. g₃ = 3↑…↑3, где количество стрелок равно g₂. … Число Грэма G = g₆₄. Уже g₁ = 3↑↑↑↑3 несравнимо больше гуголплекса. Каждый следующий шаг делает предыдущее число «нулём».<sup>[3]</sup></p>
+<div class="note-box">🤯 <strong>Разрыв шаблона:</strong> Если бы каждая планковская ячейка Вселенной содержала по одной цифре, удалось бы записать число, у которого примерно 10^185 цифр. Число Грэма имеет несравнимо больше цифр, чем сам гуголплекс имеет атомов.</div></div>
+<div class="article-section"><h2 class="section-h2" id="digits">Последние цифры числа Грэма</h2><p>Хотя записать число Грэма целиком физически невозможно, математики вычислили его последние цифры: …2464195387. Последние 500 цифр числа Грэма известны точно — благодаря свойствам модульной арифметики последние k цифр числа Грэма зависят только от последних k цифр g₁.<sup>[4]</sup></p></div>`,
+      see_also: ['googolplex','tree3','fast_growing','googology_intro'],
+      refs: ['Graham R.L., Rothschild B.L. Ramsey\'s theorem for n-parameter sets. Trans. AMS, 1971.','Knuth D. Mathematics and Computer Science. Science, 1976.','Gardner M. Mathematical Games. Scientific American, 1977.','Padilla T. Graham\'s Number. Numberphile, 2012.']
+    },
+
+    tree3: {
+      id: 'tree3', title: 'TREE(3)', category: 'googology', emoji: '🌳',
+      infobox: { 'Функция':'TREE(n) — теорема Крускала','Значение':'TREE(3) — конечное число','Размер':'Несравнимо больше числа Грэма','Доказательство':'Харви Фридман, 1987','Статус':'Конечное, но «вычислимо неопределяемое»' },
+      summary: 'TREE(3) — конечное число, возникающее из теоремы Крускала о деревьях. Оно настолько велико, что число Грэма по сравнению с ним меньше, чем 1 по сравнению с гуголплексом. TREE(3) находится на качественно другом уровне сложности.',
+      full_text: `<div class="toc"><div class="toc-title">Содержание</div><ol><li><a href="#kruskal">Теорема Крускала</a></li><li><a href="#tree_game">Игра TREE</a></li><li><a href="#tree3_size">Размер TREE(3)</a></li><li><a href="#proof">Доказательство конечности</a></li></ol></div>
+<p><strong>TREE(3)</strong> — значение функции TREE, определённой Харви Фридманом на основе теоремы Крускала о деревьях (1960). Это конечное натуральное число, но оно настолько велико, что даже иерархия быстро растущих функций (FGH), описывающая число Грэма, не способна его описать без использования трансфинитных ординалов уровня «малого вудинового кардинала».<sup>[1]</sup></p>
+<div class="article-section"><h2 class="section-h2" id="kruskal">Теорема Крускала</h2><p>Джозеф Крускал в 1960 году доказал: в любой бесконечной последовательности конечных деревьев с пометками обязательно найдутся два дерева, такие что первое вкладывается (топологически) во второе. Это кажется простым утверждением, но его доказательство требует трансфинитной индукции — обычной математикой Пеано не обойтись.<sup>[2]</sup></p></div>
+<div class="article-section"><h2 class="section-h2" id="tree_game">Игра TREE</h2><p>TREE(n) — длина наидлиннейшей допустимой последовательности деревьев с n метками, где каждое следующее дерево не содержит в себе никакого предыдущего (отношение «минора»). TREE(1) = 1. TREE(2) = 3. TREE(3) = ??? (конечное, но запредельно большое).<sup>[3]</sup></p>
+<div class="note-box">🌲 <strong>Скачок:</strong> От TREE(2)=3 к TREE(3) — такой же качественный скачок, как от 0 к числу Грэма, только многократно усиленный. TREE(3) настолько больше числа Грэма, что само число Грэма — буквально ноль в сравнении.</div></div>
+<div class="article-section"><h2 class="section-h2" id="proof">Почему TREE(3) конечно</h2><p>Конечность TREE(3) следует из теоремы Крускала: любая такая последовательность заведомо конечна. Но «насколько» конечна — измеряется ординалами из теории больших кардиналов. Для доказательства конкретной верхней границы потребовалась бы аксиома о существовании «малого вудинового кардинала» — объект, который сам по себе является одним из наиболее мощных допускаемых стандартной математикой.<sup>[4]</sup></p></div>`,
+      see_also: ['grahams_number','busy_beaver','fast_growing','large_cardinals'],
+      refs: ['Kruskal J.B. Well-quasi-ordering and the theory of trees. Trans. AMS, 1960.','Friedman H. Long Finite Sequences. J. Comb. Theory, 2001.','Friedman H. Boolean Relation Theory. AMS, 2011.','Simpson S.G. Nonprovability of certain combinatorial properties. Harvey Friedman\'s Research. 1985.']
+    },
+
+    skewes_number: {
+      id: 'skewes_number', title: 'Число Скьюса', category: 'googology', emoji: '📈',
+      infobox: { 'Первая оценка':'e^e^e^79 ≈ 10^(10^(10^34))','Уточнённая оценка':'e^(1.1·10³¹)','Автор':'Стэнли Скьюс, 1933','Область':'Аналитическая теория чисел','Связь':'Функция π(x) vs Li(x)' },
+      summary: 'Число Скьюса — наименьшее число x, при котором функция распределения простых чисел π(x) впервые превышает интегральный логарифм Li(x). До 1970-х годов считалось «наибольшим числом, когда-либо использованным в математике».',
+      full_text: `<p><strong>Число Скьюса</strong> возникло в 1933 году, когда Стэнли Скьюс доказал (при условии справедливости гипотезы Римана), что первое пересечение π(x) и Li(x) происходит не позднее, чем при x = e^e^e^79 ≈ 10^(10^(10^34)). Это число было настолько велико, что Годфри Харди назвал его «наибольшим числом, которое когда-либо служило какой-либо определённой цели в математике». Позднее оценка была улучшена до e^(1.1·10³¹) ≈ 1.4·10³¹⁶. Несмотря на колоссальность, число Скьюса несравнимо меньше числа Грэма или TREE(3).</p>`,
+      see_also: ['prime_numbers','grahams_number','googol'],
+      refs: ['Skewes S. On the difference π(x)-Li(x). J. London Math. Soc., 1933.','Hardy G.H. Ramanujan. Cambridge, 1940.','te Riele H.J.J. On sign of π(x)-li(x). Math. Comp., 1987.']
+    },
+
+    busy_beaver: {
+      id: 'busy_beaver', title: 'Функция «Занятого бобра»', category: 'googology', emoji: '🦫',
+      infobox: { 'Обозначение':'Σ(n) или BB(n)','Автор':'Тибор Радо, 1962','Тип':'Невычислимая функция','BB(5)':'47 176 870','BB(6)':'> 10^(10^(10^(10^18)))','BB(7)':'> 10^^15' },
+      summary: 'Функция «Занятого бобра» Σ(n) — наибольшее число единиц, которые может напечатать n-состоятельная машина Тьюринга перед остановкой. Растёт быстрее любой вычислимой функции и является невычислимой — ни один алгоритм не может её рассчитать.',
+      full_text: `<div class="toc"><div class="toc-title">Содержание</div><ol><li><a href="#definition">Определение</a></li><li><a href="#values">Известные значения</a></li><li><a href="#uncomputable">Невычислимость</a></li><li><a href="#growth">Рост</a></li></ol></div>
+<p><strong>Функция Занятого бобра</strong> (BB или Σ) определена Тибором Радо в 1962 году: Σ(n) — максимальное количество символов «1», которое может напечатать машина Тьюринга с n состояниями, двумя символами и пустой лентой, прежде чем остановиться.<sup>[1]</sup></p>
+<div class="article-section"><h2 class="section-h2" id="values">Известные значения</h2><p>Σ(1) = 1. Σ(2) = 4. Σ(3) = 6. Σ(4) = 13. Σ(5) = 47 176 870 (доказано в 2024 году!). BB(6) > 10^(10^(10^(10^18 705 352))). BB(7) > 10^↑↑15. Каждый новый шаг создаёт число, несравнимо превосходящее предыдущее.<sup>[2]</sup></p>
+<div class="note-box">🦫 <strong>BB(5) = 47 176 870</strong> было окончательно доказано в 2024 году командой исследователей через формальную верификацию всех 88 664 машин Тьюринга с 5 состояниями.</div></div>
+<div class="article-section"><h2 class="section-h2" id="uncomputable">Невычислимость</h2><p>BB(n) не может быть вычислена никаким алгоритмом — это доказанный факт. Если бы BB была вычислима, можно было бы решить проблему остановки: чтобы проверить, останавливается ли машина M с n состояниями, достаточно прогнать её BB(n)+1 шагов; если не остановилась — никогда не остановится. Но проблема остановки неразрешима, значит, и BB невычислима.<sup>[3]</sup></p></div>
+<div class="article-section"><h2 class="section-h2" id="growth">Рост быстрее всего вычислимого</h2><p>BB(n) растёт быстрее любой вычислимой функции — это математически строгий факт. Это означает, что при достаточно большом n функция BB превзойдёт любую функцию, которую когда-либо мог бы написать математик. Именно поэтому BB(n) находится «за пределами» обычной гугологии — гугология занимается вычислимыми числами.<sup>[4]</sup></p></div>`,
+      see_also: ['tree3','fast_growing','rayo_number','googology_intro'],
+      refs: ['Rado T. On Non-Computable Functions. Bell System Tech. J., 1962.','Brady A.H. The Determination of the Value of Rado\'s Noncomputable Function. Math. Comp., 1983.','Aaronson S. Who Can Name the Biggest Number? 1999.','Yedidia A., Aaronson S. A Relatively Small Turing Machine. ACM SIGACT, 2016.']
+    },
+
+    fast_growing: {
+      id: 'fast_growing', title: 'Иерархия быстро растущих функций', category: 'googology', emoji: '📊',
+      infobox: { 'Аббревиатура':'FGH (Fast-Growing Hierarchy)','Основана на':'Трансфинитных ординалах','f_0(n)':'n + 1','f_ω(n)':'f_n(n) — «диагонализация»','Число Грэма':'≈ f_{ω+1}(64)','TREE(3)':'≈ f_{θ(Ω^ω)}(n) и выше' },
+      summary: 'Иерархия быстро растущих функций (FGH) — формальная математическая система для сравнения скорости роста функций. Использует трансфинитные ординалы как «индексы мощности» и является стандартным инструментом гугологии для измерения чисел.',
+      full_text: `<div class="toc"><div class="toc-title">Содержание</div><ol><li><a href="#definition">Определение</a></li><li><a href="#levels">Уровни иерархии</a></li><li><a href="#numbers">Числа в FGH</a></li></ol></div>
+<p><strong>FGH</strong> определяется рекурсивно: f_0(n) = n+1; f_{α+1}(n) = f_α^n(n) (применить f_α n раз к n); для предельных ординалов λ: f_λ(n) = f_{λ[n]}(n), где λ[n] — n-й элемент фундаментальной последовательности к λ.<sup>[1]</sup></p>
+<div class="article-section"><h2 class="section-h2" id="levels">Уровни иерархии</h2><p>f_0(n) = n+1 — функция следующего числа. f_1(n) = 2n — удвоение. f_2(n) = 2^n · n — экспоненциальный рост. f_3(n) — тетрация. f_ω(n) = f_n(n) — «диагонализация», растёт быстрее любой f_k при фиксированном k. f_{ω²}, f_{ω^ω}, f_ε₀ — каждый уровень качественно мощнее предыдущего.<sup>[2]</sup></p></div>
+<div class="article-section"><h2 class="section-h2" id="numbers">Где находятся знаменитые числа</h2><p>Число Грэма ≈ f_{ω+1}(64). Функция TREE(n) растёт примерно как f_{θ(Ω^ω)}(n) — ординал, лежащий далеко за пределами «обычной» иерархии. Функция BB(n) превосходит любой уровень FGH — она невычислима.<sup>[3]</sup></p></div>`,
+      see_also: ['grahams_number','tree3','busy_beaver','large_cardinals'],
+      refs: ['Wainer S.S. A classification of the ordinal recursive functions. Arch. Math. Logik, 1970.','Buchholz W. et al. Iterated Inductive Definitions. Springer, 1981.','Rathjen M. The art of ordinal analysis. ICM, 2006.']
+    },
+
+    rayo_number: {
+      id: 'rayo_number', title: 'Число Рэйо', category: 'googology', emoji: '🏆',
+      infobox: { 'Определение':'max число, выражаемое ≤ 10¹⁰⁰ символами в ZFC+','Автор':'Агустин Рэйо, 2007','Контекст':'«Большие числа» — соревнование MIT','Статус':'Наибольшее «именованное» число','Превосходит':'BB(n), TREE(n) и всё вычислимое' },
+      summary: 'Число Рэйо — одно из наибольших чисел, когда-либо «именованных» в математике. Определяется как наибольшее число, выражаемое не более чем гуголом символов в языке теории множеств первого порядка. Превосходит все вычислимые функции, включая BB и TREE.',
+      full_text: `<div class="toc"><div class="toc-title">Содержание</div><ol><li><a href="#origin">Происхождение</a></li><li><a href="#definition">Определение</a></li><li><a href="#beyond">За пределами вычислимого</a></li></ol></div>
+<p><strong>Число Рэйо</strong> было предложено философом Агустином Рэйо на соревновании «Кто назовёт наибольшее число» в MIT в 2007 году. Оно определяется метаматематически, используя мощность самого языка теории множеств.<sup>[1]</sup></p>
+<div class="article-section"><h2 class="section-h2" id="definition">Определение</h2><p>Формально: Rayo(n) = наибольшее натуральное число k, такое что существует формула φ(x) языка теории множеств первого порядка длиной не более n символов, которая истинна только при x = k. Число Рэйо = Rayo(10¹⁰⁰) = Rayo(googol).<sup>[2]</sup></p>
+<div class="note-box">🏆 <strong>Наибольшее именованное число:</strong> Число Рэйо стандартно признаётся наибольшим «хорошо определённым» числом в математике. Дальнейшее обобщение («гипер-Рэйо») уже выходит за пределы стандартных формальных систем.</div></div>
+<div class="article-section"><h2 class="section-h2" id="beyond">За пределами всего вычислимого</h2><p>Число Рэйо превосходит не только TREE(3) и BB(n) для любого конкретного n — оно превосходит любое число, которое можно определить в теории множеств ZFC с помощью менее чем гугола символов. Его нельзя достичь никакой последовательностью вычислимых операций. Это буквально «предел» именования в стандартной математике.<sup>[3]</sup></p></div>`,
+      see_also: ['busy_beaver','tree3','large_cardinals','googology_intro'],
+      refs: ['Rayo A. Rayo\'s Number. MIT Big Number Duel, 2007.','Aaronson S. Who Can Name the Biggest Number? scottaaronson.com, 1999.','Elga A. et al. Big Number Duel at MIT. 2007.']
+    },
+
+    large_cardinals: {
+      id: 'large_cardinals', title: 'Большие кардиналы', category: 'googology', emoji: '♾️',
+      infobox: { 'Область':'Теория множеств','Примеры':'Недостижимые, Махло, Вудина','Статус':'Аксиоматически независимы от ZFC','Связь с гугологией':'Определяют мощность FGH и TREE','Автор концепта':'Хаусдорф, Улам, Скотт (XX в.)' },
+      summary: 'Большие кардиналы — трансфинитные числа (мощности бесконечных множеств), существование которых не доказуемо в стандартной математике ZFC, но и не противоречит ей. Они определяют мощнейшие уровни иерархий быстрого роста в гугологии.',
+      full_text: `<p><strong>Большие кардиналы</strong> — аксиомы теории множеств, утверждающие существование «очень больших» бесконечных мощностей с особыми свойствами. Иерархия включает: недостижимые кардиналы (не выводимы из меньших), кардиналы Махло (предел недостижимых), измеримые кардиналы, сильные, суперкомпактные, огромные и «кардиналы Вудина» — каждый уровень качественно мощнее предыдущего. В гугологии важность больших кардиналов в том, что они задают «потолок» теорем о конечных числах: доказательство конечности TREE(3) требует существования малого кардинала Вудина. Чем большие кардиналы вы допускаете, тем более мощные теоремы о конечных числах можно доказать.</p>`,
+      see_also: ['tree3','busy_beaver','rayo_number','infinity_math'],
+      refs: ['Kanamori A. The Higher Infinite. Springer, 2003.','Jech T. Set Theory. Springer, 2003.','Woodin W.H. The Continuum Hypothesis. Notices AMS, 2001.']
+    }
   }
 };
 
@@ -887,6 +1029,7 @@ function showPortal() {
     {icon:'🔬', title:'Портал: Наука', desc:'Физика, химия, биология, математика', cat:'science'},
     {icon:'💻', title:'Портал: Технологии', desc:'ИИ, интернет, кибербезопасность', cat:'technology'},
     {icon:'📐', title:'Портал: Математика', desc:'Числа, топология, теория игр', cat:'mathematics'},
+    {icon:'🔭', title:'Портал: Гугология', desc:'Гугол, число Грэма, TREE(3), Рэйо — числа за пределами воображения', cat:'googology'},
   ];
   const cards = portals.map(p => `<div class="category-card" onclick="showCategory('${p.cat}')">
     <div class="cat-card-header"><span class="cat-card-icon">${p.icon}</span><span class="cat-card-title">${p.title}</span></div>
@@ -901,84 +1044,98 @@ function showPortal() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// VOTES (LIKES / DISLIKES) — shared via window.storage
+// STORAGE — JSONBin.io (shared between all users) + localStorage (personal)
 // ═══════════════════════════════════════════════════════════════════════════
+// JSONBin: free public bin, everyone reads/writes the same data
+const JSONBIN_BIN_ID = '6862a6f18a456b796683e1e6';
+const JSONBIN_API_KEY = '$2a$10$V3PQIz3lBEMSLz9B7OBNluwVZyVbXBl5qzGfmWKGz8c1SkIEqxPFi';
+const JSONBIN_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
 
-// In-memory cache so we don't wait on async for every render
-const _votesCache = {};     // shared votes per article  { id: {likes, dislikes} }
-const _userVoteCache = {};  // personal votes            { id: 'like'|'dislike'|null }
-const _commentsCache = {};  // shared comments           { id: [{author,text,date,clikes,cdislikes}] }
-const _commentVoteCache = {};  // personal comment votes { key: true }
-let _storageReady = false;
+// In-memory cache
+let _db = { votes: {}, comments: {} };  // shared data (JSONBin)
+let _userVotes = {};       // personal votes per article { id: 'like'|'dislike' }
+let _commentVotes = {};    // personal comment votes     { key: true }
+let _dbLoaded = false;
+let _dbSaving = false;
 
-async function loadAllStorage() {
-  // Load shared votes
+// Load personal data from localStorage
+function loadLocal() {
+  try { _userVotes = JSON.parse(localStorage.getItem('sa_uv') || '{}'); } catch(e) { _userVotes = {}; }
+  try { _commentVotes = JSON.parse(localStorage.getItem('sa_cv') || '{}'); } catch(e) { _commentVotes = {}; }
+}
+
+// Load shared data from JSONBin
+async function loadShared() {
   try {
-    const vkeys = await window.storage.list('votes:', true);
-    for (const k of (vkeys?.keys || [])) {
-      const res = await window.storage.get(k, true);
-      if (res) _votesCache[k.replace('votes:','')] = JSON.parse(res.value);
+    const r = await fetch(JSONBIN_URL + '/latest', {
+      headers: { 'X-Master-Key': JSONBIN_API_KEY }
+    });
+    if (r.ok) {
+      const j = await r.json();
+      _db = j.record || { votes: {}, comments: {} };
+      if (!_db.votes) _db.votes = {};
+      if (!_db.comments) _db.comments = {};
     }
-  } catch(e) {}
-  // Load personal votes
-  try {
-    const uvkeys = await window.storage.list('uv:', false);
-    for (const k of (uvkeys?.keys || [])) {
-      const res = await window.storage.get(k, false);
-      if (res) _userVoteCache[k.replace('uv:','')] = res.value;
-    }
-  } catch(e) {}
-  // Load shared comments
-  try {
-    const ckeys = await window.storage.list('cmt:', true);
-    for (const k of (ckeys?.keys || [])) {
-      const res = await window.storage.get(k, true);
-      if (res) _commentsCache[k.replace('cmt:','')] = JSON.parse(res.value);
-    }
-  } catch(e) {}
-  // Load personal comment votes
-  try {
-    const cvkeys = await window.storage.list('cv:', false);
-    for (const k of (cvkeys?.keys || [])) {
-      _commentVoteCache[k.replace('cv:','')] = true;
-    }
-  } catch(e) {}
-  _storageReady = true;
+  } catch(e) { console.warn('JSONBin load failed:', e); }
+  _dbLoaded = true;
+}
+
+// Save shared data to JSONBin (debounced)
+let _saveTimer = null;
+function scheduleSave() {
+  clearTimeout(_saveTimer);
+  _saveTimer = setTimeout(async () => {
+    if (_dbSaving) { scheduleSave(); return; }
+    _dbSaving = true;
+    try {
+      await fetch(JSONBIN_URL, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_API_KEY },
+        body: JSON.stringify(_db)
+      });
+    } catch(e) { console.warn('JSONBin save failed:', e); }
+    _dbSaving = false;
+  }, 800);
+}
+
+async function initStorage() {
+  loadLocal();
+  await loadShared();
 }
 
 function getVotes(id) {
-  return _votesCache[id] || {likes:0, dislikes:0};
+  return _db.votes[id] || { likes: 0, dislikes: 0 };
 }
 function getUserVote(id) {
-  return _userVoteCache[id] || null;
+  return _userVotes[id] || null;
 }
 
 async function castVote(id, type) {
-  const v = {...getVotes(id)};
+  const v = { ...getVotes(id) };
   const prev = getUserVote(id);
 
   if (prev === type) {
+    // toggle off
     v[type === 'like' ? 'likes' : 'dislikes'] = Math.max(0, v[type === 'like' ? 'likes' : 'dislikes'] - 1);
-    _userVoteCache[id] = null;
-    try { await window.storage.delete('uv:' + id, false); } catch(e){}
+    delete _userVotes[id];
   } else {
     if (prev) v[prev === 'like' ? 'likes' : 'dislikes'] = Math.max(0, v[prev === 'like' ? 'likes' : 'dislikes'] - 1);
     v[type === 'like' ? 'likes' : 'dislikes']++;
-    _userVoteCache[id] = type;
-    try { await window.storage.set('uv:' + id, type, false); } catch(e){}
+    _userVotes[id] = type;
   }
 
-  _votesCache[id] = v;
-  try { await window.storage.set('votes:' + id, JSON.stringify(v), true); } catch(e){}
+  _db.votes[id] = v;
+  try { localStorage.setItem('sa_uv', JSON.stringify(_userVotes)); } catch(e) {}
+  scheduleSave();
 
-  // Update UI
+  // Update UI immediately
   const total = v.likes + v.dislikes;
   const pct = total > 0 ? Math.round((v.likes / total) * 100) : 50;
   const newVote = getUserVote(id);
   const btnLike = document.getElementById('btn-like-' + id);
   const btnDislike = document.getElementById('btn-dislike-' + id);
-  if (btnLike) { btnLike.className = 'like-btn' + (newVote==='like'?' liked':''); btnLike.querySelector('span').textContent = v.likes; }
-  if (btnDislike) { btnDislike.className = 'like-btn' + (newVote==='dislike'?' disliked':''); btnDislike.querySelector('span').textContent = v.dislikes; }
+  if (btnLike) { btnLike.className = 'like-btn' + (newVote === 'like' ? ' liked' : ''); btnLike.querySelector('span').textContent = v.likes; }
+  if (btnDislike) { btnDislike.className = 'like-btn' + (newVote === 'dislike' ? ' disliked' : ''); btnDislike.querySelector('span').textContent = v.dislikes; }
   const ratio = document.getElementById('ratio-' + id);
   if (ratio) ratio.style.width = pct + '%';
   const lbl = document.getElementById('lbl-' + id);
@@ -995,19 +1152,24 @@ function getMostLikedArticle() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// COMMENTS / DISCUSSION — shared via window.storage
+// COMMENTS — stored in JSONBin shared db
 // ═══════════════════════════════════════════════════════════════════════════
 function getComments(id) {
-  return _commentsCache[id] || [];
+  return _db.comments[id] || [];
 }
 function getCommentVote(key) {
-  return _commentVoteCache[key] ? true : false;
+  return _commentVotes[key] ? true : false;
 }
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
 function renderDiscussion(articleId) {
   const comments = getComments(articleId);
   const commentsHtml = renderCommentList(articleId, comments);
   return `<div class="discussion-section">
-    <div class="discussion-header">💬 Обсуждение статьи <span style="font-size:12px;color:var(--color-text-muted);font-weight:400;">(комментарии видны всем пользователям)</span></div>
+    <div class="discussion-header">💬 Обсуждение статьи <span style="font-size:12px;color:var(--color-text-muted);font-weight:400;">(комментарии видны всем — данные общие)</span></div>
     <div class="comment-form">
       <div style="font-weight:600;font-size:13px;margin-bottom:8px;">Оставить комментарий</div>
       <input class="comment-form-name" id="cmt-name" placeholder="Ваше имя (необязательно)" maxlength="40">
@@ -1018,28 +1180,38 @@ function renderDiscussion(articleId) {
   </div>`;
 }
 
-function escHtml(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
 async function submitComment(articleId) {
   const nameEl = document.getElementById('cmt-name');
   const textEl = document.getElementById('cmt-text');
-  const name = (nameEl.value.trim() || 'Аноним');
+  const name = nameEl.value.trim() || 'Аноним';
   const text = textEl.value.trim();
-  if (!text) { textEl.style.borderColor = '#ef5350'; setTimeout(()=>textEl.style.borderColor='',1500); return; }
+  if (!text) { textEl.style.borderColor = '#ef5350'; setTimeout(() => textEl.style.borderColor = '', 1500); return; }
+
+  const btn = document.querySelector('.comment-submit');
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ Сохранение...'; }
+
+  // Refresh from server first to avoid overwriting others' comments
+  await loadShared();
 
   const comments = [...getComments(articleId)];
   const now = new Date();
-  const dateStr = now.toLocaleDateString('ru-RU', {day:'numeric',month:'long',year:'numeric'}) + ', ' + now.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'});
+  const dateStr = now.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' }) + ', ' + now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
   comments.push({ author: name, text, date: dateStr, clikes: 0, cdislikes: 0 });
+  _db.comments[articleId] = comments;
 
-  _commentsCache[articleId] = comments;
-  try { await window.storage.set('cmt:' + articleId, JSON.stringify(comments), true); } catch(e){}
+  // Save immediately (not debounced) for comments
+  try {
+    await fetch(JSONBIN_URL, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_API_KEY },
+      body: JSON.stringify(_db)
+    });
+  } catch(e) { console.warn('Comment save failed:', e); }
 
   nameEl.value = '';
   textEl.value = '';
-  // Re-render comments list
+  if (btn) { btn.disabled = false; btn.textContent = '📨 Опубликовать'; }
+
   const listEl = document.getElementById('comments-list-' + articleId);
   if (listEl) {
     listEl.innerHTML = renderCommentList(articleId, comments);
@@ -1050,8 +1222,7 @@ async function submitComment(articleId) {
 
 function renderCommentList(articleId, comments) {
   if (!comments.length) return `<div class="no-comments">Обсуждений пока нет. Станьте первым!</div>`;
-  // Sort by likes descending (YouTube style — самый залайканный наверху)
-  const sorted = comments.map((c, origIdx) => ({...c, origIdx})).sort((a,b) => (b.clikes||0) - (a.clikes||0));
+  const sorted = comments.map((c, origIdx) => ({ ...c, origIdx })).sort((a, b) => (b.clikes || 0) - (a.clikes || 0));
   return `<div class="comment-list">${sorted.map((c) => {
     const i = c.origIdx;
     const key = articleId + '_' + i;
@@ -1066,11 +1237,11 @@ function renderCommentList(articleId, comments) {
       </div>
       <div class="comment-body">${escHtml(c.text)}</div>
       <div class="comment-likes">
-        <button class="comment-like-btn ${voted?'c-liked':''}" onclick="voteComment('${articleId}',${i},'like')">
-          👍 <span id="clc-${key}">${c.clikes||0}</span>
+        <button class="comment-like-btn ${voted ? 'c-liked' : ''}" onclick="voteComment('${articleId}',${i},'like')">
+          👍 <span id="clc-${key}">${c.clikes || 0}</span>
         </button>
         <button class="comment-like-btn" onclick="voteComment('${articleId}',${i},'dislike')">
-          👎 <span id="cdc-${key}">${c.cdislikes||0}</span>
+          👎 <span id="cdc-${key}">${c.cdislikes || 0}</span>
         </button>
       </div>
     </div>`;
@@ -1079,18 +1250,17 @@ function renderCommentList(articleId, comments) {
 
 async function voteComment(articleId, idx, type) {
   const key = articleId + '_' + idx;
-  if (getCommentVote(key)) return; // already voted
+  if (getCommentVote(key)) return;
   const comments = [...getComments(articleId)];
   if (!comments[idx]) return;
-  if (type === 'like') comments[idx].clikes = (comments[idx].clikes||0) + 1;
-  else comments[idx].cdislikes = (comments[idx].cdislikes||0) + 1;
+  if (type === 'like') comments[idx].clikes = (comments[idx].clikes || 0) + 1;
+  else comments[idx].cdislikes = (comments[idx].cdislikes || 0) + 1;
 
-  _commentsCache[articleId] = comments;
-  _commentVoteCache[key] = true;
-  try { await window.storage.set('cmt:' + articleId, JSON.stringify(comments), true); } catch(e){}
-  try { await window.storage.set('cv:' + key, '1', false); } catch(e){}
+  _db.comments[articleId] = comments;
+  _commentVotes[key] = true;
+  try { localStorage.setItem('sa_cv', JSON.stringify(_commentVotes)); } catch(e) {}
+  scheduleSave();
 
-  // Re-render comments to resort
   const listEl = document.getElementById('comments-list-' + articleId);
   if (listEl) listEl.innerHTML = renderCommentList(articleId, comments);
 }
@@ -1486,7 +1656,12 @@ async function atlasQuery() {
   log.scrollTop = log.scrollHeight;
 }
 
-renderHome();
+// Init: load storage then render
+(async () => {
+  renderHome(); // render immediately with zero counts
+  await initStorage();
+  renderHome(); // re-render with real counts from JSONBin
+})();
 </script>
 </body>
 </html>
