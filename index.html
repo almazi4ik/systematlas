@@ -1835,7 +1835,7 @@ function closeSidebarMobile() {
 // ═══════════════════════════════════════════════════════════════════════════
 // ATLAS TERMINAL
 // ═══════════════════════════════════════════════════════════════════════════
-const API_KEY = "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";
+const API_KEY = "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";
 const ATLAS_SYSTEM_PROMPT = `Ты — Атлас, интеллектуальный терминал базы данных. Твоя задача — давать краткие научные справки. Если пользователь спрашивает о личном (имя, возраст), об играх (Brawl Stars) или темах вне энциклопедии — отвечай строго: "Данные отсутствуют в реестре Атласа". Не используй смайлы. Будь холодным и точным. Отвечай лаконично — не более 3-4 предложений.`;
 
 async function atlasQuery() {
@@ -1870,11 +1870,84 @@ async function atlasQuery() {
   log.scrollTop = log.scrollHeight;
 }
 
+// ═══════════════════════════════════════════════════════════════════════════
+// СЛУЧАЙНАЯ СТАТЬЯ
+// ═══════════════════════════════════════════════════════════════════════════
+function showRandom() {
+  const ids = Object.keys(WIKI_DATA.articles);
+  const id = ids[Math.floor(Math.random() * ids.length)];
+  showPage(id);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// АЛФАВИТНЫЙ ИНДЕКС ВСЕХ СТАТЕЙ
+// ═══════════════════════════════════════════════════════════════════════════
+function showAllArticles() {
+  const allArticles = Object.values(WIKI_DATA.articles);
+  allArticles.sort((a, b) => a.title.localeCompare(b.title, 'ru'));
+  const groups = {};
+  allArticles.forEach(a => {
+    const letter = a.title[0].toUpperCase();
+    if (!groups[letter]) groups[letter] = [];
+    groups[letter].push(a);
+  });
+  const letters = Object.keys(groups).sort((a, b) => a.localeCompare(b, 'ru'));
+  const navHtml = letters.map(l =>
+    `<a href="#idx-${l}" style="display:inline-block;padding:2px 7px;border:1px solid var(--color-border);color:var(--color-link);text-decoration:none;font-size:13px;margin:2px;">${l}</a>`
+  ).join('');
+  const tableHtml = letters.map(l => `
+    <div id="idx-${l}" style="margin-bottom:20px;">
+      <h2 style="font-family:var(--font-heading);font-size:20px;font-weight:400;border-bottom:1px solid var(--color-border);padding-bottom:4px;margin-bottom:10px;">${l}</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:4px 16px;">
+        ${groups[l].map(a => `
+          <div style="padding:3px 0;font-size:13px;">
+            <a class="wiki-link" onclick="showPage('${a.id}')" data-id="${a.id}" style="color:var(--color-link);">${a.emoji ? a.emoji + ' ' : ''}${a.title}</a>
+            <span style="font-size:11px;color:var(--color-text-muted);"> — ${WIKI_DATA.categories[a.category]?.title || ''}</span>
+          </div>`).join('')}
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('main-content').innerHTML = `
+    <nav class="breadcrumbs"><a class="bc-link" onclick="renderHome()">Главная</a><span class="bc-sep">›</span><span class="bc-current">Все статьи</span></nav>
+    <h1 class="article-title">Все статьи (${allArticles.length})</h1>
+    <div style="margin-bottom:18px;line-height:2.2;">${navHtml}</div>
+    ${tableHtml}
+  `;
+  window.location.hash = 'all-articles';
+  attachWikiLinks();
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// URL-ХЭШИ — прямые ссылки на статьи
+// ═══════════════════════════════════════════════════════════════════════════
+const _origShowPage = showPage;
+window.showPage = function(id) {
+  history.replaceState(null, '', '#' + id);
+  _origShowPage(id);
+};
+
+function applyHash() {
+  const hash = window.location.hash.slice(1);
+  if (!hash) return;
+  if (hash === 'all-articles') { showAllArticles(); return; }
+  if (WIKI_DATA.articles[hash]) { _origShowPage(hash); return; }
+  if (WIKI_DATA.categories[hash]) { showCategory(hash); return; }
+}
+
+window.addEventListener('hashchange', () => {
+  const hash = window.location.hash.slice(1);
+  if (!hash) { renderHome(); return; }
+  if (hash === 'all-articles') { showAllArticles(); return; }
+  if (WIKI_DATA.articles[hash]) { _origShowPage(hash); return; }
+  if (WIKI_DATA.categories[hash]) { showCategory(hash); return; }
+});
+
 // Init: load storage then render
 (async () => {
-  renderHome(); // render immediately with zero counts
+  renderHome();
   await initStorage();
-  renderHome(); // re-render with real counts from JSONBin
+  renderHome();
+  applyHash();
 })();
 </script>
 </body>
