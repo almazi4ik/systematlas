@@ -276,14 +276,6 @@ sup { font-size: 10px; color: var(--color-link); cursor: default; }
       <a class="sidebar-link" onclick="showPortal()">Порталы</a>
     </div>
     <div class="sidebar-divider"></div>
-    <div class="sidebar-section" id="atlas-terminal-section">
-      <div class="sidebar-section-title">Терминал Атлас</div>
-      <div id="atlas-chat-log" style="margin:0 8px 6px 8px;max-height:160px;overflow-y:auto;font-size:11px;line-height:1.5;color:var(--color-text-muted);border:1px solid var(--color-border);background:var(--color-bg);padding:6px 8px;display:none;"></div>
-      <div style="display:flex;gap:4px;padding:0 8px 8px 8px;">
-        <input type="text" id="atlas-input" placeholder="Запрос к Атласу..." onkeydown="if(event.key==='Enter') atlasQuery()" style="flex:1;height:28px;padding:0 7px;border:1px solid var(--color-border);background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);font-size:12px;outline:none;">
-        <button onclick="atlasQuery()" style="height:28px;padding:0 10px;border:1px solid var(--color-border);background:var(--color-bg-secondary);color:var(--color-text);font-family:var(--font-body);font-size:12px;cursor:pointer;white-space:nowrap;">OK</button>
-      </div>
-    </div>
   </nav>
   <main id="main-content"><div id="page-top"></div></main>
 </div>
@@ -1843,17 +1835,21 @@ async function atlasQuery() {
   const log = document.getElementById('atlas-chat-log');
   const query = input.value.trim();
   if (!query) return;
-  log.style.display = 'block';
   input.value = '';
-  const userEntry = document.createElement('div');
-  userEntry.style.cssText = 'margin-bottom:4px;';
-  userEntry.innerHTML = `<span style="font-weight:600;color:var(--color-text);">→</span> ${query}`;
-  log.appendChild(userEntry);
-  const loadingEntry = document.createElement('div');
-  loadingEntry.style.cssText = 'margin-bottom:6px;color:var(--color-text-muted);';
-  loadingEntry.textContent = 'Атлас: обработка запроса...';
-  log.appendChild(loadingEntry);
+
+  // User bubble
+  const userBubble = document.createElement('div');
+  userBubble.className = 'atlas-msg-user';
+  userBubble.textContent = query;
+  log.appendChild(userBubble);
+
+  // Typing indicator
+  const typing = document.createElement('div');
+  typing.className = 'atlas-typing';
+  typing.innerHTML = '<div class="atlas-dot"></div><div class="atlas-dot"></div><div class="atlas-dot"></div>';
+  log.appendChild(typing);
   log.scrollTop = log.scrollHeight;
+
   try {
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
@@ -1863,9 +1859,17 @@ async function atlasQuery() {
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const data = await response.json();
     const answer = data.choices?.[0]?.message?.content || 'Нет ответа.';
-    loadingEntry.innerHTML = `<span style="font-weight:600;color:var(--color-accent);">Атлас:</span> ${answer}`;
+    typing.remove();
+    const botBubble = document.createElement('div');
+    botBubble.className = 'atlas-msg-bot';
+    botBubble.innerHTML = '<div class="atlas-label">АТЛАС</div>' + answer;
+    log.appendChild(botBubble);
   } catch (err) {
-    loadingEntry.innerHTML = `<span style="font-weight:600;color:#c00;">Ошибка:</span> ${err.message}`;
+    typing.remove();
+    const errBubble = document.createElement('div');
+    errBubble.className = 'atlas-msg-bot';
+    errBubble.innerHTML = '<div class="atlas-label" style="color:#c00">ОШИБКА</div>' + err.message;
+    log.appendChild(errBubble);
   }
   log.scrollTop = log.scrollHeight;
 }
@@ -1950,5 +1954,150 @@ window.addEventListener('hashchange', () => {
   applyHash();
 })();
 </script>
+
+<!-- ═══ ATLAS FLOATING CHAT ═══ -->
+<style>
+#atlas-fab {
+  position: fixed; bottom: 24px; right: 24px; z-index: 1000;
+  width: 52px; height: 52px; border-radius: 50%;
+  background: linear-gradient(135deg, #3366cc, #0645ad);
+  color: #fff; font-size: 22px;
+  border: none; cursor: pointer;
+  box-shadow: 0 4px 16px rgba(51,102,204,0.4);
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+#atlas-fab:hover { transform: scale(1.08); box-shadow: 0 6px 24px rgba(51,102,204,0.5); }
+
+#atlas-widget {
+  position: fixed; bottom: 88px; right: 24px; z-index: 999;
+  width: 320px; background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  display: none; flex-direction: column; overflow: hidden;
+  font-family: var(--font-body);
+}
+#atlas-widget.open { display: flex; }
+
+#atlas-widget-header {
+  background: linear-gradient(135deg, #3366cc, #0645ad);
+  color: #fff; padding: 12px 16px;
+  display: flex; align-items: center; gap: 10px;
+}
+#atlas-widget-header .atlas-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-heading); font-size: 16px; font-weight: 700;
+}
+#atlas-widget-header .atlas-info { flex: 1; }
+#atlas-widget-header .atlas-name { font-weight: 600; font-size: 14px; }
+#atlas-widget-header .atlas-status { font-size: 11px; opacity: 0.8; }
+#atlas-widget-close {
+  background: none; border: none; color: #fff;
+  font-size: 18px; cursor: pointer; opacity: 0.8; padding: 2px 4px;
+}
+#atlas-widget-close:hover { opacity: 1; }
+
+#atlas-chat-log {
+  flex: 1; overflow-y: auto; padding: 12px;
+  max-height: 280px; min-height: 100px;
+  display: flex; flex-direction: column; gap: 8px;
+  background: var(--color-bg-secondary);
+}
+.atlas-msg-user {
+  align-self: flex-end;
+  background: #3366cc; color: #fff;
+  padding: 7px 12px; border-radius: 16px 16px 4px 16px;
+  font-size: 13px; max-width: 85%; line-height: 1.4;
+}
+.atlas-msg-bot {
+  align-self: flex-start;
+  background: var(--color-bg); border: 1px solid var(--color-border);
+  padding: 7px 12px; border-radius: 16px 16px 16px 4px;
+  font-size: 13px; max-width: 90%; line-height: 1.5; color: var(--color-text);
+}
+.atlas-msg-bot .atlas-label {
+  font-size: 10px; font-weight: 600; color: var(--color-accent);
+  letter-spacing: 0.05em; margin-bottom: 3px;
+}
+.atlas-typing {
+  align-self: flex-start;
+  background: var(--color-bg); border: 1px solid var(--color-border);
+  padding: 10px 14px; border-radius: 16px 16px 16px 4px;
+  display: flex; gap: 4px; align-items: center;
+}
+.atlas-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--color-accent); opacity: 0.5;
+  animation: atlasDot 1.2s ease-in-out infinite;
+}
+.atlas-dot:nth-child(2) { animation-delay: 0.2s; }
+.atlas-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes atlasDot { 0%,80%,100%{transform:scale(0.7);opacity:0.3} 40%{transform:scale(1);opacity:1} }
+
+#atlas-widget-input-row {
+  display: flex; gap: 6px; padding: 10px 12px;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg);
+}
+#atlas-input {
+  flex: 1; height: 34px; padding: 0 10px;
+  border: 1px solid var(--color-border); border-radius: 17px;
+  background: var(--color-bg-secondary); color: var(--color-text);
+  font-family: var(--font-body); font-size: 13px; outline: none;
+  transition: border-color 0.15s;
+}
+#atlas-input:focus { border-color: var(--color-accent); }
+#atlas-send-btn {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: #3366cc; border: none; color: #fff;
+  font-size: 16px; cursor: pointer; display: flex;
+  align-items: center; justify-content: center;
+  transition: background 0.15s;
+}
+#atlas-send-btn:hover { background: #0645ad; }
+</style>
+
+<!-- FAB button -->
+<button id="atlas-fab" onclick="toggleAtlasWidget()" title="Терминал Атлас">🤖</button>
+
+<!-- Chat widget -->
+<div id="atlas-widget">
+  <div id="atlas-widget-header">
+    <div class="atlas-avatar">А</div>
+    <div class="atlas-info">
+      <div class="atlas-name">Терминал Атлас</div>
+      <div class="atlas-status">Интеллектуальная база знаний</div>
+    </div>
+    <button id="atlas-widget-close" onclick="toggleAtlasWidget()">✕</button>
+  </div>
+  <div id="atlas-chat-log"></div>
+  <div id="atlas-widget-input-row">
+    <input type="text" id="atlas-input" placeholder="Задать вопрос Атласу..."
+      onkeydown="if(event.key==='Enter') atlasQuery()">
+    <button id="atlas-send-btn" onclick="atlasQuery()">➤</button>
+  </div>
+</div>
+
+<script>
+function toggleAtlasWidget() {
+  const w = document.getElementById('atlas-widget');
+  const isOpen = w.classList.toggle('open');
+  document.getElementById('atlas-fab').textContent = isOpen ? '✕' : '🤖';
+  if (isOpen) {
+    const log = document.getElementById('atlas-chat-log');
+    if (!log.children.length) {
+      const welcome = document.createElement('div');
+      welcome.className = 'atlas-msg-bot';
+      welcome.innerHTML = '<div class="atlas-label">АТЛАС</div>Терминал активирован. Введите запрос.';
+      log.appendChild(welcome);
+    }
+    setTimeout(() => document.getElementById('atlas-input').focus(), 100);
+  }
+}
+</script>
+
 </body>
 </html>
