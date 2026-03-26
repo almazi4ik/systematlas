@@ -1253,9 +1253,8 @@ function showPortal() {
 // STORAGE — JSONBin.io (shared between all users) + localStorage (personal)
 // ═══════════════════════════════════════════════════════════════════════════
 // JSONBin: free public bin, everyone reads/writes the same data
-const JSONBIN_BIN_ID = '6862a6f18a456b796683e1e6';
-const JSONBIN_API_KEY = '$2a$10$X7AxR.ZEZnOBJmq/N124WOu7jwbEUAUzKnwkPq.PlaAGhPx4fVNl6';
-const JSONBIN_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
+// Firebase config
+const FIREBASE_URL = 'https://sistemny-atlas-default-rtdb.europe-west1.firebasedatabase.app';
 
 // In-memory cache
 let _db = { votes: {}, comments: {} };  // shared data (JSONBin)
@@ -1270,23 +1269,23 @@ function loadLocal() {
   try { _commentVotes = JSON.parse(localStorage.getItem('sa_cv') || '{}'); } catch(e) { _commentVotes = {}; }
 }
 
-// Load shared data from JSONBin
+// Load shared data from Firebase
 async function loadShared() {
   try {
-    const r = await fetch(JSONBIN_URL + '/latest', {
-      headers: { 'X-Master-Key': JSONBIN_API_KEY }
-    });
+    const r = await fetch(FIREBASE_URL + '/db.json');
     if (r.ok) {
       const j = await r.json();
-      _db = j.record || { votes: {}, comments: {} };
-      if (!_db.votes) _db.votes = {};
-      if (!_db.comments) _db.comments = {};
+      if (j) {
+        _db = j;
+        if (!_db.votes) _db.votes = {};
+        if (!_db.comments) _db.comments = {};
+      }
     }
-  } catch(e) { console.warn('JSONBin load failed:', e); }
+  } catch(e) { console.warn('Firebase load failed:', e); }
   _dbLoaded = true;
 }
 
-// Save shared data to JSONBin (debounced)
+// Save shared data to Firebase (debounced)
 let _saveTimer = null;
 function scheduleSave() {
   clearTimeout(_saveTimer);
@@ -1294,12 +1293,12 @@ function scheduleSave() {
     if (_dbSaving) { scheduleSave(); return; }
     _dbSaving = true;
     try {
-      await fetch(JSONBIN_URL, {
+      await fetch(FIREBASE_URL + '/db.json', {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_API_KEY },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(_db)
       });
-    } catch(e) { console.warn('JSONBin save failed:', e); }
+    } catch(e) { console.warn('Firebase save failed:', e); }
     _dbSaving = false;
   }, 800);
 }
@@ -1407,9 +1406,9 @@ async function submitComment(articleId) {
 
   // Save immediately (not debounced) for comments
   try {
-    await fetch(JSONBIN_URL, {
+    await fetch(FIREBASE_URL + '/db.json', {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_API_KEY },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(_db)
     });
   } catch(e) { console.warn('Comment save failed:', e); }
